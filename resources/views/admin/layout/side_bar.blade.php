@@ -7,7 +7,10 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('admin/pos') }}">
+            <a class="nav-link
+            @if (Session::get('page') == 'pos') bg-dark text-primary @endif"
+
+            " href="{{ url('admin/pos') }}">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">POS</span>
             </a>

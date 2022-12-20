@@ -53,6 +53,7 @@ class ProductsWired extends Component
     public $current_product_id;
     public $current_supplier_id;
     public $current_category_id;
+    // public $product_img_path='product_imgs';
 
     protected $rules = ['image' => 'image'];
     public $message = [
@@ -137,33 +138,7 @@ class ProductsWired extends Component
 
     }
 
-    public function confirmproductDeleteAll()
-    {
-        // deleting all sub categories
-        $all_products = ProductsModel::get()->toArray();
-        foreach ($all_products as $product) {
-            $product_images = ProductsGalleryModel::where('product_id', $product['id'])->get()->toArray();
-            if (!empty($product_images)) {
-                // if it does,delete the images first....
-                foreach ($product_images as $product_image) {
-                    Storage::disk('public')->delete('prdct_pics/' . $product_image['image_name']);
-                    ProductsGalleryModel::findOrFail($product_image['id'])->delete();
 
-                }
-                // delete video too if it exsists
-                if (!empty($product['product_video'])) {
-                    Storage::disk('public')->delete('prdct_videos/' . $product['product_video']);
-
-                }
-
-            }
-        }
-        ProductsModel::query()->delete();
-        // delete the whole products model's items
-        redirect()->back();
-        $this->dispatchBrowserEvent('delete_comfirmation', ["success_msg" => 'Cleared All products Successfully']);
-
-    }
     public function editproduct($product_id)
     {
         $this->dispatchBrowserEvent('clear-file-fields');
@@ -370,7 +345,7 @@ class ProductsWired extends Component
 
         // datavalidation
 
-        $validated_data = Validator::make($this->inputs, $this->val_admin_obj)->validate();
+        $validated_data = Validator::make($this->inputs, $this->product_validation_object)->validate();
         // browser dispath here!.........
 
         // imagevalidation
@@ -382,7 +357,7 @@ class ProductsWired extends Component
 
         }
 
-        $this->image = '';
+
 
         $validated_data = Validator::make($this->inputs, $this->product_validation_object)->validate();
         $product = new ProductsModel;
@@ -394,6 +369,7 @@ class ProductsWired extends Component
         $product->supplier_id = !empty($this->inputs['supplier_id']) ? $this->inputs['supplier_id'] : '';
         $product->buying_price = !empty($this->inputs['buying_price']) ? $this->inputs['buying_price'] : '';
         $product->image = !empty($this->image) ? $this->store_pic($this->image, $product->product_name) : '';
+
         $auth_admin = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
         $product->uploaded_by = $auth_admin['name'];
 

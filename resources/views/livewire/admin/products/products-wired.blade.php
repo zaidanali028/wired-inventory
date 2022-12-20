@@ -7,24 +7,17 @@
 
         <div class="row">
 
-            <div class="col-md-12 grid-margin stretch-card">
-
-                <div class="card-body">
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">PRODUCTS MANAGEMENT</h4>
-                            <div class="row w-100">
-                                <div class="d-flex justify-content-start w-50">
-                                    <button wire:click.prevent="newproduct" class="btn btn-primary"><i
-                                            class="mdi mdi-folder-plus"></i> Add New product </button>
-                                </div>
-
+            <div  class="col-xl-12 col-lg-12 col-md-12">
+                <div  class="row">
+                    <div  class="col-lg-12 mb-4">
+                        <div  class="card">
+                            <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h2  class="m-0 font-weight-bold text-primary">Product List</h2> <a
+                                wire:click.prevent="newproduct"
+                                    class="btn btn-primary float-right" style="margin-top: 6px; margin-right: 6px;">Add Product</a>
                             </div>
-                            <p class="card-description">
-
-                            </p>
-                            <div class="table-responsive">
+                            <div  class="table-responsive">
                                 <table id='' class="dataTable table table-striped">
                                     <thead>
                                         <tr>
@@ -115,15 +108,13 @@
                                 <div class="mt-3 d-flex justify-content-end">
                                     {{ $products->links() }}
                                 </div>
-
-
                             </div>
+                            <div  class="card-footer"></div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
+
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->

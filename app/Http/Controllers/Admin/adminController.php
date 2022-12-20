@@ -17,6 +17,14 @@ use Illuminate\Support\Facades\Session;
 
 class adminController extends Controller
 {
+
+
+    public function pos(){
+        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        Session::put('page','pos');
+  return view('admin.pos.pos-management',['admin_details'=>$admin_details]);
+
+    }
     public function dashboard()
     {
         // dd(Session::get('site_name'));
@@ -111,191 +119,7 @@ class adminController extends Controller
         return view('admin.settings.update_details', ['admin_details' => $admin_details]);
     }
 
-    public function update_vendor_details($slug, Request $request)
-    {
-        switch($slug){
-            case 'personal':
-                Session::put('page','personal');
-                break;
-            case 'bank':
-                Session::put('page','bank');
-                break;
 
-            case 'business':
-                Session::put('page','business');
-                break;
-
-            default:
-                    '';
-
-
-
-        }
-
-
-
-        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
-        $vendor_details = VendorModel::where('id', Auth::guard('admin')->user()->vendor_id)->first()->toArray();
-        $vendor_business_details = VendorBusinessDetailsModel::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->first()->toArray();
-        $vendor_bank_details = VendorBankDetailsModel::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->first()->toArray();
-        $proof_of_addresses = ['GHANA CARD', 'NHIS CARD', 'VOTERS ID', 'PASSPORT', 'NATIONAL ID', 'DRIVERS LICENSE', 'NATIONAL ID'];
-        $data = $request->all();
-        $all_countries=CountriesModel::where('status',1)->get()->toArray();
-
-
-
-        if ($request->isMethod('post')) {
-            if ($slug == 'personal') {
-                //start
-                $rules = [
-                    'name' => 'required|regex:/^[\pL\s\-]+$/u',
-
-                    'address' => 'required',
-                    'city' => 'required',
-                    'state' => 'required',
-                    'country' => 'required',
-                    'email' => 'required',
-                    'mobile' => 'required'
-                ];
-
-                $validated = $request->validate($rules);
-                //    start(kvngthrive-official)
-                if ($request->hasFile('profile_img')) {
-                    $img_tmp = $request->file('profile_img');
-                    if ($img_tmp->isValid()) {
-                        $file_ext = $img_tmp->getClientOriginalExtension();
-
-                        $img_name = $admin_details['name'] . '_' . rand(101, 999999999999) . '.' . $file_ext;
-                        $img_path = 'admin/images/dynamic_images/' . $img_name;
-                        //echo  $img_path; die;
-                        Image::fromFile($img_tmp)->save($img_path);
-
-                        //updating  details[with a picture]
-                        AdminModel::where('id', Auth::guard('admin')->user()->id)->update([
-                            'image' => $img_name,
-                            'name' => $data['name'],
-                            'email' => $data['email'],
-                            'mobile' => $data['mobile']
-                        ]);
-                        VendorModel::where('id', Auth::guard('admin')->user()->vendor_id)->update([
-                            'digital_address' => $data['digital_address'],
-                            'city' => $data['city'], 'state' => $data['state'],
-                            'country' => $data['country'], 'address' => $data['address'],
-                            'name' => $data['name'], 'email' => $data['email'],
-                            'mobile' => $data['mobile']
-                        ]);
-                        return back()->with('success_msg', 'Congrats, Details Updated Successfully!');
-                        //end
-
-
-                    }
-                } else {
-                    //updating  details[withOUT a picture]
-
-                    AdminModel::where('id', Auth::guard('admin')->user()->id)->update(['name' => $data['name'], 'email' => $data['email'], 'mobile' => $data['mobile']]);
-                    VendorModel::where('id', Auth::guard('admin')->user()->vendor_id)->update(['digital_address' => $data['digital_address'], 'city' => $data['city'], 'state' => $data['state'], 'country' => $data['country'], 'address' => $data['address'], 'name' => $data['name'], 'email' => $data['email'], 'mobile' => $data['mobile']]);
-                    return back()->with('success_msg', 'Congrats, Details Updated Successfully!');
-                }
-            } elseif ($slug == 'business') {
-
-                //start
-                $data = $request->all();
-                // dd($data);
-                $rules = [
-                    'shop_address' => 'required',
-                    'shop_name' => 're quired',
-                    'shop_city' => 'required',
-                    'shop_state' => 'required',
-                    'shop_country' => 'required',
-                    'shop_email' => 'required',
-                    'shop_address_proof' => 'required',
-                    'shop_mobile' => 'required'
-                ];
-
-                $validated = $request->validate($rules);
-                if ($request->hasFile('shop_address_proof_image')) {
-                    $img_tmp = $request->file('shop_address_proof_image');
-                    if ($img_tmp->isValid()) {
-                        $file_ext = $img_tmp->getClientOriginalExtension();
-
-                        $img_name = $admin_details['name'] . '_' . rand(101, 999999999999) . '.' . $file_ext;
-                        $img_path = 'admin/images/vendor_address_proofs/' . $img_name;
-                        //echo  $img_path; die;
-                        Image::fromFile($img_tmp)->save($img_path);
-
-                        //updating  details[with a picture]
-
-                        VendorBusinessDetailsModel::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update([
-                            'shop_address_proof_image' => $img_name,
-                            'shop_address' => $data['shop_address'],
-                            'shop_name' => $data['shop_name'],
-                            'shop_city' => $data['shop_city'],
-                            'shop_state' => $data['shop_state'],
-                            'shop_country' => $data['shop_country'],
-                            'shop_email' => $data['shop_email'],
-                            'shop_license_number' => $data['shop_license_number'],
-                            'shop_website' => $data['shop_website'],
-                            'shop_address_proof' => $data['shop_address_proof'],
-                            'shop_mobile' => $data['shop_mobile']
-                        ]);
-                        return back()->with('success_msg', 'Congrats, Your Business Details Have Been Updated Successfully[PLEASE REFRESH THIS PAGE TO SEE EFFECT]!');
-                        //end
-
-
-                    }
-                } else {
-                    //updating  details[withOUT a picture]
-
-                    VendorBusinessDetailsModel::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update([
-                        'shop_address' => $data['shop_address'],
-                        'shop_name' => $data['shop_name'],
-                        'shop_city' => $data['shop_city'],
-                        'shop_state' => $data['shop_state'],
-                        'shop_country' => $data['shop_country'],
-                        'shop_email' => $data['shop_email'],
-                        'shop_license_number' => $data['shop_license_number'],
-                        'shop_website' => $data['shop_website'],
-                        'shop_address_proof' => $data['shop_address_proof'],
-                        'shop_mobile' => $data['shop_mobile']
-                    ]);
-                    return back()->with('success_msg', 'Congrats, Your Business Details Have Been Updated Successfully[PLEASE REFRESH THIS PAGE TO SEE EFFECT]!');
-                    //end
-                }
-            } elseif ($slug == 'bank') {
-                $rules = [
-                    'account_holder_name' => 'required|regex:/^[\pL\s\-]+$/u',
-                    'bank_name' => 'required',
-                    'account_number' => 'required|numeric',
-
-                ];
-
-                $validated = $request->validate($rules);
-
-                VendorBankDetailsModel::where('vendor_id', Auth::guard('admin')->user()->vendor_id)->update([
-                    'account_holder_name' => $data['account_holder_name'],
-                    'bank_name' => $data['bank_name'],
-                    'account_number' => $data['account_number'],
-
-                ]);
-                return  back()->with('success_msg', 'Successfully Updated Bank Details');
-            }
-
-        }
-
-        return view(
-            'admin.settings.update_vendor_details',
-            [
-
-                'proof_of_addresses' => $proof_of_addresses,
-                'vendor_bank_details' => $vendor_bank_details,
-                'admin_details' => $admin_details,
-                'vendor_business_details' => $vendor_business_details,
-                'vendor_details' => $vendor_details,
-                'slug' => $slug,
-                'all_countries'=>$all_countries
-            ]
-        );
-    }
 
     public function update_password(Request $request)
     {
