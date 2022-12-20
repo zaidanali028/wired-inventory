@@ -17,6 +17,12 @@ class Categories extends Model
     use HasFactory;
     // Kvngthr!v3
 
+    public function get_products(){
+        return $this->hasMany('App\Models\Products','category_id','id');
+        // ->select('name');
+
+    }
+
 
 
 

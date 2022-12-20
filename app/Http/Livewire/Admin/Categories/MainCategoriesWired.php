@@ -4,10 +4,10 @@ namespace App\Http\Livewire\Admin\Categories;
 
 use App\Models\Admin as AdminModel;
 use App\Models\Categories as CategoriesModel;
+use App\Models\Products as ProductsModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\ImageManagerStatic;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -22,6 +22,7 @@ class MainCategoriesWired extends Component
     // allow livewire pagination
     public $admin_details;
     public $inputs = [];
+    public $product_img_path = 'product_imgs';
 
     public $current_category;
 
@@ -100,11 +101,10 @@ class MainCategoriesWired extends Component
             $this->category_validation_array
 
         )->validate();
-        
-            CategoriesModel::create($validated_data);
-            redirect()->back();
-            $this->dispatchBrowserEvent('hide-add-category-modal', ["success_msg" => 'New Main Category Added Successfully']);
 
+        CategoriesModel::create($validated_data);
+        redirect()->back();
+        $this->dispatchBrowserEvent('hide-add-category-modal', ["success_msg" => 'New Main Category Added Successfully']);
 
     }
 
@@ -119,7 +119,20 @@ class MainCategoriesWired extends Component
     {
         $category_to_delete = CategoriesModel::findOrFail($category_id);
         // $category_products=Products::findOrFail($category_id);
-        // delete all products with this id to prevent crash of app..
+
+        // deleting all products with this id to prevent crash of app..
+        $category_products = CategoriesModel::with(['get_products'])->latest()->get()->toArray();
+        $category_products = $category_products[0]['get_products'];
+        foreach ($category_products as $product) {
+            $product_to_delete = ProductsModel::findOrFail($product['id']);
+
+            if (!empty($product_to_delete['image'])) {
+                Storage::disk('public')->delete($this->product_img_path . '/' . $product_to_delete['image']);
+            }
+            $product_to_delete->delete();
+
+        }
+
         $category_to_delete->delete();
         $this->dispatchBrowserEvent('hide-add-category-modal', ["success_msg" => 'Category Successfully Deleted!']);
 

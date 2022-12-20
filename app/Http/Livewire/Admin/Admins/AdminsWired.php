@@ -165,6 +165,7 @@ public function removeImg()
         $ad=AdminModel::where('id',  $this->admin_id)->first()->toArray();
         // if(!empty($ad))
        if(!empty($ad['image']) && empty($this->photo)){
+        // if admin has a picture and is not trying to upload,
         $this->rules['photo'] = '';
 
 
@@ -191,7 +192,7 @@ public function removeImg()
 
                 if (!empty($this->inputs['image'])) {
                     // there is also previous photo
-                    Storage::disk('public')->delete($this->admin_img_path.'/' . $this->inputs['image']);
+                    Storage::disk('public')->delete($this->admin_img_path.'/' . $ad['image']);
 
                 }
 

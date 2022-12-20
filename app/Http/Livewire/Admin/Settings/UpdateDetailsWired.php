@@ -47,7 +47,7 @@ public $admin_img_path='admin_imgs';
         if ($this->image) {
             $admin = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
             if ($admin['image']) {
-                Storage::disk('public')->delete('admin_images/' . $admin['image']);
+                Storage::disk('public')->delete('admin_imgs/' . $admin['image']);
 
             }
 

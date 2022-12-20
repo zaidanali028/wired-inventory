@@ -356,7 +356,7 @@
                                         <div class="form-row">
                                             <div class="col-md-12"><input type="text" id="exampleInputFirstName"
                                                     wire:model.defer="inputs.shopName"
-                                                    placeholder="Enter Supplier Shop Name[LEAVE BLANK IF NONE]"
+                                                    placeholder="Enter Supplier Shop Name [LEAVE BLANK IF NONE]"
                                                     class="form-control @error('shopName') is-invalid @enderror">
                                                 @error('shopName')
                                                     <div class="invalid-feedback">{{ $message }}</div>
