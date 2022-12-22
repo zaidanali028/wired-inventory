@@ -1,5 +1,6 @@
 
 
+
 function makeSearchable() {
     let newDataTable = `dataTable_${Math.floor(Math.random() * 9999999999999999)}`
 // alert(newDataTable)
@@ -378,7 +379,11 @@ $(document).ready(() => {
   { eventFromLiveWire:'show_cust_del_confirm', eventToLiveWire: 'confirm_cust_del' }
 ]
 
-let    openModalEvents=[{eventFromLivewire:'show-add-admin-modal',selector:'add-admin-modal'},{eventFromLivewire:'show-add-employee-modal',selector:'add-employee-modal'},{eventFromLivewire:'show-add-supplier-modal',selector:'add-supplier-modal'},,{eventFromLivewire:'show-add-customer-modal',selector:'add-customer-modal'}]
+
+
+
+
+let    openModalEvents=[{eventFromLivewire:'show-add-admin-modal',selector:'add-admin-modal'},{eventFromLivewire:'show-add-employee-modal',selector:'add-employee-modal'},{eventFromLivewire:'show-add-supplier-modal',selector:'add-supplier-modal'},,{eventFromLivewire:'show-add-customer-modal',selector:'add-customer-modal'},{eventFromLivewire:'show-view-order-modal',selector:'view-order-modal'}]
 let    closeModalEvents=[{eventFromLivewire:'hide-add-admin-modal',selector:'add-admin-modal'},{eventFromLivewire:'hide-add-employee-modal',selector:'add-employee-modal'},{eventFromLivewire:'hide-add-supplier-modal',selector:'add-supplier-modal'},,{eventFromLivewire:'hide-add-customer-modal',selector:'add-customer-modal'}]
 
     deleteEvents.forEach((event_) => {
@@ -407,6 +412,21 @@ let    closeModalEvents=[{eventFromLivewire:'hide-add-admin-modal',selector:'add
 
         })
     })
+      // Handle Dynamic Routing with livewire
+
+
+    //   Livewire.on('click', '#next-page-link', () => {
+    //     alert('erty')
+        // window.history.pushState({}, '', '/next-page');
+        // window.dispatchEvent(new PopStateEvent('popstate'));
+    // });
+    //   routes.forEach((route)=>{
+        //   Livewire.on('click', '#dashboard', () => {
+          //     window.history.pushState({}, '', '/here');
+          //     window.dispatchEvent(new PopStateEvent('popstate'));
+        //   alert('hiya')
+        //   });
+    //   })
 
     closeModalEvents.forEach((event_)=>{
         window.addEventListener(event_.eventFromLivewire,e=>{
@@ -444,6 +464,29 @@ let    closeModalEvents=[{eventFromLivewire:'hide-add-admin-modal',selector:'add
 
 
     })
+    window.addEventListener('success-orders-redirect',e=>{
+
+        // alert('yh');
+        Swal.fire({
+            title: 'ORDER SUCCESS!',
+
+            text: e.detail.success_msg,
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#00000',
+            confirmButtonText:"Lemi Glance My Orders!"
+            // confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+            //    if user clicks ok,they are redirected to the dashboard
+                window.location.href='/admin/orders'
+
+            }
+        })
+
+
+})
     window.addEventListener('success-dashboard',e=>{
 
         // alert('yh');
@@ -503,30 +546,13 @@ let    closeModalEvents=[{eventFromLivewire:'hide-add-admin-modal',selector:'add
     })
 
 
-    // listen to file upload events from frontend
-    //   category_image_set is on input:type=file
-    Livewire.on('category_image_set', () => {
-        // alert('listened')
-        let fileField = document.getElementById('cat_img_file')
-        let file = fileField.files[0]
-        let reader = new FileReader()
-        reader.readAsDataURL(file)
-        // if reader.readAsDataURL(file) is read,then...
-        reader.onload = () => {
-            // this event will be triggered(reader.onload)
-
-
-            Livewire.emit('fileReady', reader.result)
-            // fileReady listener will be sent to livewire
-
-        }
-    })
 
 
     window.addEventListener('set_old_image', (e) => {
         alert("e.detail.old_img_path")
 
     })
+
 
     // toastr-config
     toastr.options = {

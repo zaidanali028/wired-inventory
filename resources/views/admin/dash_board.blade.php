@@ -2,6 +2,8 @@
 @section('content')
 <!-- partial:partials/_sidebar.html -->
         @include('admin.layout.side_bar')
+   
+
         <!-- partial -->
     <div class="main-panel">
         <div class="content-wrapper">

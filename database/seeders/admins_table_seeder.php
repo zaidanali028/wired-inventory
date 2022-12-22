@@ -29,27 +29,27 @@ class admins_table_seeder extends Seeder
             // 'status'=>1
 
             //     ],
-            [
-            'id'=>7,
-            'name'=>'Employee 7',
-            'type'=>'employee',
-            // 'vendor_id'=>4,
-            'mobile'=>'+233240040834',
-            'email'=>'Z@yutamart.com',
-            'password'=>Hash::make('60606060'),
-            'image'=>'',
-        'status'=>1
+        //     [
+        //     'id'=>7,
+        //     'name'=>'Employee 7',
+        //     'type'=>'employee',
+        //     // 'vendor_id'=>4,
+        //     'mobile'=>'+233240040834',
+        //     'email'=>'Z@yutamart.com',
+        //     'password'=>Hash::make('60606060'),
+        //     'image'=>'',
+        // 'status'=>1
 
-            ],
+        //     ],
             [
-                'id'=>8,
+                'id'=>1,
                 'name'=>'Employee 8',
-                'type'=>'employee',
+                'type'=>'SUPERADMIN',
                 // 'vendor_id'=>4,
                 'mobile'=>'+233240040834',
                 'email'=>'superadgy@yutamart.com',
-                'password'=>Hash::make('60606060'),
-                'image'=>'',
+                'password'=>Hash::make('12345678'),
+                'photo'=>'',
             'status'=>1
 
                 ],

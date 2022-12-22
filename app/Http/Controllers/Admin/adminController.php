@@ -25,6 +25,12 @@ class adminController extends Controller
   return view('admin.pos.pos-management',['admin_details'=>$admin_details]);
 
     }
+    public function orders(){
+        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        Session::put('page','orders');
+  return view('admin.pos.orders',['admin_details'=>$admin_details]);
+
+    }
     public function dashboard()
     {
         // dd(Session::get('site_name'));

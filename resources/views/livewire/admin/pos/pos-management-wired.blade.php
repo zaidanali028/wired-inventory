@@ -21,53 +21,52 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive" style="font-size: 12px;">
-                                @if ($pos_item_count>0)
-                                <table class="table align-items-center table-flush">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Qty</th>
-                                            <th>Unit</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody >
-                                        @foreach ($pos_products as $pos_product )
-                                        <tr >
-                                            <td >{{ $pos_product->product_name }}</td>
-                                            <td style="min-width:200px" >
-                                                <div
-                                                    class=" input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                    <span
-                                                        class="input-group-btn input-group-prepend
+                                @if ($pos_item_count > 0)
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Qty</th>
+                                                <th>Unit</th>
+                                                <th>Total(In GH₵)</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($pos_products as $pos_product)
+                                                <tr>
+                                                    <td>{{ $pos_product->product_name }}</td>
+                                                    <td style="min-width:200px">
+                                                        <div
+                                                            class=" input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                            <span
+                                                                class="input-group-btn input-group-prepend
 
-                                                        "><button wire:click.prevent="decrease_from_cart({{  $pos_product->product_id }})"
-                                                             type="button"
-                                                            class="btn btn-primary btn-sm bootstrap-touchspin-down
-                                                            @if ( $pos_product->product_quantity<=1)
-                                                            disabled
-
-                                                            @endif
+                                                        "><button
+                                                                    wire:click.prevent="decrease_from_cart({{ $pos_product->product_id }})"
+                                                                    type="button"
+                                                                    class="btn btn-primary btn-sm bootstrap-touchspin-down
+                                                            @if ($pos_product->product_quantity <= 1) disabled @endif
                                                             ">-</button></span>
-                                                    <input  type="text" readonly="readonly" value="{{ $pos_product->product_quantity }}"<"
-                                                        class="form-control" style="width: 5px;"> <span
+                                                            <input type="text" readonly="readonly"
+                                                                value="{{ $pos_product->product_quantity }}"<"
+                                                                class="form-control" style="width: 5px;"> <span
+                                                                class="input-group-btn input-group-append"><button
+                                                                    type="button"
+                                                                    class="btn btn-primary btn-sm bootstrap-touchspin-up"
+                                                                    wire:click.prevent="add_to_cart({{ $pos_product->product_id }})">+</button></span>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ $pos_product->product_price }}</td>
+                                                    <td>₵ {{ $pos_product->sub_total }} </td>
+                                                    <td><a wire:click.prevent="cart_item_delete({{ $pos_product->product_id }})"
+                                                            class="btn btn-sm btn-danger" style="color: white;">X</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
 
-                                                        class="input-group-btn input-group-append"><button
-                                                             type="button"
-                                                            class="btn btn-primary btn-sm bootstrap-touchspin-up" wire:click.prevent="add_to_cart({{  $pos_product->product_id }})" >+</button></span>
-                                                </div>
-                                            </td>
-                                            <td >{{ $pos_product->product_price }}</td>
-                                            <td >{{ $pos_product->sub_total }} $</td>
-                                            <td ><a wire:click.prevent="cart_item_delete({{$pos_product->product_id  }})"  class="btn btn-sm btn-danger"
-                                                    style="color: white;">X</a></td>
-                                        </tr>
-
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
 
                                 @endif
                             </div>
@@ -83,7 +82,7 @@
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                                         <div>
                                             <h6 class="my-0">Sub Total</h6>
-                                        </div> <span class="text-muted">${{ $sub_total_qty }}</span>
+                                        </div> <span class="text-muted">₵ {{ $sub_total }}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                                         <div>
@@ -92,26 +91,70 @@
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between bg-light">
                                         <div class="text-success">
-                                            <h6 class="my-0">Total (GHC)</h6>
-                                        </div> <span class="text-success">${{ $sub_total_qty }}</span>
+                                            <h6 class="my-0">Total (GH₵)</h6>
+                                        </div> <span class="text-success">₵ {{ $sub_total }}</span>
                                     </li>
                                 </ul>
-                                <form>
+                                <form wire:submit.prevent='process_order'>
                                     <div class="form-group"><label for="exampleFormControlSelect1">Select
-                                            Customer</label> <select id="exampleFormControlSelect1"
-                                            class="form-control">
-                                            <option value="1">Thane</option>
-                                        </select></div>
-                                    <div class="form-group"><label for="exampleFormControlInput1">Pay</label> <input
-                                            type="text" id="exampleFormControlInput1" class="form-control"></div>
-                                    <div class="form-group"><label for="exampleFormControlInput2">Due</label> <input
-                                            type="text" id="exampleFormControlInput2" class="form-control"></div>
+                                            Customer</label>
+                                            {{--  <select wire:model.defer="inputs.customer_id" id="exampleFormControlSelect1"
+                                            class="form-control
+                                            @error('customer_id') is-invalid bg-danger @enderror
+                                            ">
+                                            <option selected label="SELECT A CUSTOMER"></option>
+
+                                            @foreach ($customers as $customer )
+                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+
+
+                                            @endforeach
+                                        </select>  --}}
+                                        <select  class="form-control
+                                        @error('payBy')
+                                        bg-danger is-invalid
+                                        @enderror
+                                        " wire:model.defer="inputs.customer_id">
+                                            <option selected value="">*SELECT A CUSTOMER</option>
+
+                                            @foreach ($customers as $customer )
+                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+
+
+                                            @endforeach
+
+                                                                                                    </select>
+                                        @error('customer_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    </div>
+                                    <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Pay</label> <input
+
+                                            type="text" wire:model.defer="inputs.pay" id="exampleFormControlInput1" class="form-control
+                                            @error('pay') is-invalid @enderror
+                                            ">
+                                            @error('pay')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        </div>
+
                                     <div class="form-group"><label for="exampleFormControlSelect2">Pay By</label>
-                                        <select id="exampleFormControlSelect2" class="form-control">
-                                            <option value="Cheque">Cheque</option>
+                                        <select  class="form-control
+                                        @error('payBy')
+                                        bg-danger is-invalid
+                                        @enderror
+                                        " wire:model.defer="inputs.payBy">
+                                            <option selected value="">*SELECT A payment method</option>
+                                            <option value="Cheque" >Cheque</option>
                                             <option value="Hand Cash">Hand Cash</option>
-                                            <option value="Gift Card">Gift Card</option>
-                                        </select>
+                                            <option value="Momo Transfer">Momo Transfer</option>
+
+
+                                                                                                    </select>
+
+                                        @error('payBy')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                     </div> <button type="submit" class="btn btn-success">Submit</button>
                                 </form>
                             </div>
@@ -131,7 +174,7 @@
                                     href="#home" role="tab" aria-controls="home" aria-selected="true"
                                     class="nav-link active">Home</a></li>
                             @foreach ($categories as $category)
-                                <li role="presentation" wire:ignore class="nav-item" ><a
+                                <li role="presentation" wire:ignore class="nav-item"><a
                                         wire:click.prevent="getCategoryProducts({{ $category['id'] }})"
                                         id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                                         aria-controls="profile" aria-selected="false"
@@ -144,16 +187,15 @@
                                 <div class="card-body">
                                     <div class="row">
                                         @foreach ($products as $product)
-                                            <div
-
-                                            wire:click.prevent="add_to_cart({{ $product['id'] }})" class="col-lg-3 col-md-3 col-sm-6 col-6">
+                                            <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
+                                                class="col-lg-3 col-md-3 col-sm-6 col-6 m-4">
                                                 <div class="
 
-                                                card" style="align-items: center; margin-bottom: 10px;">
-                                                    <button class="btn btn-sm shadow-lg p-3 mb-5 bg-white rounded  @if ($clicked_product_id==$product['id'] )
-                                                    border border-primary
-
-                                                    @endif"><img id="image_size"
+                                                card"
+                                                    style="align-items: center; margin-bottom: 5px;">
+                                                    <button
+                                                        class="btn btn-sm shadow-lg p-3 mb-5 bg-white rounded  @if ($clicked_product_id == $product['id']) border border-primary @endif"><img
+                                                            id="image_size"
                                                             @php
 $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $product['image'] : '' @endphp
                                                             src="{{ $product_img }}" alt="PRODUCT IMAGE"
@@ -161,7 +203,7 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                                         <div class="card-body">
                                                             <h5 class="card-title text-center">
                                                                 {{ $product['product_name'] }} -
-                                                                ${{ $product['selling_price'] }}</h5>
+                                                                ₵{{ $product['selling_price'] }}</h5>
                                                             <td>
                                                                 @if ($product['product_quantity'] >= 1)
                                                                     <span class="badge badge-success">Available <span
@@ -188,13 +230,13 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                     <div class="row">
                                         @if (!empty($category_items))
                                             @foreach ($category_items as $cat_product)
-                                                <div wire:click.prevent="add_to_cart({{ $cat_product['id'] }})"  class="col-lg-3 col-md-3 col-sm-6 col-6">
+                                                <div wire:click.prevent="add_to_cart({{ $cat_product['id'] }})"
+                                                    class="col-lg-3 col-md-3 col-sm-6 col-6 m-4">
                                                     <div class="card"
                                                         style="align-items: center; margin-bottom: 10px;">
-                                                        <button class="btn btn-sm shadow-lg p-3 mb-5 bg-white rounded @if ($clicked_product_id==$cat_product['id'] )
-                                                        border border-primary
-
-                                                        @endif"><img id="image_size"
+                                                        <button
+                                                            class="btn btn-sm shadow-lg p-3 mb-5 bg-white rounded @if ($clicked_product_id == $cat_product['id']) border border-primary @endif"><img
+                                                                id="image_size"
                                                                 @php
 $cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'/' . $cat_product['image'] : '' @endphp
                                                                 src="{{ $cat_product_img }}" alt="PRODUCT IMAGE"
@@ -202,7 +244,7 @@ $cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'
                                                             <div class="card-body">
                                                                 <h5 class="card-title text-center">
                                                                     {{ $cat_product['product_name'] }} -
-                                                                    ${{ $cat_product['selling_price'] }}</h5>
+                                                                    ₵ {{ $cat_product['selling_price'] }}</h5>
                                                                 <td>
                                                                     @if ($cat_product['product_quantity'] >= 1)
                                                                         <span class="badge badge-success">Available

@@ -13,21 +13,25 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
+    
+        
+       
+    
+      
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer('customer_id');
-
-
-            $table->string('qty')->nullable();
-            $table->string('sub_total')->nullable();
-            $table->string('vat')->nullable();
-            $table->string('total')->nullable();
-
-            $table->string('payBy')->nullable();
+            $table->string('payBy');
             $table->string('pay');
-            $table->string('order_date')->nullable();
-            $table->string('order_month')->nullable();
-            $table->string('order_year')->nullable();
+            
+            $table->string('qty');
+            $table->string('sub_total');
+            $table->string('vat');
+            $table->string('total');
+            $table->string('order_date');
+            $table->string('order_month');
+            $table->string('order_year');
+            $table->string('day');
             $table->timestamps();
         });
     }

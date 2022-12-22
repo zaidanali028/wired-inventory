@@ -183,7 +183,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($admins as $admin_by_type)
+                                        @foreach ($admins_by_type as $admin_by_type)
+                                        {{--  @json($admin_details)  --}}
                                             @if ($admin_by_type['id'] == $admin_details['id'])
                                                 @php
                                                     continue;
@@ -207,10 +208,10 @@
 
                                                     </td>
                                                     <td>
-                                                        @if (!empty($admin_by_type['image']))
-                                                            <img src="{{ asset('storage/'.$admin_img_path.'/' . $admin_by_type['image']) }}"
+                                                        @if (!empty($admin_by_type['photo']))
+                                                            <img src="{{ asset('storage/'.$admin_img_path.'/' . $admin_by_type['photo']) }}"
                                                                 alt="image">
-                                                        @elseif(empty($admin_by_type['image']))
+                                                        @elseif(empty($admin_by_type['photo']))
                                                             <img src="{{ asset('admin/images/faces/face20.jpg') }}"
                                                                 alt="profile" />
                                                         @endif
@@ -254,7 +255,7 @@
                                     admins</button>
 
                                 <div class="mt-3 d-flex justify-content-end">
-                                    {{ $admins->links() }}
+                                    {{ $admins_by_type->links() }}
                                 </div>
                             </div>
                             <div class="card-footer"></div>
@@ -426,7 +427,7 @@
                                                             </div>
                                                             <div class="d-flex justify-content-around">
 
-                                                                @if (!empty($photo) || !empty($inputs['image']))
+                                                                @if (!empty($photo) || !empty($inputs['photo']))
                                                                     <ul>
 
 
@@ -461,7 +462,7 @@
                                                                                         class="item d-flex align-items-center justify-content-center">
                                                                                         <img class="rounded" width=250
                                                                                             height=250
-                                                                                            src="{{ '/storage/' . $admin_img_path . '/' . $inputs['image'] }}">
+                                                                                            src="{{ '/storage/' . $admin_img_path . '/' . $inputs['photo'] }}">
                                                                                     </div>
 
                                                                                 </li>

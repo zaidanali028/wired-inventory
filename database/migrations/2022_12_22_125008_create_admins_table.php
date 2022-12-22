@@ -21,7 +21,7 @@ class CreateAdminsTable extends Migration
             $table->string('mobile');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('image');
+            $table->string('photo');
             $table->tinyInteger('status');
 
 

@@ -4,24 +4,37 @@ namespace App\Http\Livewire\Admin\Pos;
 
 use App\Models\Admin as AdminModel;
 use App\Models\Categories as CategoriesModel;
+use App\Models\OrderDetails as OrderDetailsModel;
 use App\Models\Pos as PosModel;
 use App\Models\Products as ProductsModel;
+use App\Models\Customers as CustomersModel;
+use App\Models\Orders as OrdersModel;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Support\Facades\Validator;
+
 
 class PosManagementWired extends Component
 {
     public $admin_details;
     public $pos_products;
     public $pos_item_count;
+    public $customers;
 
     public $categories;
     public $product_img_path = 'product_imgs';
     public $category_items;
     public $current_category_id;
     public $clicked_product_id;
-    public $sub_total_qty;
+    public $sub_total;
     public $total_qty;
+    public $inputs;
+    public $order_validation_object=[
+        'customer_id' => 'required',
+        'payBy' => 'required',
+        'pay' => 'required|numeric',
+
+    ];
 
 
     // this attribut will aid in keeping track of the current tab
@@ -107,17 +120,72 @@ class PosManagementWired extends Component
 
 	}
 
+    public function process_order(){
+
+
+        $validated_data = Validator::make($this->inputs, $this->order_validation_object)->validate();
+
+        $data = [];
+		$data['customer_id'] =$validated_data ['customer_id'];
+		$data['qty'] = $this->total_qty;
+		$data['sub_total'] =$this->sub_total;
+		$data['vat'] = 0;
+        // // no vat for now
+		$data['total'] = $this->sub_total;
+		$data['pay'] = $validated_data ['pay'];
+
+		$data['payBy'] =  $validated_data ['payBy'];
+
+		$data['order_date'] = date('d/m/Y');
+		$data['order_month'] = date('F');
+		$data['order_year'] = date('Y');
+		$data['day'] = date('j');
+		$order_id = OrdersModel::insertGetId($data);
+
+
+		$cartContents = PosModel::get();
+
+		$cartData = [];
+		foreach ($cartContents as $content) {
+			$cartData['order_id'] = $order_id;
+			$cartData['product_id'] = $content->product_id;
+			$cartData['product_quantity'] = $content->product_quantity;
+			$cartData['product_price'] = $content->product_price;
+			$cartData['sub_total'] = $content->sub_total;
+            OrderDetailsModel::insert($cartData);
+            $product_qty=ProductsModel::where('id', $content->product_id)->first()->toArray();
+            $product_qty=intVal($product_qty['product_quantity']);
+
+		ProductsModel::where('id', $content->product_id)->update(['product_quantity' => $product_qty-$content->product_quantity]);
+		}
+
+		PosModel::query()->delete();
+        $this->dispatchBrowserEvent('success-orders-redirect',['success_msg'=>'Order Placed Successfully,Will You Like To Preview Orders?']);
+        // $this->dispatchBrowserEvent('show-success-toast',['success_msg'=>'Successfully Updated Cart!']);
+
+
+
+
+    }
+
     public function render()
     {
+
         $this->products = ProductsModel::latest()->get()->toArray();
-        $this->categories = CategoriesModel::latest()->get()->toArray();
+        $this->categories = CategoriesModel::where(['status'=>1])->latest()->get()->toArray();
 		$this->pos_products = PosModel::get();
 		$this->pos_item_count = PosModel::get()->count();
-        $this->sub_total_qty=PosModel::sum('sub_total');
+        $this->sub_total=PosModel::sum('sub_total');
         $this->total_qty=PosModel::sum('product_quantity');
-
-
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        $this->customers=CustomersModel::latest()->get();
+
+        if(PosModel::all()->count()>=1){
+            // some input fields can be defaultly set
+            $this->inputs['pay']=$this->sub_total;
+
+
+        }
         if (!empty($this->search)) {
             // client is searching.....
             $searchTerm = '%' . $this->search . '%';

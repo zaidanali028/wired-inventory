@@ -64,7 +64,7 @@ class EmployeeManagemenWired extends Component
         $this->inputs['name'] = $emp_record['name'];
         $this->inputs['email'] = $emp_record['email'];
         $this->inputs['mobile'] = $emp_record['mobile'];
-        $this->inputs['photo'] = $emp_record['image'];
+        $this->inputs['photo'] = $emp_record['photo'];
 
     }
 
@@ -126,20 +126,7 @@ class EmployeeManagemenWired extends Component
 
     }
 
-    public function store_pic($media_file, $employee_name)
-    {
-        if (!empty($media_file)) {
-            $file_ext = $media_file->getClientOriginalExtension();
-            $new_file_name = 'employee_pic' . "_" . $employee_name . "_." . $file_ext;
-            $uploaded_img_path = public_path() . '\\storage\\' . 'employee_imgs\\';
 
-            $img = Image::make($media_file);
-            $img->fit(300, 300)->save($uploaded_img_path . $new_file_name);
-
-        }
-        return $new_file_name;
-
-    }
 
     public function deleteEmployeeConfirm($delete_sec_id)
     {

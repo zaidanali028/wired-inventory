@@ -69,6 +69,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         });
         Route::get('dashboard','adminController@dashboard');
         Route::get('pos','adminController@pos');
+        Route::get('orders','adminController@orders');
         Route::get('employee-management','employeesController@employee_management');
         Route::get('admin-management','adminController@admin_management');
         Route::get('supplier-management','adminController@supplier_management');

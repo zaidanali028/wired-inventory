@@ -68,12 +68,7 @@ protected $listeners=[
 
     }
 
-    public function deleteAllcustomers()
-    {
-        $this->dispatchBrowserEvent('show_customer_del_confirm');
-        // invoking this to show confirm with js in customjs
-
-    }
+ 
 
 
     public function store_pic($media_file, $customer_name)
@@ -189,24 +184,12 @@ protected $listeners=[
         $this->dispatchBrowserEvent('hide-add-customer-modal', ['success_msg' => 'Successfully Updated customer Data ']);
 
     }
-    // public function submitAddNewcustomer(){
-    //     // dd($this->inputs);
-    //     $validated_data=Validator::make($this->inputs,[
-    //         'name'=>'required',
-    //         'status'=>'required'
-
-    //     ])->validate();
-
-    //     CustomerModel::create($validated_data);
-    //     redirect()->back();
-    //     $this->dispatchBrowserEvent('hide-add-customer-modal',["success_msg"=>'New customer Added Successfully']);
-
-    // }
-
+   
     public function deletecustomerConfirm($del_customer_id)
     {
         $this->del_customer_id = $del_customer_id;
-        $this->dispatchBrowserEvent('show_sup_del_confirm');
+        // dd( $this->del_customer_id );
+        $this->dispatchBrowserEvent('show_cust_del_confirm');
 
     }
 
