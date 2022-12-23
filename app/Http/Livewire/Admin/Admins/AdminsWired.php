@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Session;
+
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,6 +24,8 @@ class AdminsWired extends Component
     protected $listeners = [
         'confirm_admin_del' => 'confirmadminDelete',
     ];
+    public  $date_today;
+    public  $current_page;
 
     public $admin_id;
     public $photo;
@@ -180,7 +184,7 @@ class AdminsWired extends Component
         $this->dispatchBrowserEvent('hide-add-admin-modal', ['success_msg' => 'Successfully Updated Admin Data ']);
 
 
-      
+
     }
 
 
@@ -215,6 +219,8 @@ class AdminsWired extends Component
 
     public function render()
     {
+        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+
 
         $admins_by_type=AdminModel::latest()->paginate(15);
         // $admins = AdminModel::latest()->paginate(15);

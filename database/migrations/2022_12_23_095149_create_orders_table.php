@@ -13,21 +13,23 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-    
-        
-       
-    
-      
+
+
+
+
+
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer('customer_id');
             $table->string('payBy');
             $table->string('pay');
-            
-            $table->string('qty');
-            $table->string('sub_total');
-            $table->string('vat');
-            $table->string('total');
+            $table->string('due');
+            $table->string('discount');
+
+            $table->bigInteger('qty');
+            $table->bigInteger('sub_total');
+            $table->integer('vat');
+            $table->bigInteger('total');
             $table->string('order_date');
             $table->string('order_month');
             $table->string('order_year');

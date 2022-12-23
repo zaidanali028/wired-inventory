@@ -12,6 +12,7 @@ use App\Models\Orders as OrdersModel;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 
 class PosManagementWired extends Component
@@ -20,14 +21,18 @@ class PosManagementWired extends Component
     public $pos_products;
     public $pos_item_count;
     public $customers;
+    public $total;
+    public $sub_total;
+    public $total_qty;
+    public  $date_today;
+    public  $current_page;
 
     public $categories;
     public $product_img_path = 'product_imgs';
     public $category_items;
     public $current_category_id;
     public $clicked_product_id;
-    public $sub_total;
-    public $total_qty;
+
     public $inputs;
     public $order_validation_object=[
         'customer_id' => 'required',
@@ -125,13 +130,16 @@ class PosManagementWired extends Component
 
         $validated_data = Validator::make($this->inputs, $this->order_validation_object)->validate();
 
+        // dd($validated_data);
         $data = [];
 		$data['customer_id'] =$validated_data ['customer_id'];
 		$data['qty'] = $this->total_qty;
 		$data['sub_total'] =$this->sub_total;
+		$data['total'] =$this->total;
+		$data['due'] =isset($this->inputs ['due'])?$this->inputs ['due']:'0';
+		$data['discount'] =isset($this->inputs ['discount'])?$this->inputs ['discount']:'0';
 		$data['vat'] = 0;
-        // // no vat for now
-		$data['total'] = $this->sub_total;
+
 		$data['pay'] = $validated_data ['pay'];
 
 		$data['payBy'] =  $validated_data ['payBy'];
@@ -140,10 +148,15 @@ class PosManagementWired extends Component
 		$data['order_month'] = date('F');
 		$data['order_year'] = date('Y');
 		$data['day'] = date('j');
+        $data["created_at"] =  date('Y-m-d H:i:s');
+        $data["updated_at"] =  date('Y-m-d H:i:s');
+
 		$order_id = OrdersModel::insertGetId($data);
 
 
 		$cartContents = PosModel::get();
+        $this->total='';
+        $this->sub_total='';
 
 		$cartData = [];
 		foreach ($cartContents as $content) {
@@ -160,6 +173,8 @@ class PosManagementWired extends Component
 		}
 
 		PosModel::query()->delete();
+
+
         $this->dispatchBrowserEvent('success-orders-redirect',['success_msg'=>'Order Placed Successfully,Will You Like To Preview Orders?']);
         // $this->dispatchBrowserEvent('show-success-toast',['success_msg'=>'Successfully Updated Cart!']);
 
@@ -170,22 +185,37 @@ class PosManagementWired extends Component
 
     public function render()
     {
+        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
 
         $this->products = ProductsModel::latest()->get()->toArray();
         $this->categories = CategoriesModel::where(['status'=>1])->latest()->get()->toArray();
 		$this->pos_products = PosModel::get();
 		$this->pos_item_count = PosModel::get()->count();
         $this->sub_total=PosModel::sum('sub_total');
+        $this->total=$this->sub_total;
         $this->total_qty=PosModel::sum('product_quantity');
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
         $this->customers=CustomersModel::latest()->get();
 
-        if(PosModel::all()->count()>=1){
-            // some input fields can be defaultly set
-            $this->inputs['pay']=$this->sub_total;
+
+     if($this->pos_item_count>0){
+
+        if(isset($this->inputs['pay'])){
+            $amount_paid=$this->inputs['pay'];
+            $this->inputs['due']= floatval($amount_paid)-$this->sub_total;
+
+        }
+        if(isset($this->inputs['discount'])){
+            $discount_given=$this->inputs['discount'];
+            $this->total=$this->sub_total-floatval($discount_given);
 
 
         }
+     }else{
+        $this->inputs=[];
+     }
+
+
         if (!empty($this->search)) {
             // client is searching.....
             $searchTerm = '%' . $this->search . '%';

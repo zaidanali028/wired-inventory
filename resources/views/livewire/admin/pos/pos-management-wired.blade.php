@@ -92,7 +92,7 @@
                                     <li class="list-group-item d-flex justify-content-between bg-light">
                                         <div class="text-success">
                                             <h6 class="my-0">Total (GH₵)</h6>
-                                        </div> <span class="text-success">₵ {{ $sub_total }}</span>
+                                        </div> <span class="text-success">₵ {{ $total }}</span>
                                     </li>
                                 </ul>
                                 <form wire:submit.prevent='process_order'>
@@ -130,10 +130,28 @@
                                     </div>
                                     <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Pay</label> <input
 
-                                            type="text" wire:model.defer="inputs.pay" id="exampleFormControlInput1" class="form-control
+                                            type="text" wire:model.debounce.500ms="inputs.pay" id="exampleFormControlInput1" class="form-control
                                             @error('pay') is-invalid @enderror
                                             ">
                                             @error('pay')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        </div>
+                                        <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Due</label> <input
+
+                                            type="text" wire:model.defair="inputs.due" id="exampleFormControlInput1" class="form-control
+                                            @error('due') is-invalid @enderror
+                                            ">
+                                            @error('due')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        </div>
+                                        <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Discount</label> <input
+
+                                            type="text" wire:model.debounce.500ms="inputs.discount" id="exampleFormControlInput1" class="form-control
+                                            @error('discount') is-invalid @enderror
+                                            ">
+                                            @error('discount')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                         </div>

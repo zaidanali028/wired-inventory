@@ -12,10 +12,10 @@
                     <div class="col-lg-12 mb-4">
                         <div class="card">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h2 class="m-0 font-weight-bold text-primary">All Orders List</h2> <a href="/admin/pos"
-                                    class="btn btn-primary float-right" style="margin-top: 6px; margin-right: 6px;">Add
-                                    New Order</a>
+                                <h2 class="m-0 font-weight-bold text-primary">All Orders List</h2> <a wire:click.prevent="orders_today"
+                                    class="btn btn-primary float-right" style="margin-top: 6px; margin-right: 6px;">Orders Today</a>
                             </div>
+                            @if(!empty($orders))
                             <div class="table-responsive">
                                 <table id='' class="dataTable table table-striped">
                                     <thead>
@@ -72,6 +72,12 @@
                                     {{ $orders->links() }}
                                 </div>
                             </div>
+                            @else
+<strong>
+    No data For Your Query!
+
+</strong>
+                            @endif
                             <div class="card-footer"></div>
                         </div>
                     </div>
@@ -197,7 +203,7 @@
                                                                 alt="profile" />
                                                         @endif</td>
 
-                                                        
+
                                                     {{--  @json($orderRecord_item['product_quantity'])  --}}
                                                    <td> {{ isset($orderRecord_item['product_quantity'])?$orderRecord_item['product_quantity'].'x':''}}</td>
                                                    <td>₵{{ isset($orderRecord_item['product_price'])?$orderRecord_item['product_price']:''}}</td>
@@ -205,7 +211,7 @@
 
 
                                                   </tr>
-                                                
+
                                                    @endforeach
                                                    @endif
                                                 </tbody>

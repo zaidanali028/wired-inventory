@@ -9,14 +9,27 @@
                 <div class="justify-content-end d-flex">
                     <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
                         <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <i class="mdi mdi-calendar"></i> Today (10 Jan 2021)
+                          @php
+                          $date_today=date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')))
+                          @endphp
+                            <i class="mdi mdi-calendar"></i> ({{  $date_today }})
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2">
-                            <a class="dropdown-item" href="#">January - March</a>
-                            <a class="dropdown-item" href="#">March - June</a>
-                            <a class="dropdown-item" href="#">June - August</a>
-                            <a class="dropdown-item" href="#">August - November</a>
-                        </div>
+
+
+
+         @php
+         $current_page=!empty($current_page)?$current_page:'';
+         @endphp
+                        @if($current_page=='orders')
+         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2">
+            <a wire:click.prevent="get_orders('1','3')" class="dropdown-item" >January - March</a>
+            <a wire:click.prevent="get_orders('3','5')" class="dropdown-item" href="#">March - May</a>
+            <a  wire:click.prevent="get_orders('5','7')" class="dropdown-item" href="#">May - July</a>
+            <a wire:click.prevent="get_orders('7','9')" class="dropdown-item" href="#">July - September</a>
+            <a wire:click.prevent="get_orders('9','11')" class="dropdown-item" href="#">September - November</a>
+            <a wire:click.prevent="get_orders('11','12')" class="dropdown-item" href="#">November - December</a>
+        </div>
+         @endif
                     </div>
                 </div>
             </div>

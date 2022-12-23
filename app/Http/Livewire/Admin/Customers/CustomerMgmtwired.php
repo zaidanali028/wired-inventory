@@ -14,6 +14,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Session;
 
 class CustomerMgmtwired extends Component
 {
@@ -22,6 +23,8 @@ class CustomerMgmtwired extends Component
     public $customers_by_type;
     public $customer_details;
     public $addNewcustomer = false;
+    public  $date_today;
+    public  $current_page;
 
     public $customer_id;
     public $photo;
@@ -68,7 +71,7 @@ protected $listeners=[
 
     }
 
- 
+
 
 
     public function store_pic($media_file, $customer_name)
@@ -184,7 +187,7 @@ protected $listeners=[
         $this->dispatchBrowserEvent('hide-add-customer-modal', ['success_msg' => 'Successfully Updated customer Data ']);
 
     }
-   
+
     public function deletecustomerConfirm($del_customer_id)
     {
         $this->del_customer_id = $del_customer_id;
@@ -220,6 +223,8 @@ protected $listeners=[
 
     public function render()
     {
+        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+
 
         // $customers_by_type=CustomerModel::latest()->paginate(15)->toArray();
         $customers = CustomerModel::latest()->paginate(15);

@@ -19,8 +19,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Session;
+
 
 /**
  *      NOTES:(features not done)
@@ -37,6 +37,8 @@ class ProductsWired extends Component
     // something different from a picture
     use WithPagination;
 
+    public  $date_today;
+    public  $current_page;
     protected $paginationTheme = 'bootstrap';
     // allow livewire pagination
     public $admin_details;
@@ -411,6 +413,7 @@ class ProductsWired extends Component
     {
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
         // dd(Auth::guard('admin')->user());
+        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
 
         $products = ProductsModel::with(['get_supplier'])->latest()->paginate(10);
         // $products=ProductsModel::with(['get_product_section','get_product_category','get_product_brand','get_vendor_details'])->latest()->get()->toArray();

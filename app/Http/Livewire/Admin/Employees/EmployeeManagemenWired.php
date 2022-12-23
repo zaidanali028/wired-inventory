@@ -10,6 +10,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Session;
 
 class EmployeeManagemenWired extends Component
 {
@@ -19,6 +20,8 @@ class EmployeeManagemenWired extends Component
     public $employee_details;
     public $addNewEmployee = false;
     public $admin_img_path = 'admin_imgs';
+    public  $date_today;
+    public  $current_page;
 
     // public $employee_id;
     public $btn_text;
@@ -148,6 +151,8 @@ class EmployeeManagemenWired extends Component
 
     public function render()
     {
+        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+
         $employees_data = AdminModel::where(['type'=>$this->employee_type,'status'=>1])->get()->toArray();
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
 

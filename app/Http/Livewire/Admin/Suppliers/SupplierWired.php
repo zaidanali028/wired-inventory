@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Suppliers;
 use App\Models\Admin as AdminModel;
 use App\Models\Supplier as SupplierModel;
+use Illuminate\Support\Facades\Session;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +17,8 @@ use Livewire\WithPagination;
 class SupplierWired extends Component
 {
     protected $paginationTheme = 'bootstrap';
+    public  $date_today;
+    public  $current_page;
 
     public $suppliers_by_type;
     public $supplier_details;
@@ -238,6 +241,8 @@ protected $listeners=[
 
     public function render()
     {
+        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+
 
         // $suppliers_by_type=SupplierModel::latest()->paginate(15)->toArray();
         $suppliers = SupplierModel::latest()->paginate(15);

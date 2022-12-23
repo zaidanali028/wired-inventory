@@ -54,10 +54,11 @@ Route::get('/ref', function () {
 
 
 require __DIR__.'/auth.php';
-Session::put('site_name','Samas Inventory');
+
 
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
+
     Route::match(['get','post'],'login','adminController@login');
     Route::get('logout','adminController@logout');
 
