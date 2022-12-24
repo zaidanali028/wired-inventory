@@ -1,5 +1,18 @@
 <div class="main-panel">
     <x-spinner />
+    @push('scripts')
+
+    <script>
+        $(document).ready(function () {
+            $('#select2').select2();
+            $('#select2').on('change', function (e) {
+                var data = $('#select2').select2("val");
+            @this.set('selected', data);
+            });
+        });
+    </script>
+
+@endpush
 
     <div class="c
         fontent-wrapper">
@@ -9,8 +22,8 @@
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="./">Home</a></li>
-                    <li aria-current="page" class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item"><a >Home</a></li>
+                    <li aria-current="page" class="breadcrumb-item ">Dashboard</li>
                 </ol>
             </div>
             <div class="row mb-3">
@@ -33,7 +46,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($pos_products as $pos_product)
+                                            @forelse ($pos_products as $pos_product)
                                                 <tr>
                                                     <td>{{ $pos_product->product_name }}</td>
                                                     <td style="min-width:200px">
@@ -63,7 +76,11 @@
                                                             class="btn btn-sm btn-danger" style="color: white;">X</a>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                                @empty
+                                            <tr>
+                                                <td colspan="2"> No Data To Show!</td>
+                                            </tr>
+                                            @endforelse
 
                                         </tbody>
                                     </table>
@@ -71,6 +88,8 @@
                                 @endif
                             </div>
                         </div>
+
+
                         <div class="card-footer">
                             <div class="order-md-2 mb-4">
                                 <ul class="list-group mb-3">
@@ -95,33 +114,30 @@
                                         </div> <span class="text-success">₵ {{ $total }}</span>
                                     </li>
                                 </ul>
+
                                 <form wire:submit.prevent='process_order'>
-                                    <div class="form-group"><label for="exampleFormControlSelect1">Select
+                                    <div class="form-group" wire:ignore ><label for="exampleFormControlSelect1">Select
                                             Customer</label>
-                                            {{--  <select wire:model.defer="inputs.customer_id" id="exampleFormControlSelect1"
-                                            class="form-control
-                                            @error('customer_id') is-invalid bg-danger @enderror
-                                            ">
-                                            <option selected label="SELECT A CUSTOMER"></option>
-
-                                            @foreach ($customers as $customer )
-                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                            <!-- add some CSS to style the select dropdown and search field -->
 
 
-                                            @endforeach
-                                        </select>  --}}
+
                                         <select  class="form-control
-                                        @error('payBy')
+                                        @error('customer_id')
                                         bg-danger is-invalid
                                         @enderror
-                                        " wire:model.defer="inputs.customer_id">
-                                            <option selected value="">*SELECT A CUSTOMER</option>
+                                        "wire:model.defer="inputs.customer_id"  id="select2">
+                                            <option selected value="" >*SELECT A CUSTOMER</option>
 
-                                            @foreach ($customers as $customer )
+                                            @forelse ($customers as $customer )
                                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                            @empty
+                                        
+                                                <option > No Data To Show!</option>
 
+                                          
 
-                                            @endforeach
+                                            @endforelse
 
                                                                                                     </select>
                                         @error('customer_id')
@@ -190,21 +206,26 @@
                         <ul id="myTab" role="tablist" class="nav nav-tabs">
                             <li role="presentation" wire:ignore class="nav-item"><a id="home-tab" data-toggle="tab"
                                     href="#home" role="tab" aria-controls="home" aria-selected="true"
-                                    class="nav-link active">Home</a></li>
-                            @foreach ($categories as $category)
+                                    class="nav-link active" wire:click.prevent='home_tab_clicked'>Home</a></li>
+                            @forelse ($categories as $category)
                                 <li role="presentation" wire:ignore class="nav-item"><a
                                         wire:click.prevent="getCategoryProducts({{ $category['id'] }})"
                                         id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                                         aria-controls="profile" aria-selected="false"
                                         class="nav-link">{{ $category['category_name'] }}</a></li>
-                            @endforeach
+                                        @empty
+                                      
+                                            <li colspan> No Data To Show!</li>
+                                     
+                                        @endforelse
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div wire:ignore.self id="home" role="tabpanel" aria-labelledby="home-tab"
                                 class="tab-pane  fade show active">
-                                <div class="card-body">
+                                <div class="card-body ">
                                     <div class="row">
-                                        @foreach ($products as $product)
+                                        @if(!empty($products))
+                                        @forelse ($products as $product)
                                             <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
                                                 class="col-lg-3 col-md-3 col-sm-6 col-6 m-4">
                                                 <div class="
@@ -236,7 +257,13 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                                     </button>
                                                 </div>
                                             </div>
-                                        @endforeach
+                                            @empty
+                                           <p>No Data To Show!</p>
+                                        @endforelse
+                                        @else
+                                        <p>No Data To Show!</p>
+
+                                        @endif
 
 
                                     </div>
@@ -247,7 +274,7 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                 <div class="card-body">
                                     <div class="row">
                                         @if (!empty($category_items))
-                                            @foreach ($category_items as $cat_product)
+                                            @forelse ($category_items as $cat_product)
                                                 <div wire:click.prevent="add_to_cart({{ $cat_product['id'] }})"
                                                     class="col-lg-3 col-md-3 col-sm-6 col-6 m-4">
                                                     <div class="card"
@@ -278,7 +305,11 @@ $cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'
                                                         </button>
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                                @empty
+                                            <p>No Data To Show!</p>
+                                            @endforelse
+                                            @else
+                                            <p>No Data To Show!</p>
                                         @endif
                                     </div>
                                 </div>

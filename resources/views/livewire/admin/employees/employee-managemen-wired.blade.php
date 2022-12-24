@@ -43,7 +43,7 @@
 
 
 
-                                        @foreach ($employees as $employee)
+                                        @forelse ($employees as $employee)
                                             <tr>
 
                                                 <td class="text-capitalize">{{ $employee['name'] }}</td>
@@ -60,7 +60,11 @@
                                                         wire:click.prevent="deleteEmployeeConfirm({{ $employee['id'] }})"></a>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                            @empty
+                                            <tr>
+                                                <td colspan="2"> No Data To Show!</td>
+                                            </tr>
+                                        @endforelse
 
 
                                     </tbody>
@@ -79,90 +83,7 @@
             </div>
 
 
-            {{--  <div class="col-md-12 grid-margin stretch-card">
-
-                <div class="card-body">
-
-
-
-
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">EMPLOYEE MANAGEMENT</h4>
-                            <div class="row w-100">
-                                <div class="d-flex justify-content-start w-50">
-                                    <button wire:click.prevent="newEmployee" class="btn btn-primary"><i
-                                            class="mdi mdi-folder-plus"></i> Add New Employee </button>
-                                </div>
-
-                            </div>
-                            <p class="card-description">
-
-                            </p>
-                            <div class="table-responsive">
-                                <table id='' class="dataTable table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Name #
-                                            </th>
-                                            <th>
-                                                Email
-                                            </th>
-                                            <th>
-                                                Mobile
-                                            </th>
-                                            <th>
-                                                Date Joined
-                                            </th>
-                                            <th>Salary</th>
-                                            <th>Actions</th>
-
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-
-
-                                        @foreach ($employees as $employee)
-                                            <tr>
-
-                                                <td class="text-capitalize">{{ $employee['name'] }}</td>
-                                                <td class="text-capitalize">{{ $employee['email'] }}</td>
-                                                <td class="text-capitalize">{{ $employee['mobile'] }}</td>
-                                                <td class="text-capitalize">{{ $employee['joining_date'] }}</td>
-                                                <td class="text-capitalize">{{ $employee['salary'] }}</td>
-                                    <td>
-                                                    <a wire:click.prevent="editEmployee({{ $employee['id'] }})"
-                                                        style="font-size: 20px" class=" mdi mdi-pencil-box-outline"></a>
-
-
-                                                    <a style="font-size: 20px" class="mdi mdi-close-box-outline"
-                                                        wire:click.prevent="deleteEmployeeConfirm({{ $employee['id'] }})"></a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-
-
-                                    </tbody>
-                                </table>
-                                <button class="btn btn-outline-primary" onclick="makeSearchable()">Search
-                                    Employees</button>
-
-                                <div class="mt-3 d-flex justify-content-end">
-                                    {{ $employees->links() }}
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>  --}}
+          
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
@@ -201,9 +122,13 @@
                                             @if ($errors->any())
                                             <div class="alert alert-danger">
                                                 <ul>
-                                                    @foreach ($errors->all() as $error)
+                                                    @forelse ($errors->all() as $error)
                                                         <li>{{ $error }}</li>
-                                                    @endforeach
+                                                        @empty
+                                                        <tr>
+                                                            <td colspan="2"> No Data To Show!</td>
+                                                        </tr>
+                                                        @endforelse
 
                                                 </ul>
                                             </div>
@@ -218,14 +143,18 @@
 
                                                         wire:model.defer="inputs.id">
                                                         <optgroup label="SELECT AN EMPLOYEE" ></optgroup>
-                                                        @foreach ($employees_data as $employee_data)
+                                                        @forelse ($employees_data as $employee_data)
                                                          @if(!empty($this->inputs) &&  $this->inputs['id']==$employee_data['id'])>
                                                            <option value="{{ $employee_data['id'] }}" selected> {{ $employee_data['name'] }}</option>
                                                            @else
                                                            <option value="{{ $employee_data['id'] }}"> {{ $employee_data['name'] }}</option>
                                                            @endif
+                                                           @empty
+                                            <tr>
+                                                <td colspan="2"> No Data To Show!</td>
+                                            </tr>
 
-                                                            @endforeach
+                                                            @endforelse
                                                     </select>
                                                     @error('id')
                                                         <div class="invalid-feedback">{{ $message }}</div>

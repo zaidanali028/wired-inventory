@@ -6,12 +6,17 @@ use App\Models\Admin as AdminModel;
 use App\Models\Orders as OrdersModel;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Livewire\WithPagination;
 
 
 use Livewire\Component;
 
 class OrdersWired extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
+
     public $orderRecord_=[];
     public $orderRecord_id;
     public $product_img_path='product_imgs';
@@ -29,10 +34,10 @@ class OrdersWired extends Component
     public function get_orders($startMonth,$endMonth){
         $start_date = Carbon::now()->startOfYear()->month(intVal($startMonth))->toDateTimeString();
         // $end_date = Carbon::now()->startOfYear()->month(intVal($endMonth))->toDateTimeString();
-        $endOfThisMonth = Carbon::now()->endOfMonth()->month(intVal($endMonth))->toDateTimeString();
-        // dd( $start_date, $endOfThisMonth);
+        $end_date = Carbon::now()->startOfYear()->month(intVal($endMonth))->toDateTimeString();
+        // dd( $start_date, $end_date);
         $this->orders = OrdersModel::whereBetween(
-            'created_at', [$start_date,$endOfThisMonth]
+            'created_at', [$start_date,$end_date]
             )->latest()->with(['get_customer'])->paginate(15);
 
     }

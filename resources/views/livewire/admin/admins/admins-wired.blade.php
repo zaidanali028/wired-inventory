@@ -7,140 +7,7 @@
 
         <div class="row">
 
-            {{--  <div class="col-md-12 grid-margin stretch-card">
-
-                <div class="card-body">
-
-
-
-
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">adminS MANAGEMENT</h4>
-                            <div class="row w-100">
-                                <div class="d-flex justify-content-start w-50">
-                                    <button wire:click.prevent="newadmin" class="btn btn-primary"><i
-                                            class="mdi mdi-folder-plus"></i> Add New admin </button>
-                                </div>
-
-                            </div>
-                            <p class="card-description">
-
-                            </p>
-                            <div class="table-responsive">
-                                <table id='' class="dataTable table table-striped">
-
-                                    <thead>
-                                        <tr>
-
-                                            <th>
-                                                Name #
-                                            </th>
-                                            <th>
-                                                Type
-                                            </th>
-                                            <th>
-                                                Mobile
-                                            </th>
-                                            <th>
-                                                E-mail
-                                            </th>
-                                            <th>
-                                                Image
-                                            </th>
-                                            <th>
-                                                Status
-                                            </th>
-                                            <th>
-                                                Actions
-                                            </th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($admins as $admin_by_type)
-                                            @if ($admin_by_type['id'] == $admin_details['id'])
-                                                @php
-                                                    continue;
-                                                @endphp
-                                            @else
-                                                <tr>
-
-                                                    <td class="py-1">
-                                                        {{ $admin_by_type['name'] }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $admin_by_type['type'] }}
-
-                                                    </td>
-                                                    <td>
-                                                        {{ $admin_by_type['mobile'] }}
-
-                                                    </td>
-                                                    <td>
-                                                        {{ $admin_by_type['email'] }}
-
-                                                    </td>
-                                                    <td>
-                                                        @if (!empty($admin_by_type['image']))
-                                                            <img src="{{ asset('storage/'.$admin_img_path.'/' . $admin_by_type['image']) }}"
-                                                                alt="image">
-                                                        @elseif(empty($admin_by_type['image']))
-                                                            <img src="{{ asset('admin/images/faces/face20.jpg') }}"
-                                                                alt="profile" />
-                                                        @endif
-
-
-
-                                                    </td>
-                                                    <td>
-                                                        <a wire:click.prevent="editadmin({{ $admin_by_type['id'] }})"
-                                                            style="font-size: 20px"
-                                                            class=" mdi mdi-pencil-box-outline"></a>
-
-
-                                                        <a style="font-size: 20px" class="mdi mdi-close-box-outline"
-                                                            wire:click.prevent="deleteadminConfirm({{ $admin_by_type['id'] }})"></a>
-                                                    </td>
-                                                    <td>
-                                                        @php
-                                                            $icon = $admin_by_type['status'] == 1 ? 'mdi-checkbox-multiple-blank-circle text-success' : 'mdi-checkbox-multiple-blank-circle-outline text-dark';
-
-                                                        @endphp
-                                                        <span style="font-size: 20px"
-                                                            class="admin_status_{{ $admin_by_type['id'] }} mdi   {{ $icon }}">{{ $admin_by_type['status'] == 1 ? 'Active' : 'Inactive' }}
-                                                        </span>
-
-                                                    </td>
-                                                    @php
-                                                        $status_toggle_icon = $admin_by_type['status'] == 1 ? 'mdi-toggle-switch text-primary' : 'mdi-toggle-switch-off';
-                                                    @endphp
-                                                    <td> <i wire:click='adminStatChanger({{ $admin_by_type['id'] }},{{ $admin_by_type['status'] }})'
-                                                            style="font-size: 30px"
-                                                            class="mdi {{ $status_toggle_icon }}"></i> </td>
-
-                                                </tr>
-                                            @endif
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
-                                <button class="btn btn-outline-primary" onclick="makeSearchable()">Search
-                                    admins</button>
-
-                                <div class="mt-3 d-flex justify-content-end">
-                                    {{ $admins->links() }}
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>  --}}
+          
             <div class="col-xl-12 col-lg-12 col-md-12">
                 <div class="row">
                     <div class="col-lg-12 mb-4">
@@ -183,7 +50,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($admins_by_type as $admin_by_type)
+                                        @forelse($admins_by_type as $admin_by_type)
                                         {{--  @json($admin_details)  --}}
                                             @if ($admin_by_type['id'] == $admin_details['id'])
                                                 @php
@@ -247,7 +114,12 @@
 
                                                 </tr>
                                             @endif
-                                        @endforeach
+                                            @empty
+                                            <tr>
+                                                <td colspan="2"> No Data To Show!</td>
+                                            </tr>
+                                       
+                                        @endforelse
 
                                     </tbody>
                                 </table>
@@ -303,9 +175,13 @@
                                             @if ($errors->any())
                                                 <div class="alert alert-danger">
                                                     <ul>
-                                                        @foreach ($errors->all() as $error)
+                                                        @forelse ($errors->all() as $error)
                                                             <li>{{ $error }}</li>
-                                                        @endforeach
+                                                            @empty
+                                                            <tr>
+                                                                <td colspan="2"> No Data To Show!</td>
+                                                            </tr>
+                                                            @endforelse
 
                                                     </ul>
                                                 </div>

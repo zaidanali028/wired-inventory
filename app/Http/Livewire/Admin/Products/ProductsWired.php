@@ -133,37 +133,9 @@ class ProductsWired extends Component
 
     }
 
-    public function deleteAllproducts()
-    {
-        $this->dispatchBrowserEvent('show_product_del_all_confirm');
-        // invoking this to show confirm with js in customjs
-
-    }
 
 
-    public function editproduct($product_id)
-    {
-        $this->dispatchBrowserEvent('clear-file-fields');
 
-        $this->product_id = $product_id;
-        $product = ProductsModel::where('id', $product_id)->first()->toArray();
-
-        $this->current_product_id = $product['id'];
-        $this->current_category_id = $product['category_id'];
-        $this->current_supplier_id = $product['supplier_id'];
-
-        $this->btn_text = $this->addNewproduct == true ? 'Save' : 'Save Changes';
-
-        $this->addNewproduct = false;
-        $this->dispatchBrowserEvent('show-add-product-modal');
-        // triggering the show-add-product-modal to show  modal
-
-        // $this->product_details = ProductsModel::where('id', $product_id)->first()->toArray();
-        $this->inputs = $product;
-        $this->inputs['image'] = $product['image'];
-        // dd($this->inputs['product_images']);
-
-    }
 
     public function attributeproduct($product_id)
     {
@@ -176,19 +148,7 @@ class ProductsWired extends Component
         $this->dispatchBrowserEvent('show-produt-attr-modal');
     }
 
-    public function addNewProductAttr()
-    {
-        $this->validate($this->rules, $this->messages);
 
-        foreach ($this->product_attributes as $product_attribute) {
-            $product_attribute->product_id = $this->product_id;
-
-            $product_attribute->save();
-        }
-        $product = ProductsModel::find($this->product_id)->first()->toArray()['product_name'];
-        $this->dispatchBrowserEvent('hide-produt-attr-modal', ["success_msg" => ' Product Attributes For ' . $product . ' Has Been Updated Successfully']);
-
-    }
 
     public function remove_field($index)
     {
@@ -215,6 +175,31 @@ class ProductsWired extends Component
     {
         $this->dispatchBrowserEvent('hide-add-product-modal', ['is_cancel' => true]);
     }
+
+    public function editproduct($product_id)
+    {
+        $this->dispatchBrowserEvent('clear-file-fields');
+
+        $this->product_id = $product_id;
+        $product = ProductsModel::where('id', $product_id)->first()->toArray();
+
+        $this->current_product_id = $product['id'];
+        $this->current_category_id = $product['category_id'];
+        $this->current_supplier_id = $product['supplier_id'];
+
+        $this->btn_text = $this->addNewproduct == true ? 'Save' : 'Save Changes';
+
+        $this->addNewproduct = false;
+        $this->dispatchBrowserEvent('show-add-product-modal');
+        // triggering the show-add-product-modal to show  modal
+
+        // $this->product_details = ProductsModel::where('id', $product_id)->first()->toArray();
+        $this->inputs = $product;
+        $this->inputs['image'] = $product['image'];
+        // dd($this->inputs['product_images']);
+
+    }
+
 
     public function updateproduct()
     {
@@ -415,7 +400,7 @@ class ProductsWired extends Component
         // dd(Auth::guard('admin')->user());
         $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
 
-        $products = ProductsModel::with(['get_supplier'])->latest()->paginate(10);
+        $products = ProductsModel::with(['get_supplier'])->latest()->paginate(25);
         // $products=ProductsModel::with(['get_product_section','get_product_category','get_product_brand','get_vendor_details'])->latest()->get()->toArray();
         // dd($products);
 

@@ -3,7 +3,7 @@
 
 function makeSearchable() {
     let newDataTable = `dataTable_${Math.floor(Math.random() * 9999999999999999)}`
-// alert(newDataTable)
+    // alert(newDataTable)
     // randomi indexing the id attribute to prevent reinitialiindexation error from jquery datatable
 
     $('.dataTable').attr('id', newDataTable)
@@ -19,57 +19,9 @@ function makeSearchable() {
 }
 
 
-
-
 $(document).ready(() => {
 
-    class Request {
-        static get(url) {
-            return fetch(url);
-        }
 
-        static post(url, data, options = null) {
-            return fetch(url, {
-                method: "POST",
-                body: data,
-                ...options
-            })
-        }
-        static put(url, data, options = null) {
-            return fetch(url, {
-                method: "PUT",
-                body: data,
-                ...options
-            });
-
-
-        }
-        static patch(url, data, options = null) {
-            return fetch(url, {
-                method: "PATCH",
-                body: data,
-                ...options
-            });
-        }
-        static delete(url, data, options = null) {
-            return fetch(url, {
-                method: "DELETE",
-                body: data,
-                options
-            });
-
-
-        }
-    }
-    // section's table datatable
-    // $('#sections_data').dataTable({ "paging": false });
-    // categories's table datatable
-    // $('#categories_data').dataTable({ });
-    // let brandsDataTable=$('#brands_data').dataTable({
-    //     stateSave: true,
-    //     paging:false
-    // });
-    //checking if current password is correct
     $("#current_password").keyup(() => {
         let current_pwd = $("#current_password").val();
         $.ajax({
@@ -223,6 +175,7 @@ $(document).ready(() => {
 
     });
 
+
     // listen to show-produt-attr-modal event(from-livewire)
     window.addEventListener('show-produt-attr-modal', e => {
         $('#produt-attr-modal').modal('show');
@@ -262,34 +215,34 @@ $(document).ready(() => {
 
     // a function for clearing any input field with just id
     // it must have the id #img_file for it to work
-    window.addEventListener('clear-fieild',e=>{
+    window.addEventListener('clear-fieild', e => {
         let imgFile = $('#img_file').val('').clone(true);
 
     })
 
 
 
-//     window.addEventListener('hide-add-employee-modal',e=>{
-//         $('#add-employee-modal').modal('hide');
+    //     window.addEventListener('hide-add-employee-modal',e=>{
+    //         $('#add-employee-modal').modal('hide');
 
 
-//     Swal.fire({
-//         title: 'EMPLOYEE RECORD SAVED',
-//         text: e.detail.success_msg,
-//         icon: 'success',
-//         showCancelButton: true,
-//         confirmButtonColor: '#3085d6',
-//         cancelButtonColor: '#00000',
-//         // confirmButtonText: 'Yes, delete it!'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//         //    if user clicks ok,they are redirected to the dashboard
-//         $('#add-employee-modal').modal('hide');
+    //     Swal.fire({
+    //         title: 'EMPLOYEE RECORD SAVED',
+    //         text: e.detail.success_msg,
+    //         icon: 'success',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#00000',
+    //         // confirmButtonText: 'Yes, delete it!'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //         //    if user clicks ok,they are redirected to the dashboard
+    //         $('#add-employee-modal').modal('hide');
 
 
-//         }
-//     })
-// })
+    //         }
+    //     })
+    // })
     // listen to hide-add-product-modal event(from-livewire)
     window.addEventListener('hide-add-product-modal', e => {
         $('#add-product-modal').modal('hide');
@@ -316,8 +269,8 @@ $(document).ready(() => {
     });
     window.addEventListener('show-success-toast', e => {
 
-            // just for success messages
-            toastr.success(e.detail.success_msg, 'Success')
+        // just for success messages
+        toastr.success(e.detail.success_msg, 'Success')
 
     });
 
@@ -327,12 +280,12 @@ $(document).ready(() => {
         toastr.error(e.detail.error_msg, 'Error')
 
 
-});
+    });
 
     window.addEventListener('hide-produt-attr-modal', e => {
         $('#produt-attr-modal').modal('hide');
 
-            toastr.success(e.detail.success_msg, 'Success')
+        toastr.success(e.detail.success_msg, 'Success')
 
 
     });
@@ -364,7 +317,7 @@ $(document).ready(() => {
 
 
 
-    window.addEventListener(('emp_rec_err'),e=>{
+    window.addEventListener(('emp_rec_err'), e => {
         $('#add-employee-modal').modal('hide');
         toastr.error(e.detail.msg, 'Error')
 
@@ -372,19 +325,19 @@ $(document).ready(() => {
 
 
     });
-  // handle all delete events from livewire
-  let deleteEvents = [{ eventFromLiveWire: 'show_category_del_confirm', eventToLiveWire: 'confirm_category_delete' }, { eventFromLiveWire: 'delete_only_vid', eventToLiveWire: 'confirm_delete_only_vid' }
-  , { eventFromLiveWire: 'show_section_del_confirm', eventToLiveWire: 'confirm_section_delete' }, { eventFromLiveWire: 'show_category_del_all_confirm', eventToLiveWire: 'confirm_category_delete_all' }, { eventFromLiveWire: 'show_main_category_del_all_confirm', eventToLiveWire: 'confirm_main_category_delete_all' }, { eventFromLiveWire: 'show_section_del_confirm', eventToLiveWire: 'confirm_section_del_all' }, { eventFromLiveWire: 'show_emp_del_confirm', eventToLiveWire: 'confirm_emp_del' },{ eventFromLiveWire: 'show_admin_del_confirm', eventToLiveWire: 'confirm_admin_del' }, { eventFromLiveWire: 'show_product_del_confirm', eventToLiveWire: 'confirm_product_delete' }, { eventFromLiveWire: 'show_product_del_all_confirm', eventToLiveWire: 'confirm_product_delete_all' },
-  { eventFromLiveWire:'show_sup_del_confirm', eventToLiveWire: 'confirm_sup_del' },
-  { eventFromLiveWire:'show_cust_del_confirm', eventToLiveWire: 'confirm_cust_del' }
-]
+    // handle all delete events from livewire
+    let deleteEvents = [{ eventFromLiveWire: 'show_category_del_confirm', eventToLiveWire: 'confirm_category_delete' }, { eventFromLiveWire: 'delete_only_vid', eventToLiveWire: 'confirm_delete_only_vid' }
+        , { eventFromLiveWire: 'show_section_del_confirm', eventToLiveWire: 'confirm_section_delete' }, { eventFromLiveWire: 'show_category_del_all_confirm', eventToLiveWire: 'confirm_category_delete_all' }, { eventFromLiveWire: 'show_main_category_del_all_confirm', eventToLiveWire: 'confirm_main_category_delete_all' }, { eventFromLiveWire: 'show_section_del_confirm', eventToLiveWire: 'confirm_section_del_all' }, { eventFromLiveWire: 'show_emp_del_confirm', eventToLiveWire: 'confirm_emp_del' }, { eventFromLiveWire: 'show_admin_del_confirm', eventToLiveWire: 'confirm_admin_del' }, { eventFromLiveWire: 'show_product_del_confirm', eventToLiveWire: 'confirm_product_delete' }, { eventFromLiveWire: 'show_product_del_all_confirm', eventToLiveWire: 'confirm_product_delete_all' },
+    { eventFromLiveWire: 'show_sup_del_confirm', eventToLiveWire: 'confirm_sup_del' },
+    { eventFromLiveWire: 'show_cust_del_confirm', eventToLiveWire: 'confirm_cust_del' }
+    ]
 
 
 
 
 
-let    openModalEvents=[{eventFromLivewire:'show-add-admin-modal',selector:'add-admin-modal'},{eventFromLivewire:'show-add-employee-modal',selector:'add-employee-modal'},{eventFromLivewire:'show-add-supplier-modal',selector:'add-supplier-modal'},,{eventFromLivewire:'show-add-customer-modal',selector:'add-customer-modal'},{eventFromLivewire:'show-view-order-modal',selector:'view-order-modal'}]
-let    closeModalEvents=[{eventFromLivewire:'hide-add-admin-modal',selector:'add-admin-modal'},{eventFromLivewire:'hide-add-employee-modal',selector:'add-employee-modal'},{eventFromLivewire:'hide-add-supplier-modal',selector:'add-supplier-modal'},,{eventFromLivewire:'hide-add-customer-modal',selector:'add-customer-modal'}]
+    let openModalEvents = [{ eventFromLivewire: 'show-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'show-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'show-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'show-add-customer-modal', selector: 'add-customer-modal' }, { eventFromLivewire: 'show-view-order-modal', selector: 'view-order-modal' }]
+    let closeModalEvents = [{ eventFromLivewire: 'hide-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'hide-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'hide-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'hide-add-customer-modal', selector: 'add-customer-modal' }]
 
     deleteEvents.forEach((event_) => {
         window.addEventListener(event_.eventFromLiveWire, e => {
@@ -406,88 +359,44 @@ let    closeModalEvents=[{eventFromLivewire:'hide-add-admin-modal',selector:'add
         });
 
     })
-    openModalEvents.forEach((event_)=>{
-        window.addEventListener(event_.eventFromLivewire,e=>{
-        $(`#${event_.selector}`).modal('show');
+    openModalEvents.forEach((event_) => {
+        window.addEventListener(event_.eventFromLivewire, e => {
+            $(`#${event_.selector}`).modal('show');
 
         })
     })
-      // Handle Dynamic Routing with livewire
+    // Handle Dynamic Routing with livewire
 
 
     //   Livewire.on('click', '#next-page-link', () => {
     //     alert('erty')
-        // window.history.pushState({}, '', '/next-page');
-        // window.dispatchEvent(new PopStateEvent('popstate'));
+    // window.history.pushState({}, '', '/next-page');
+    // window.dispatchEvent(new PopStateEvent('popstate'));
     // });
     //   routes.forEach((route)=>{
-        //   Livewire.on('click', '#dashboard', () => {
-          //     window.history.pushState({}, '', '/here');
-          //     window.dispatchEvent(new PopStateEvent('popstate'));
-        //   alert('hiya')
-        //   });
+    //   Livewire.on('click', '#dashboard', () => {
+    //     window.history.pushState({}, '', '/here');
+    //     window.dispatchEvent(new PopStateEvent('popstate'));
+    //   alert('hiya')
+    //   });
     //   })
 
-    closeModalEvents.forEach((event_)=>{
-        window.addEventListener(event_.eventFromLivewire,e=>{
-            if(e.detail.success_msg){
-                toastr.success(e.detail.success_msg,'Sucess!')
-            }else if(e.detail.error_msg){
-                toastr.success(e.detail.error_msg,'Sucess!')
+    closeModalEvents.forEach((event_) => {
+        window.addEventListener(event_.eventFromLivewire, e => {
+            if (e.detail.success_msg) {
+                toastr.success(e.detail.success_msg, 'Sucess!')
+            } else if (e.detail.error_msg) {
+                toastr.success(e.detail.error_msg, 'Sucess!')
             }
 
 
-        $(`#${event_.selector}`).modal('hide');
+            $(`#${event_.selector}`).modal('hide');
 
         })
     })
 
 
-    window.addEventListener('success-dashboard-redirect',e=>{
-
-            // alert('yh');
-            Swal.fire({
-                title: 'RECORD SAVED',
-                text: e.detail.success_msg,
-                icon: 'success',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#00000',
-                // confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                //    if user clicks ok,they are redirected to the dashboard
-                    window.location.href='/admin/dashboard'
-
-                }
-            })
-
-
-    })
-    window.addEventListener('success-orders-redirect',e=>{
-
-        // alert('yh');
-        Swal.fire({
-            title: 'ORDER SUCCESS!',
-
-            text: e.detail.success_msg,
-            icon: 'success',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#00000',
-            confirmButtonText:"Lemi Glance My Orders!"
-            // confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-            //    if user clicks ok,they are redirected to the dashboard
-                window.location.href='/admin/orders'
-
-            }
-        })
-
-
-})
-    window.addEventListener('success-dashboard',e=>{
+    window.addEventListener('success-dashboard-redirect', e => {
 
         // alert('yh');
         Swal.fire({
@@ -500,13 +409,57 @@ let    closeModalEvents=[{eventFromLivewire:'hide-add-admin-modal',selector:'add
             // confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-            //    if user clicks ok,they are redirected to the dashboard
+                //    if user clicks ok,they are redirected to the dashboard
+                window.location.href = '/admin/dashboard'
 
             }
         })
 
 
-})
+    })
+    window.addEventListener('success-orders-redirect', e => {
+
+        // alert('yh');
+        Swal.fire({
+            title: 'ORDER SUCCESS!',
+
+            text: e.detail.success_msg,
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#00000',
+            confirmButtonText: "Lemi Glance My Orders!"
+            // confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //    if user clicks ok,they are redirected to the dashboard
+                window.location.href = '/admin/orders'
+
+            }
+        })
+
+
+    })
+    window.addEventListener('success-dashboard', e => {
+
+        // alert('yh');
+        Swal.fire({
+            title: 'RECORD SAVED',
+            text: e.detail.success_msg,
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#00000',
+            // confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //    if user clicks ok,they are redirected to the dashboard
+
+            }
+        })
+
+
+    })
     // video validation
     window.addEventListener('show_file_err', e => {
         Swal.fire({
@@ -574,7 +527,19 @@ let    closeModalEvents=[{eventFromLivewire:'hide-add-admin-modal',selector:'add
     }
 
 
+    // select2 instances
+
+
+    // $('#customers').select2();
+    // $('#customers').on('change', function (e) {
+    //     var data = $('#customers').select2("val");
+    // @this.set('selected', data)
+    // })
+
+
+
 });
+
 
 
 

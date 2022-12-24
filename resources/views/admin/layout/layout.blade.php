@@ -31,6 +31,9 @@
     <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" />
     <livewire:styles />
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
 </head>
 <body>
 
@@ -258,11 +261,18 @@
 {{--  <script src="admin/js/swal.js"></script>  --}}
 {{--  alpinejs  --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.3.0/alpine-ie11.min.js" integrity="sha512-Atu8sttM7mNNMon28+GHxLdz4Xo2APm1WVHwiLW9gW4bmHpHc/E2IbXrj98SmefTmbqbUTOztKl5PDPiu0LD/A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{{--  SelectIZE  --}}
+
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 {{--  datatable  --}}
 <script src="{{url('admin/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{url('admin/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{url('admin/js/bootstrap.min.js')}}"></script>
 <script src="{{url('admin/js/toastr.min.js')}}"></script>
+
 
 </div>
 </body>

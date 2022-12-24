@@ -22,7 +22,10 @@
                                     <thead>
                                         <tr>
                                             <th>
-                                                ID #
+                                                Status #
+                                            </th>
+                                            <th>
+                                                Product Quantity
                                             </th>
                                             <th>
                                                 Product Name
@@ -50,9 +53,7 @@
                                             <th>
                                                 Product Code
                                             </th>
-                                            <th>
-                                                Product Quantity
-                                            </th>
+
                                             <th>Actions</th>
 
 
@@ -62,9 +63,19 @@
 
 
 
-                                        @foreach ($products as $product)
+                                        @forelse ($products as $product)
                                             <tr>
-                                                <td>{{ $product['id'] }}</td>
+                                                <td>
+                                                 @if(intVal($product['product_quantity'])<1)
+                                                <p class="badge badge-danger"> {{ 'Out Of Stock!' }}</p>
+                                                @elseif(intVal($product['product_quantity'])<=10)
+                                                <p class="badge badge-warning"> {{ 'Averagely Stocked' }}</p>
+                                                 @else
+                                                 <p class="badge badge-success">    {{'Still Stocked' }} </p>
+                                                 @endif
+                                                </td>
+                                                <td class="text-capitalize">{{ $product['product_quantity'] }}</td>
+
                                                 <td class="text-capitalize">{{ $product['product_name'] }}</td>
                                                  <td class="text-capitalize">{{ $product['get_category']['category_name'] }}</td>
                                                  <td class="text-capitalize">{{ $product['get_supplier']['name'] }}</td>
@@ -83,8 +94,8 @@
 
                                                 </td>
                                                 <td class="text-capitalize">{{ $product['uploaded_by'] }}</td>
-                                                <td class="text-capitalize">{{ $product['product_code'] }}</td>
-                                                <td class="text-capitalize">{{ $product['product_quantity'] }}</td>
+                                                <td class="text-capitalize">{{ !empty($product['product_code'])?$product['product_code']:'Product Has No Code!' }}</td>
+
 
 
                                                 <td>
@@ -97,7 +108,11 @@
                                                         wire:click.prevent="deleteproductConfirm({{ $product['id'] }})"></a>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                            @empty
+                                            <tr>
+                                                <td colspan="2"> No Data To Show!</td>
+                                            </tr>
+                                        @endforelse
 
 
                                     </tbody>
@@ -349,11 +364,15 @@
                                                 <option disabled value="">Choose Product's Category </option>
 
 
-                                                @foreach ($categories as $category)
+                                                @forelse ($categories as $category)
                                                     <option @if (!empty($current_category_id) && $current_category_id == $category['id']) selected @endif
                                                         value="{{ $category['id'] }}">{{ $category['category_name'] }}
                                                     </option>
-                                                @endforeach
+                                                    @empty
+                                          
+                                                <option > No Data To Show!</option>
+                                            
+                                                @endforelse
                                             </select>
 
 
@@ -375,11 +394,14 @@
                                                 <option disabled value="">Choose Product's Supplier </option>
 
 
-                                                @foreach ($suppliers as $supplier)
+                                                @forelse ($suppliers as $supplier)
                                                     <option @if (!empty($current_supplier_id) && $current_supplier_id == $supplier['id']) selected @endif
                                                         value="{{ $supplier['id'] }}">{{ $supplier['name'] }}
                                                     </option>
-                                                @endforeach
+                                                    @empty
+                                                    <option > No Data To Show!</option>
+
+                                                @endforelse
                                             </select>
 
 

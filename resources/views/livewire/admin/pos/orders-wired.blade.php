@@ -46,12 +46,12 @@
 
 
 
-                                        @foreach ($orders as $order)
+                                        @forelse ($orders as $order)
                                             <tr>
 
                                                 <td class="text-capitalize">{{ $order['get_customer']['name'] }}</td>
                                                 <td class="text-capitalize">{{ $order['qty'] }}</td>
-                                                <td class="text-capitalize">₵{{ $order['sub_total'] }}</td>
+                                                <td class="text-capitalize">₵{{ $order['total'] }}</td>
                                                 <td class="text-capitalize">{{ $order['payBy'] }}</td>
 
                                                 <td>{{ $order['order_date'] }}</td>
@@ -60,7 +60,12 @@
                                                 </td>
 
                                             </tr>
-                                        @endforeach
+                                            @empty
+
+                                            <tr>
+                                                <td colspan="2"> No Data To Show!</td>
+                                            </tr>
+                                        @endforelse
 
 
                                     </tbody>
@@ -188,7 +193,7 @@
                                                 </thead>
                                                 <tbody >
                                                    @if(!empty($orderRecord_))
-                                                   @foreach ($orderRecord_['get_order_detail'] as $orderRecord_item )
+                                                   @forelse ($orderRecord_['get_order_detail'] as $orderRecord_item )
                                                   <tr>
                                                     {{--  @json($orderRecord_item['product_details']["product_name"])  --}}
                                                     <td>{{ $orderRecord_item['product_details']['product_name']}}</td>
@@ -211,8 +216,13 @@
 
 
                                                   </tr>
+                                                  @empty
+                                                  <tr>
+                                                      <td colspan="2"> No Data To Show!</td>
+                                                  </tr>
+                                              @endforelse
 
-                                                   @endforeach
+                                               
                                                    @endif
                                                 </tbody>
                                             </table>

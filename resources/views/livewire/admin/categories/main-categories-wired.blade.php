@@ -11,117 +11,7 @@
 
         <div class="row">
 
-            {{--  <div class="col-md-12 grid-margin stretch-card">
-
-                <div class="card-body">
-
-
-
-
-
-
-
-                    <div class="card">
-                        <div class="card-body">
-
-                            <h4 class="card-title">MAIN CATEGORIES MANAGEMENTG</h4>
-                            <div class="row w-100">
-                                <div class="d-flex justify-content-start w-50">
-                                    <button wire:click.prevent='newCategory' class="btn btn-primary"><i
-                                            class="mdi mdi-folder-plus"></i> Add New Main Category </button>
-                                </div>
-
-                            </div>
-                            <p class="card-description">
-
-
-                            </p>
-                            @if ($current_category_count >= 1)
-                                @if (is_array($main_categories) || is_object($main_categories))
-
-                                    <div class=" table-responsive">
-                                        <table id='' class="dataTable table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        ID #
-                                                    </th>
-                                                    <th>
-                                                        Main Category's Name
-                                                    </th>
-
-                                                    <th>
-                                                        Status
-                                                    </th>
-                                                    <th>
-                                                        Action
-                                                    </th>
-                                                    <th>Actions</th>
-
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-
-
-                                                @foreach ($main_categories as $category)
-                                                    <tr>
-                                                        <td>{{ $category['id'] }}</td>
-                                                        <td>{{ $category['category_name'] }}</td>
-
-                                                        <td>
-                                                            @php
-                                                                $icon = $category['status'] == 1 ? 'mdi-checkbox-multiple-blank-circle text-success' : 'mdi-checkbox-multiple-blank-circle-outline text-dark';
-                                                            @endphp
-                                                            <span style="font-size: 20px"
-                                                                class="mdi   {{ $icon }}">{{ $category['status'] == 1 ? 'Active' : 'Inactive' }}
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            @php
-                                                                $status_toggle_icon = $category['status'] == 1 ? 'mdi-toggle-switch text-primary' : 'mdi-toggle-switch-off';
-                                                            @endphp
-                                                            <i wire:click="changeMainCategoryStatus({{ $category['id'] }},{{ $category['status'] }})"
-                                                                style="font-size: 30px"
-                                                                class="mdi {{ $status_toggle_icon }}"></i>
-
-                                                        </td>
-
-                                                        <td>
-                                                            <a wire:click.prevent="editMainCategory({{ $category['id'] }})"
-                                                                style="font-size: 20px"
-                                                                class=" mdi mdi-pencil-box-outline"></a>
-
-
-                                                            <a  style="font-size: 20px" class="mdi mdi-close-box-outline"
-                                                                wire:click.prevent="deleteMainCategoryConfirm({{ $category['id'] }})"></a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-
-
-
-                                            </tbody>
-                                        </table>
-                                        <button class="ml-2  btn btn-outline-primary" onclick="makeSearchable()">Search Categories</button>
-
-                                        <div class="mt-3 d-flex justify-content-end">
-                                            {{ $main_categories->links() }}
-                                        </div>
-
-
-                                    </div>
-                                @endif
-                            @else
-                                <p class="text-center display-2">Please Add Main Categories </p>
-                            @endif
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>  --}}
+           
             <div  class=" col-xl-12 col-lg-12 col-md-12">
                 <div  class="row">
                     <div  class="col-lg-12 mb-4">
@@ -161,7 +51,7 @@
 
 
 
-                                                @foreach ($main_categories as $category)
+                                                @forelse ($main_categories as $category)
                                                     <tr>
                                                         <td>{{ $category['id'] }}</td>
                                                         <td>{{ $category['category_name'] }}</td>
@@ -194,7 +84,11 @@
                                                                 wire:click.prevent="deleteMainCategoryConfirm({{ $category['id'] }})"></a>
                                                         </td>
                                                     </tr>
-                                                @endforeach
+                                                    @empty
+                                            <tr>
+                                                <td colspan="2"> No Data To Show!</td>
+                                            </tr>
+                                                @endforelse
 
 
 

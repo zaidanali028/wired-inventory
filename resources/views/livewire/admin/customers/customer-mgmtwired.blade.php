@@ -7,133 +7,7 @@
 
         <div class="row">
 
-            {{--  <div class="col-md-12 grid-margin stretch-card">
-
-                <div class="card-body">
-
-
-
-
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">customerS MANAGEMENT</h4>
-                            <div class="row w-100">
-                                <div class="d-flex justify-content-start w-50">
-                                    <button wire:click.prevent="newcustomer" class="btn btn-primary"><i
-                                            class="mdi mdi-folder-plus"></i> Add New customer </button>
-                                </div>
-
-                            </div>
-                            <p class="card-description">
-
-                            </p>
-                            <div class="table-responsive">
-                                <table id='' class="dataTable table table-striped">
-
-                                    <thead>
-                                        <tr>
-
-                                            <th>
-                                                Name #
-                                            </th>
-                                            <th>
-                                                Shop Name
-                                            </th>
-                                            <th>
-                                                phone
-                                            </th>
-                                            <th>
-                                                E-mail
-                                            </th>
-                                            <th>
-                                                Image
-                                            </th>
-                                            <th>
-                                                Actions
-                                            </th>
-                                            <th>
-                                                Address
-                                            </th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($customers as $customer_by_type)
-
-                                                <tr>
-
-                                                    <td class="py-1">
-                                                        {{ $customer_by_type['name'] }}
-                                                    </td>
-                                                    <td>
-                                                        {{ !(empty($customer_by_type['shopName']))?$customer_by_type['shopName']:'' }}
-
-                                                    </td>
-                                                    <td>
-                                                        {{ $customer_by_type['phone'] }}
-
-                                                    </td>
-                                                    <td>
-                                                        {{ $customer_by_type['email'] }}
-
-                                                    </td>
-                                                    <td>
-                                                        @if (!empty($customer_by_type['photo']))
-                                                            <img src="{{ asset('storage/'.$customer_img_path.'/' . $customer_by_type['photo']) }}"
-                                                                alt="image">
-                                                        @elseif(empty($customer_by_type['photo']))
-                                                            <img src="{{ asset('admin/images/faces/face20.jpg') }}"
-                                                                alt="profile" />
-                                                        @endif
-
-
-
-
-                                                    </td>
-                                                    <td>
-                                                        <a wire:click.prevent="editcustomer({{ $customer_by_type['id'] }})"
-                                                            style="font-size: 20px"
-                                                            class=" mdi mdi-pencil-box-outline"></a>
-
-
-                                                        <a style="font-size: 20px" class="mdi mdi-close-box-outline"
-                                                            wire:click.prevent="deletecustomerConfirm({{ $customer_by_type['id'] }})"></a>
-                                                    </td>
-                                                    <td>
-                                                        @php
-                                                            $icon = $customer_by_type['status'] == 1 ? 'mdi-checkbox-multiple-blank-circle text-success' : 'mdi-checkbox-multiple-blank-circle-outline text-dark';
-
-                                                        @endphp
-                                                        <span style="font-size: 20px"
-                                                       >{{ $customer_by_type['address'] }}
-                                                        </span>
-
-                                                    </td>
-
-
-                                                </tr>
-
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-                                <button class="btn btn-outline-primary" onclick="makeSearchable()">Search
-                                    customers</button>
-
-                                <div class="mt-3 d-flex justify-content-end">
-                                    {{ $customers->links() }}
-                                </div>
-
-
-
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>  --}}
+           
             <div class="col-xl-12 col-lg-12 col-md-12">
                 <div class="row">
                     <div class="col-lg-12 mb-4">
@@ -172,7 +46,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($customers as $customer_by_type)
+                                        @forelse ($customers as $customer_by_type)
                                             <tr>
 
                                                 <td class="py-1">
@@ -220,7 +94,11 @@
 
 
                                             </tr>
-                                        @endforeach
+                                            @empty
+                                            <tr>
+                                                <td colspan="2"> No Data To Show!</td>
+                                            </tr>
+                                        @endforelse
 
                                     </tbody>
                                 </table>
@@ -277,9 +155,13 @@
                                             @if ($errors->any())
                                                 <div class="alert alert-danger">
                                                     <ul>
-                                                        @foreach ($errors->all() as $error)
+                                                        @forelse ($errors->all() as $error)
                                                             <li>{{ $error }}</li>
-                                                        @endforeach
+                                                            @empty
+                                                            <tr>
+                                                                <td colspan="2"> No Data To Show!</td>
+                                                            </tr>
+                                                            @endforelse
 
                                                     </ul>
                                                 </div>
