@@ -160,7 +160,6 @@ class PosManagementWired extends Component
             $product_qty = intVal($product['product_quantity']);
 
             if ($product_qty < $content->product_quantity) {
-                OrderDetailsModel::insert($cartData);
                 // product in db is less than requested product
                 OrdersModel::findOrFail($order_id)->delete();
                 $product_name = $product['product_name'];
@@ -168,6 +167,9 @@ class PosManagementWired extends Component
                 $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => $err_msg]);
 
             } else {
+                // dd($cartData);
+                OrderDetailsModel::insert($cartData);
+
 
                 ProductsModel::where('id', $content->product_id)->update(['product_quantity' => $product_qty - $content->product_quantity]);
 
@@ -181,8 +183,8 @@ class PosManagementWired extends Component
     public function home_tab_clicked()
     {
         $this->current_tab = 'home';
-      
-       
+
+
 
 
     }
@@ -238,7 +240,7 @@ class PosManagementWired extends Component
         $this->products = ProductsModel::latest()->get()->toArray();
 
         }
-        
+
 
         return view('livewire.admin.pos.pos-management-wired');
     }

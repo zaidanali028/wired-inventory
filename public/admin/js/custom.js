@@ -336,8 +336,8 @@ $(document).ready(() => {
 
 
 
-    let openModalEvents = [{ eventFromLivewire: 'show-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'show-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'show-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'show-add-customer-modal', selector: 'add-customer-modal' }, { eventFromLivewire: 'show-view-order-modal', selector: 'view-order-modal' }]
-    let closeModalEvents = [{ eventFromLivewire: 'hide-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'hide-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'hide-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'hide-add-customer-modal', selector: 'add-customer-modal' }]
+    let openModalEvents = [{ eventFromLivewire: 'show-add-salary-modal', selector: 'add-salary-modal' },{ eventFromLivewire: 'show-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'show-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'show-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'show-add-customer-modal', selector: 'add-customer-modal' }, { eventFromLivewire: 'show-view-order-modal', selector: 'view-order-modal' }]
+    let closeModalEvents = [{ eventFromLivewire: 'hide-add-salary-modal', selector: 'add-salary-modal' },,{ eventFromLivewire: 'hide-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'hide-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'hide-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'hide-add-customer-modal', selector: 'add-customer-modal' }]
 
     deleteEvents.forEach((event_) => {
         window.addEventListener(event_.eventFromLiveWire, e => {
@@ -386,7 +386,7 @@ $(document).ready(() => {
             if (e.detail.success_msg) {
                 toastr.success(e.detail.success_msg, 'Sucess!')
             } else if (e.detail.error_msg) {
-                toastr.success(e.detail.error_msg, 'Sucess!')
+                toastr.error(e.detail.error_msg, 'Sucess!')
             }
 
 

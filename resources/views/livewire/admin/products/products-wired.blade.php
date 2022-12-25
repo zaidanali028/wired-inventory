@@ -118,7 +118,7 @@
                                     </tbody>
                                 </table>
                                 <button class="btn btn-outline-primary" onclick="makeSearchable()">Search
-                                    products</button>
+                                    Products</button>
 
                                 <div class="mt-3 d-flex justify-content-end">
                                     {{ $products->links() }}
@@ -369,9 +369,9 @@
                                                         value="{{ $category['id'] }}">{{ $category['category_name'] }}
                                                     </option>
                                                     @empty
-                                          
+
                                                 <option > No Data To Show!</option>
-                                            
+
                                                 @endforelse
                                             </select>
 

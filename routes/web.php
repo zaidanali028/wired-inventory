@@ -74,6 +74,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('employee-management','employeesController@employee_management');
         Route::get('admin-management','adminController@admin_management');
         Route::get('supplier-management','adminController@supplier_management');
+        Route::get('salary-management','adminController@salary_management');
+        Route::get('all-salaries','adminController@all_salaries');
         Route::get('customers-management','adminController@customers_management');
 
 

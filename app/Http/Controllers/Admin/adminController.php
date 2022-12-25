@@ -149,6 +149,23 @@ class adminController extends Controller
 
     }
 
+    public function salary_management(){
+        Session::put('page', 'salary-management');
+        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+
+        return view('admin.salary.salary-management', ['admin_details' => $admin_details]);
+
+
+    }
+    public function all_salaries(){
+        Session::put('page', 'all-salaries');
+        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+
+        return view('admin.salary.all-salaries', ['admin_details' => $admin_details]);
+
+
+    }
+
     public function supplier_management()
     {
         $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();

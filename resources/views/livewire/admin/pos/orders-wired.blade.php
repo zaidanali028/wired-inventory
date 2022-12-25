@@ -46,7 +46,7 @@
 
 
 
-                                        @forelse ($orders as $order)
+                                        @foreach ($orders as $order)
                                             <tr>
 
                                                 <td class="text-capitalize">{{ $order['get_customer']['name'] }}</td>
@@ -60,12 +60,8 @@
                                                 </td>
 
                                             </tr>
-                                            @empty
-
-                                            <tr>
-                                                <td colspan="2"> No Data To Show!</td>
-                                            </tr>
-                                        @endforelse
+                                            
+                                        @endforeach
 
 
                                     </tbody>
@@ -193,7 +189,7 @@
                                                 </thead>
                                                 <tbody >
                                                    @if(!empty($orderRecord_))
-                                                   @forelse ($orderRecord_['get_order_detail'] as $orderRecord_item )
+                                                   @foreach ($orderRecord_['get_order_detail'] as $orderRecord_item )
                                                   <tr>
                                                     {{--  @json($orderRecord_item['product_details']["product_name"])  --}}
                                                     <td>{{ $orderRecord_item['product_details']['product_name']}}</td>
@@ -216,13 +212,10 @@
 
 
                                                   </tr>
-                                                  @empty
-                                                  <tr>
-                                                      <td colspan="2"> No Data To Show!</td>
-                                                  </tr>
-                                              @endforelse
 
-                                               
+                                              @endforeach
+
+
                                                    @endif
                                                 </tbody>
                                             </table>
