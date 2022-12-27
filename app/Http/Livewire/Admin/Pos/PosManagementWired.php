@@ -35,7 +35,7 @@ class PosManagementWired extends Component
     public $inputs = [];
     public $products;
     public $order_validation_object = [
-        'customer_id' => 'required',
+        // 'customer_id' => 'required',
         'payBy' => 'required',
         'pay' => 'required|numeric',
 
@@ -116,13 +116,43 @@ class PosManagementWired extends Component
         $this->dispatchBrowserEvent('show-success-toast', ['success_msg' => 'Successfully Removed Item From Cart!']);
 
     }
+    public function generate_anonymous_cust(){
+        $microtime = microtime(true);
+
+// Generate a random number with 7 digits using mt_rand()
+$randomNumber = mt_rand(1000000, 9999999);
+
+// Concatenate the current time and the random number to create a unique number
+return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$randomNumber;
+    }
 
     public function process_order()
     {
+        // dd(empty($this->inputs['customer_id']));
 
         $validated_data = Validator::make($this->inputs, $this->order_validation_object)->validate();
+        if(!empty($this->inputs['customer_id'])){
+            $validated_data['customer_id']=$this->inputs['customer_id'];
+            // dd( $validated_data['customer_id']);
+        }
 
-        // dd($validated_data);
+        elseif(empty($this->inputs['cutomer_id'])){
+            // if when processing the order,
+            // no customer was chosen,an anonymous
+            // customer is created
+            $data=[];
+            $data['name'] =$this->generate_anonymous_cust();
+            $data['email']=  $data['name'] .'@anonymous-mail.com';
+            $data['phone'] ='anonymous';
+            $data['address'] ='anonymous';
+            $data["created_at"] = date('Y-m-d H:i:s');
+        $data["updated_at"] = date('Y-m-d H:i:s');
+
+        $customer_id = CustomersModel::insertGetId($data);
+        $validated_data['customer_id']=$customer_id;
+
+
+        }
         $data = [];
         $data['customer_id'] = $validated_data['customer_id'];
         $data['qty'] = $this->total_qty;
@@ -191,7 +221,7 @@ class PosManagementWired extends Component
 
     public function render()
     {
-       
+
 
         $this->categories = CategoriesModel::where(['status' => 1])->latest()->get()->toArray();
         $this->pos_products = PosModel::get();
@@ -200,7 +230,7 @@ class PosManagementWired extends Component
         $this->total = $this->sub_total;
         $this->total_qty = PosModel::sum('product_quantity');
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
-        $this->customers = CustomersModel::orderBy('name')->latest()->get();
+        $this->customers = CustomersModel::orderBy('name')->where('address','!=','anonymous')->latest()->get();
 
         if ($this->pos_item_count > 0) {
 

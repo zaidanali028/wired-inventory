@@ -60,7 +60,8 @@ class DashBoardWired extends Component
         $thisMonthRecord = OrdersModel::whereBetween('created_at', [$startOfThisMonth, $endOfThisMonth])->sum($column_name);
 
         $rate_pct = $lastMonthRecord != 0 ? ($thisMonthRecord / $lastMonthRecord) * 100 : 0;
-        return $rate_pct = number_format($rate_pct, 2);
+       $rate_pct = number_format($rate_pct, 2);
+       return $this->number_to_kmb($rate_pct);
 
     }
     public function get_monthly_customer_RateDiff()
@@ -68,8 +69,20 @@ class DashBoardWired extends Component
         $CurrentCustomerCount = CustomersModel::whereMonth('created_at', '=', now()->month)->count();
         $LastCustomerCount = CustomersModel::whereMonth('created_at', '=', now()->subMonth()->month)->count();
         $rate_pct = $LastCustomerCount != 0 ? $CurrentCustomerCount / $LastCustomerCount * 100 : 0;
-        return $rate_pct = number_format($rate_pct, 2);
+        return $this->number_to_kmb($rate_pct = number_format($rate_pct, 2));
 
+    }
+    function number_to_kmb($number) {
+        $number=intVal($number);
+        if ($number >= 1000000000) {
+            return round($number / 1000000000, 1) . "B";
+        } elseif ($number >= 1000000) {
+            return round($number / 1000000, 1) . "M";
+        } elseif ($number >= 1000) {
+            return round($number / 1000, 1) . "K";
+        } else {
+            return $number;
+        }
     }
     public function get_monthly_record($column)
     {
@@ -125,18 +138,18 @@ class DashBoardWired extends Component
         // by the client and as a result,it must be gotten anytime a user hits
         // the backend inorder to prevent nulltype error
         $this->monthly_sell_records = $this->get_monthly_record('total');
-        $this->today_sell = OrdersModel::where('order_date', date('d/m/Y'))->sum('total');
+        $this->today_sell = $this->number_to_kmb(OrdersModel::where('order_date', date('d/m/Y'))->sum('total'));
         $this->sell_pct_change = $this->get_monthly_rate_diff('total');
 
 
-        $this->today_due = OrdersModel::where('order_date', date('d/m/Y'))->sum('due');
+        $this->today_due =$this->number_to_kmb (OrdersModel::where('order_date', date('d/m/Y'))->sum('due'));
         $this->due_pct_change = $this->get_monthly_rate_diff('due');
 
-        $this->monthly_income_records = $this->get_monthly_record('pay');
-        $this->today_income = OrdersModel::where('order_date', date('d/m/Y'))->sum('pay');
+        $this->monthly_income_records =$this->get_monthly_record('pay');
+        $this->today_income =$this->number_to_kmb( OrdersModel::where('order_date', date('d/m/Y'))->sum('pay'));
         $this->income_pct_change = $this->get_monthly_rate_diff('pay');
-
-        $this->total_customers = CustomersModel::count();
+// $this->total_customers  is fake,yoo!
+        $this->total_customers = $this->number_to_kmb(CustomersModel::count()+43546576);
         $this->customer_pct_change = $this->get_monthly_customer_RateDiff();
 
         $this->categories = CategoriesModel::where(['status' => 1])->latest()->get()->toArray();

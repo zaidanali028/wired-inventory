@@ -140,9 +140,9 @@
 
 
                                         <select  class="form-control
-                                        @error('customer_id')
+                                        {{--  @error('customer_id')
                                         bg-danger is-invalid
-                                        @enderror
+                                        @enderror  --}}
                                         "wire:model.defer="inputs.customer_id"  id="select2">
                                             <option selected value="" >*SELECT A CUSTOMER</option>
 
@@ -157,9 +157,9 @@
                                             @endforelse
 
                                                                                                     </select>
-                                        @error('customer_id')
+                                        {{--  @error('customer_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    @enderror  --}}
                                     </div>
                                     <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Pay</label> <input
 
