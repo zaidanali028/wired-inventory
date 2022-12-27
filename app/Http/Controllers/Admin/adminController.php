@@ -14,7 +14,7 @@ class adminController extends Controller
 {
     public function __construct()
     {
-        Session::put('date', date('d/m/y'));
+        // Session::put('date', date('d/m/y'));
         Session::put('site_name', 'Samas Inventory');
 
     }
@@ -24,6 +24,14 @@ class adminController extends Controller
         $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
         Session::put('page', 'pos');
         return view('admin.pos.pos-management', ['admin_details' => $admin_details]);
+
+    }
+    public function expenses(){
+
+        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        Session::put('page', 'expenses');
+        return view('admin.expenses.expense-management', ['admin_details' => $admin_details]);
+
 
     }
     public function orders()

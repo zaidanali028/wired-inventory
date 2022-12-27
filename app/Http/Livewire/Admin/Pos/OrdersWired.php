@@ -81,7 +81,7 @@ class OrdersWired extends Component
         // dd($this->orders);
 
 
-        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+      
         $this->current_page=Session::get('page');
 
 

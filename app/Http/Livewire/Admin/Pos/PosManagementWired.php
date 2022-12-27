@@ -10,7 +10,7 @@ use App\Models\Orders as OrdersModel;
 use App\Models\Pos as PosModel;
 use App\Models\Products as ProductsModel;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
@@ -191,7 +191,7 @@ class PosManagementWired extends Component
 
     public function render()
     {
-        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+       
 
         $this->categories = CategoriesModel::where(['status' => 1])->latest()->get()->toArray();
         $this->pos_products = PosModel::get();

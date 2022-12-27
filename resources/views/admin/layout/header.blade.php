@@ -30,39 +30,41 @@
                     <a class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-success">
-                                <i class="ti-info-alt mx-0"></i>
+                                <i class="mdi  mdi-star-outline  mx-0"></i>
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Application Error</h6>
+                            <h6 class="preview-subject font-weight-normal">Welcome And Thank You For Choosing <strong>#SystemsMadeByZaid</strong></h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                                Just now
+                                Adventure Is What We Love!
                             </p>
                         </div>
                     </a>
                     <a class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-warning">
-                                <i class="ti-settings mx-0"></i>
+                                <i class="mdi mdi-meteor mx-0"></i>
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">Settings</h6>
+                            <h6 class="preview-subject font-weight-normal">Always Remember!</h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                                Private message
+                               Navigate Easily Anywhere Within Ur Orders When 
+                               U Hit On (admin/orders). Click On The Calendar Icon
+                               Under This Notification And Have Full Control!
                             </p>
                         </div>
                     </a>
                     <a class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-info">
-                                <i class="ti-user mx-0"></i>
+                                <i class="mdi mdi-chart-bubble mx-0"></i>
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">New user registration</h6>
+                            <h6 class="preview-subject font-weight-normal">Truth Be Told</h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                                2 days ago
+                                Becareful When Changing Your Credentials As Loosing It May Pose Greater Danger
                             </p>
                         </div>
                     </a>
@@ -84,7 +86,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <a class="dropdown-item">
-                        <i class="ti-settings text-primary"></i>
+                        <i class="mdi mdi-meteor text-primary"></i>
                         Settings
                     </a>
                     <a class="dropdown-item" href="{{url('/admin/logout')}}">
@@ -93,11 +95,7 @@
                     </a>
                 </div>
             </li>
-            <li class="nav-item nav-settings d-none d-lg-flex">
-                <a class="nav-link" href="#">
-                    <i class="icon-ellipsis"></i>
-                </a>
-            </li>
+           
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
             <span class="icon-menu"></span>

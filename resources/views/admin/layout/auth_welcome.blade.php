@@ -10,7 +10,7 @@
                     <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
                         <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                           @php
-                          $date_today=date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')))
+                          $date_today=date('d/m/y')
                           @endphp
                             <i class="mdi mdi-calendar"></i> ({{  $date_today }})
                         </button>

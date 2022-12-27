@@ -24,7 +24,7 @@ class AdminsWired extends Component
     protected $listeners = [
         'confirm_admin_del' => 'confirmadminDelete',
     ];
-    public  $date_today;
+
     public  $current_page;
 
     public $admin_id;
@@ -219,7 +219,7 @@ class AdminsWired extends Component
 
     public function render()
     {
-        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+     
 
 
         $admins_by_type=AdminModel::latest()->paginate(15);

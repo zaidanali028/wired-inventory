@@ -1,11 +1,12 @@
-<div>
+<input type="hidden" id='monthlySaleRecords' name="" value="{{ implode(",",$monthly_sell_records) }}">
+                <input type="hidden" id='monthlyIncomeRecords' name="" value="{{ implode(",",$monthly_income_records) }}">
+                
+
     <div class="main-panel">
         <div class="content-wrapper">
             @include('admin.layout.auth_welcome')
 
             <div class="row">
-                <input type="hidden" id='monthlySaleRecords' name="" value="{{ implode(",",$monthly_sell_records) }}">
-                <input type="hidden" id='monthlyIncomeRecords' name="" value="{{ implode(",",$monthly_income_records) }}">
                 <div class="col-md-6 grid-margin stretch-card">
                     <div class="card tale-bg">
                         <div class="card-people mt-auto">
@@ -110,7 +111,7 @@
                                     class="btn btn-primary float-right" style="margin-top: 6px; margin-right: 6px;">Manage Your Stocks Like A Genius!</a>
                             </div>
                             <div  class="table-responsive">
-                                
+
                                 <table id='' class="dataTable table table-striped">
                                     <thead>
                                         <tr>
@@ -202,8 +203,8 @@
                                     <div class="col-md-6">
                                         <button class="btn btn-outline-primary" onclick="makeSearchable()">Search
                                             Stocked Out Products</button>
-        
-                                        
+
+
                                     </div>
                                     <div class="col-md-6 d-flex justify-content-end">
                                         <button wire:click.prevent="load_more" class="btn btn-outline-primary">
@@ -211,7 +212,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div  class="card-footer"></div>
                         </div>
@@ -227,4 +228,4 @@
         <!-- partial -->
 
     </div>
-</div>
+

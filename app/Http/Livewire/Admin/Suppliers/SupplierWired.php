@@ -17,7 +17,7 @@ use Livewire\WithPagination;
 class SupplierWired extends Component
 {
     protected $paginationTheme = 'bootstrap';
-    public  $date_today;
+
     public  $current_page;
 
     public $suppliers_by_type;
@@ -241,7 +241,7 @@ protected $listeners=[
 
     public function render()
     {
-        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+       
 
 
         // $suppliers_by_type=SupplierModel::latest()->paginate(15)->toArray();

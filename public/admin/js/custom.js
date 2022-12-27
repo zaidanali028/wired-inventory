@@ -329,15 +329,16 @@ $(document).ready(() => {
     let deleteEvents = [{ eventFromLiveWire: 'show_category_del_confirm', eventToLiveWire: 'confirm_category_delete' }, { eventFromLiveWire: 'delete_only_vid', eventToLiveWire: 'confirm_delete_only_vid' }
         , { eventFromLiveWire: 'show_section_del_confirm', eventToLiveWire: 'confirm_section_delete' }, { eventFromLiveWire: 'show_category_del_all_confirm', eventToLiveWire: 'confirm_category_delete_all' }, { eventFromLiveWire: 'show_main_category_del_all_confirm', eventToLiveWire: 'confirm_main_category_delete_all' }, { eventFromLiveWire: 'show_section_del_confirm', eventToLiveWire: 'confirm_section_del_all' }, { eventFromLiveWire: 'show_emp_del_confirm', eventToLiveWire: 'confirm_emp_del' }, { eventFromLiveWire: 'show_admin_del_confirm', eventToLiveWire: 'confirm_admin_del' }, { eventFromLiveWire: 'show_product_del_confirm', eventToLiveWire: 'confirm_product_delete' }, { eventFromLiveWire: 'show_product_del_all_confirm', eventToLiveWire: 'confirm_product_delete_all' },
     { eventFromLiveWire: 'show_sup_del_confirm', eventToLiveWire: 'confirm_sup_del' },
-    { eventFromLiveWire: 'show_cust_del_confirm', eventToLiveWire: 'confirm_cust_del' }
+    { eventFromLiveWire: 'show_cust_del_confirm', eventToLiveWire: 'confirm_cust_del' },
+    { eventFromLiveWire: 'show_expense_del_confirm', eventToLiveWire: 'confirm_expense_del' }
     ]
 
 
 
 
 
-    let openModalEvents = [{ eventFromLivewire: 'show-add-salary-modal', selector: 'add-salary-modal' },{ eventFromLivewire: 'show-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'show-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'show-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'show-add-customer-modal', selector: 'add-customer-modal' }, { eventFromLivewire: 'show-view-order-modal', selector: 'view-order-modal' }]
-    let closeModalEvents = [{ eventFromLivewire: 'hide-add-salary-modal', selector: 'add-salary-modal' },,{ eventFromLivewire: 'hide-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'hide-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'hide-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'hide-add-customer-modal', selector: 'add-customer-modal' }]
+    let openModalEvents = [{ eventFromLivewire: 'show-add-Expense-modal', selector: 'add-Expense-modal' },{ eventFromLivewire: 'show-add-salary-modal', selector: 'add-salary-modal' },{ eventFromLivewire: 'show-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'show-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'show-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'show-add-customer-modal', selector: 'add-customer-modal' }, { eventFromLivewire: 'show-view-order-modal', selector: 'view-order-modal' }]
+    let closeModalEvents = [{ eventFromLivewire: 'hide-add-Expense-modal', selector: 'add-Expense-modal' },,{ eventFromLivewire: 'hide-add-salary-modal', selector: 'add-salary-modal' },,{ eventFromLivewire: 'hide-add-admin-modal', selector: 'add-admin-modal' }, { eventFromLivewire: 'hide-add-employee-modal', selector: 'add-employee-modal' }, { eventFromLivewire: 'hide-add-supplier-modal', selector: 'add-supplier-modal' }, , { eventFromLivewire: 'hide-add-customer-modal', selector: 'add-customer-modal' }]
 
     deleteEvents.forEach((event_) => {
         window.addEventListener(event_.eventFromLiveWire, e => {

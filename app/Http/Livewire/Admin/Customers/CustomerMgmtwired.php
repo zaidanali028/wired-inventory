@@ -14,7 +14,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Session;
+
 
 class CustomerMgmtwired extends Component
 {
@@ -223,7 +223,7 @@ protected $listeners=[
 
     public function render()
     {
-        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+       
 
 
         // $customers_by_type=CustomerModel::latest()->paginate(15)->toArray();

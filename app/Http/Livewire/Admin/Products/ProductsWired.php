@@ -19,7 +19,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Session;
+
 
 
 /**
@@ -37,7 +37,7 @@ class ProductsWired extends Component
     // something different from a picture
     use WithPagination;
 
-    public  $date_today;
+    
     public  $current_page;
     protected $paginationTheme = 'bootstrap';
     // allow livewire pagination
@@ -137,16 +137,7 @@ class ProductsWired extends Component
 
 
 
-    public function attributeproduct($product_id)
-    {
-        $this->counter = 0;
 
-        $this->product_id = $product_id;
-
-        $this->product_attributes = ProductAttributesModel::all()->where('product_id', $this->product_id);
-
-        $this->dispatchBrowserEvent('show-produt-attr-modal');
-    }
 
 
 
@@ -159,18 +150,9 @@ class ProductsWired extends Component
 
     }
 
-    public function add_new_field()
-    {
 
-        // this helps in adding new input fields for getting additional attributes
-        if ($this->counter < $this->max_attributes) {
-            $this->counter += 1;
-            // protected $connection = "mysql"; is required in ProductAttributesModel for this method to work
 
-            $this->product_attributes->push(ProductAttributesModel::make());
-        }
 
-    }
     public function onCancel()
     {
         $this->dispatchBrowserEvent('hide-add-product-modal', ['is_cancel' => true]);
@@ -398,7 +380,7 @@ class ProductsWired extends Component
     {
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
         // dd(Auth::guard('admin')->user());
-        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+
 
         $products = ProductsModel::with(['get_supplier'])->latest()->paginate(25);
         // $products=ProductsModel::with(['get_product_section','get_product_category','get_product_brand','get_vendor_details'])->latest()->get()->toArray();

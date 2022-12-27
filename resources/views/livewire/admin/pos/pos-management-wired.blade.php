@@ -17,13 +17,30 @@
     <div class="c
         fontent-wrapper">
         @include('admin.layout.auth_welcome')
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800 text-capitalize">
+                {{ Session::get('page') }}
+
+            </h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a >Home</a></li>
+                <li aria-current="page" class="breadcrumb-item  ">
+                    {{ Session::get('page') }}
+                </li>
+            </ol>
+        </div>
 
         <div id="container-wrapper" class="container-fluid">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                <h1 class="h3 mb-0 text-gray-800 text-capitalize">
+                    {{ Session::get('page') }}
+
+                </h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a >Home</a></li>
-                    <li aria-current="page" class="breadcrumb-item ">Dashboard</li>
+                    <li aria-current="page" class="breadcrumb-item  ">
+                        {{ Session::get('page') }}
+                    </li>
                 </ol>
             </div>
             <div class="row mb-3">
@@ -132,10 +149,10 @@
                                             @forelse ($customers as $customer )
                                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                             @empty
-                                        
+
                                                 <option > No Data To Show!</option>
 
-                                          
+
 
                                             @endforelse
 
@@ -214,9 +231,9 @@
                                         aria-controls="profile" aria-selected="false"
                                         class="nav-link">{{ $category['category_name'] }}</a></li>
                                         @empty
-                                      
+
                                             <li colspan> No Data To Show!</li>
-                                     
+
                                         @endforelse
                         </ul>
                         <div id="myTabContent" class="tab-content">

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Session;
+
 
 class MainCategoriesWired extends Component
 {
@@ -180,7 +180,7 @@ class MainCategoriesWired extends Component
 
     public function render()
     {
-        $this->date_today = date("F j, Y", strtotime(strtr(Session::get('date'), '/', '-')));
+       
 
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
         $current_category_count = CategoriesModel::get()->count();

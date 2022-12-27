@@ -4,6 +4,18 @@
     <div class="c
         ontent-wrapper">
         @include('admin.layout.auth_welcome')
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800 text-capitalize">
+                {{ Session::get('page') }}
+
+            </h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a >Home</a></li>
+                <li aria-current="page" class="breadcrumb-item  ">
+                    {{ Session::get('page') }}
+                </li>
+            </ol>
+        </div>
 
         <div class="row">
 
