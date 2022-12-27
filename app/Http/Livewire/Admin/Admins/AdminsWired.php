@@ -107,6 +107,8 @@ class AdminsWired extends Component
 
         // data validation
         $validated_data = Validator::make($this->inputs, $this->val_admin_obj)->validate();
+
+
         $record_count = AdminModel::where(['email' => $this->inputs['email']])->count();
         if ($record_count >= 1) {
             $this->dispatchBrowserEvent('emp_rec_err', ['msg' => 'record Already Exsists!']);
@@ -142,6 +144,7 @@ class AdminsWired extends Component
 
         // $this->admin_details = AdminModel::where('id', $admin_id)->first()->toArray();
         $this->inputs = AdminModel::where('id', $admin_id)->first()->toArray();
+        $this->inputs['password']='';
 
     }
 
@@ -160,6 +163,9 @@ class AdminsWired extends Component
         // datavalidation
 
               $validated_data = Validator::make($this->inputs, $this->val_admin_obj)->validate();
+
+        // dd($this->inputs['password']);
+        $validated_data['password']=Hash::make($validated_data['password']);
 
 
         // imagevalidation
@@ -219,7 +225,7 @@ class AdminsWired extends Component
 
     public function render()
     {
-     
+
 
 
         $admins_by_type=AdminModel::latest()->paginate(15);

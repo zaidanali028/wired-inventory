@@ -253,7 +253,7 @@
                                                     <div class="col-md-12">
                                                         <input type="password" id="exampleInputDate"
                                                             wire:model.defer="inputs.password"
-                                                            placeholder="Enter Employee Pass"
+                                                            placeholder="Enter Employee New Pass"
                                                             class="form-control @error('password') is-invalid @enderror">
                                                         @error('password')
                                                             <div class="invalid-feedback">{{ $message }}</div>

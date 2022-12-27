@@ -1,4 +1,20 @@
+// $(document).ready(() => {
+//     navigator.geolocation.getCurrentPosition(function(position) {
 
+//         if(position.coords.latitude && position.coords.longitude){
+//             data={
+//                 'lat':position.coords.latitude ,
+//                 'long':position.coords.longitude
+//             }
+//             $('#lat').val(data.lat)
+//             $('#long').val(data.long)
+//             // alert(data.lat)
+
+
+//         };
+//         // console.log();
+//       });
+// });
 
 (function($) {
   'use strict';
@@ -8,12 +24,12 @@
   let monthlySaleRecords=$('#monthlySaleRecords').val().split(',')
 //   alert(monthlySaleRecords)
   let monthlyIncomeRecords=$('#monthlyIncomeRecords').val().split(',')
-  
+
 
   $(function() {
     charts()
 //when initial state of   admin/dashboard  is called
- 
+
 
   });
 })(jQuery);
@@ -149,6 +165,6 @@ window.onload = function() {
     window.addEventListener('refreshCharts', () => {
         // state change on  admin/dashboard  and as a result,chart needs to be recreated
      charts()
-      
+
 })
 }

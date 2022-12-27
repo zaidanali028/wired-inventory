@@ -13,36 +13,13 @@ class admins_table_seeder extends Seeder
      *
      * @return void
      */
+
+
     public function run()
     {
-        //insert one admin record
-        $admin_record=[
-            // [
-            //     'id'=>1,
-            //     'name'=>'Zaidu Suppa',
-            //     'type'=>'superadmin',
-
-            //     'mobile'=>'+233240040834',
-            //     'email'=>'adminzaid@amashop.com',
-            //     'password'=>Hash::make('12345678'),
-            //     'image'=>'',
-            // 'status'=>1
-
-            //     ],
-        //     [
-        //     'id'=>7,
-        //     'name'=>'Employee 7',
-        //     'type'=>'employee',
-        //     // 'vendor_id'=>4,
-        //     'mobile'=>'+233240040834',
-        //     'email'=>'Z@yutamart.com',
-        //     'password'=>Hash::make('60606060'),
-        //     'image'=>'',
-        // 'status'=>1
-
-        //     ],
-            [
-                'id'=>1,
+        $admin_record=
+        [
+                'id'=>81,
                 'name'=>'Employee 8',
                 'type'=>'SUPERADMIN',
                 // 'vendor_id'=>4,
@@ -52,9 +29,12 @@ class admins_table_seeder extends Seeder
                 'photo'=>'',
             'status'=>1
 
-                ],
-        ];
-        Admin::insert($admin_record);
+     ];
+        //insert one admin record
+        // Admin::insert($admin_record);
+
+        // insert datat using adminfactory
+        // Admin::factory()->times(80)->create();
 
     }
 }
