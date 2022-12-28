@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
 
 
             $table->string('product_code')->nullable();
-            $table->integer('supplier_id')->nullable();
+            $table->string('supplier_id')->nullable();
 
             $table->string('buying_price')->nullable();
 

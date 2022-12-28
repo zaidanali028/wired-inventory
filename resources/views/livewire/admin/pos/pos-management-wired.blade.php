@@ -1,18 +1,6 @@
 <div class="main-panel">
     <x-spinner />
-    @push('scripts')
 
-    <script>
-        $(document).ready(function () {
-            $('#select2').select2();
-            $('#select2').on('change', function (e) {
-                var data = $('#select2').select2("val");
-            @this.set('selected', data);
-            });
-        });
-    </script>
-
-@endpush
 
     <div class="c
         fontent-wrapper">
@@ -206,7 +194,8 @@
                                         @error('payBy')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
-                                    </div> <button type="submit" class="btn btn-success">Submit</button>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Submit</button>
                                 </form>
                             </div>
                         </div>

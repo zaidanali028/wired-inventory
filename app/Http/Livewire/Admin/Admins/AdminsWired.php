@@ -7,10 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Facades\Session;
-
-
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -25,22 +23,22 @@ class AdminsWired extends Component
         'confirm_admin_del' => 'confirmadminDelete',
     ];
 
-    public  $current_page;
+    public $current_page;
 
     public $admin_id;
     public $photo;
     public $btn_text;
     public $inputs = [];
     public $del_admin_id;
-    public $val_admin_obj = [
-        'name' => 'required|regex:/^[\pL\s\-]+$/u',
-        'email' => 'required|email',
-        'password' => 'required',
-        'status' => 'required',
-        'type' => 'required',
-        'mobile' => 'required',
+    // public $val_admin_obj = [
+    //     'name' => 'required|regex:/^[\pL\s\-]+$/u',
+    //     'email' => 'required|email',
+    //     'password' => 'required',
+    //     'status' => 'required',
+    //     'type' => 'required',
+    //     'mobile' => 'required',
 
-    ]; #
+    // ]; #
     protected $rules = ['photo' => 'required|image'];
     public $message = [
         'photo.image' => 'This field only takes photo inputs',
@@ -106,8 +104,15 @@ class AdminsWired extends Component
         $this->validate($this->rules, $this->message);
 
         // data validation
-        $validated_data = Validator::make($this->inputs, $this->val_admin_obj)->validate();
+        $validated_data = Validator::make($this->inputs,
+            ['name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'email' => 'required|' . Rule::unique('admins', 'email'),
 
+                'type' => 'required',
+            'status' => 'required',
+
+                'password' => 'required|min:10|alpha_num|max:30',
+                'mobile' => 'required'])->validate();
 
         $record_count = AdminModel::where(['email' => $this->inputs['email']])->count();
         if ($record_count >= 1) {
@@ -115,6 +120,7 @@ class AdminsWired extends Component
 
         } else {
             $admin = new AdminModel;
+            // dd($validated_data);
             $admin->name = $validated_data['name'];
             $admin->type = $validated_data['type'];
             $admin->mobile = $validated_data['mobile'];
@@ -144,13 +150,13 @@ class AdminsWired extends Component
 
         // $this->admin_details = AdminModel::where('id', $admin_id)->first()->toArray();
         $this->inputs = AdminModel::where('id', $admin_id)->first()->toArray();
-        $this->inputs['password']='';
+        $this->inputs['password'] = '';
 
     }
 
     public function updateadmin()
     {
-        $ad = AdminModel::where('id',  $this->admin_id)->first()->toArray();
+        $ad = AdminModel::where('id', $this->admin_id)->first()->toArray();
         // if(!empty($ad))
         if (!empty($ad['photo']) && empty($this->photo)) {
             $this->rules['photo'] = '';
@@ -162,11 +168,20 @@ class AdminsWired extends Component
 
         // datavalidation
 
-              $validated_data = Validator::make($this->inputs, $this->val_admin_obj)->validate();
+        $validated_data = Validator::make($this->inputs, ['name' => 'required|regex:/^[\pL\s\-]+$/u',
+            'email' => 'required| unique:admins,email,' . $this->admin_id,
+            // $this->admin_id aids validator to remove current user's
+            // email from unique email validation
+            'type' => 'required',
+            'status' => 'required',
+
+
+            'password' => 'required|min:10|alpha_num|max:30',
+            'mobile' => 'required',
+        ])->validate();
 
         // dd($this->inputs['password']);
-        $validated_data['password']=Hash::make($validated_data['password']);
-
+        $validated_data['password'] = Hash::make($validated_data['password']);
 
         // imagevalidation
 
@@ -189,10 +204,7 @@ class AdminsWired extends Component
         $this->photo = '';
         $this->dispatchBrowserEvent('hide-add-admin-modal', ['success_msg' => 'Successfully Updated Admin Data ']);
 
-
-
     }
-
 
     public function deleteadminConfirm($del_admin_id)
     {
@@ -222,19 +234,16 @@ class AdminsWired extends Component
 
     }
 
-
     public function render()
     {
 
-
-
-        $admins_by_type=AdminModel::latest()->paginate(15);
+        $admins_by_type = AdminModel::latest()->paginate(15);
         // $admins = AdminModel::latest()->paginate(15);
 
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
 // dd($this->admin_details,  $this->admins_by_type);
-        return view('livewire.admin.admins.admins-wired',[
-            'admins_by_type'=>$admins_by_type
+        return view('livewire.admin.admins.admins-wired', [
+            'admins_by_type' => $admins_by_type,
         ]);
     }
 }

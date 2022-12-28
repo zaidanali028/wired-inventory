@@ -35,7 +35,7 @@
 
 
 </head>
-<body>
+<body  @if (Session::get('page')=='index') style="background:#f5f7ff" @endif>
 
 
 
@@ -46,7 +46,11 @@
 <div class="container-scroller">
 
     <!-- partial:partials/_navbar.html -->
-@include('admin.layout.header')
+
+    @if(request()->is('login'))
+    @include('admin.layout.header')
+
+    @endif
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_settings-panel.html -->
@@ -68,7 +72,7 @@
                 </div>
             </div>
         </div>
-       
+
         <!-- partial -->
 
 

@@ -90,7 +90,7 @@
 
                                                 <td class="text-capitalize">{{ $product['product_name'] }}</td>
                                                  <td class="text-capitalize">{{ $product['get_category']['category_name'] }}</td>
-                                                 <td class="text-capitalize">{{ $product['get_supplier']['name'] }}</td>
+                                                 <td class="text-capitalize">{{!empty($product['get_supplier'])? $product['get_supplier']['name']:'No Supplie!' }}</td>
                                                  <td class="text-capitalize">{{ $product['selling_price'] }}</td>
                                                  <td class="text-capitalize">{{ $product['buying_price'] }}</td>
                                                  <td>
@@ -193,12 +193,12 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputName1">Product's Quantity</label>
-                                            <input value="" wire:model.defer="inputs.product_quantity" type="text"
+                                            <input value="" wire:model.defer="inputs.product_quantity" type="number"
                                                 class="form-control @error('product_quantity') is-invalid @enderror
 
 
                                                     id="exampleInputName1"
-                                                placeholder="RED">
+                                                placeholder="2000">
                                             @error('product_quantity')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -373,7 +373,8 @@
                                             <select
                                                 class="form-control  @error('category_id') bg-danger is-invalid @enderror"
                                                 wire:model.defer="inputs.category_id">
-                                                <option disabled value="">Choose Product's Category </option>
+                                                <option value="">* CHOOSE PRODUCT'S CATEGORY</option>
+
 
 
                                                 @forelse ($categories as $category)
@@ -382,7 +383,6 @@
                                                     </option>
                                                     @empty
 
-                                                <option > No Data To Show!</option>
 
                                                 @endforelse
                                             </select>
@@ -403,17 +403,17 @@
                                             <select
                                                 class="form-control  @error('supplier_id') bg-danger is-invalid @enderror"
                                                 wire:model.defer="inputs.supplier_id">
-                                                <option disabled value="">Choose Product's Supplier </option>
+                                                <option  value="">Choose Product's Supplier </option>
 
 
-                                                @forelse ($suppliers as $supplier)
+                                                @foreach($suppliers as $supplier)
                                                     <option @if (!empty($current_supplier_id) && $current_supplier_id == $supplier['id']) selected @endif
                                                         value="{{ $supplier['id'] }}">{{ $supplier['name'] }}
                                                     </option>
-                                                    @empty
-                                                    <option > No Data To Show!</option>
 
-                                                @endforelse
+
+
+                                                @endforeach
                                             </select>
 
 

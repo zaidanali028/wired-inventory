@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin as AdminModel;
+use App\Models\Config as ConfigModel;
 use App\Models\Vendor as VendorModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +15,17 @@ class adminController extends Controller
 {
     public function __construct()
     {
-        // Session::put('date', date('d/m/y'));
-        Session::put('site_name', 'Samas Inventory');
+        // Session::put('site_name', 'Samas Inventory');
+
+    }
+    public function index(){
+    if(ConfigModel::all()->count()<=0 && AdminModel::all()->count()<=0){
+        Session::put('page', 'index');
+
+        return view('admin.config.config');
+    }else{
+        return redirect('/admin/dashboard');
+    }
 
     }
 

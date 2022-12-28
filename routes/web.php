@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Artisan;
-// use App\Http\Controllers\Admin\sectionsController;
-// use App\Http\Controllers\Admin\categoriesController;
+
 use App\Http\Controllers\Front\indexController;
+use App\Models\Config as ConfigModel;
+use App\Models\Admin as AdminModel;
+
 
 
 // laravel version was 8.75
@@ -27,27 +29,36 @@ use App\Http\Controllers\Front\indexController;
 //     });
 
 Route::get('/', function () {
+    if(ConfigModel::all()->count()<=0 && AdminModel::all()->count()<=0){
+        // new client and app needs configuration
+return redirect('/config-shop');
+
+    }else{
 return redirect('/admin/dashboard');
+
+
+    }
     // return view('welcome');
 });
 
 
 
 
-Route::get('/info',function(){
-    dd(phpinfo());
-});
+// Route::get('/','adminController@index');
+Route::prefix('/')->namespace('App\Http\Controllers\Admin')->group(function(){
+    Route::get('config-shop','adminController@index');
 
+});
 
 //Clear App cache:
 Route::get('/ref', function () {
-    // Artisan::call('cache:clear');
-    // Artisan::call('view:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
     Artisan::call('route:clear');
     Artisan::call('route:cache');
-    // Artisan::call('clear-compiled');
-    // Artisan::call('config:clear');
-    // Artisan::call('config:cache');
+    Artisan::call('clear-compiled');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
 
     return 'Project Refreshed Successfully!!!';
 });
@@ -66,7 +77,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     Route::group(['middleware'=>['admin']],function(){
         Route::get('/linkstorage', function () {
             Artisan::call('storage:link');
-            dd('Success :)');
+            dd('Storage link :)');
         });
         Route::get('dashboard','adminController@dashboard');
         Route::get('pos','adminController@pos');

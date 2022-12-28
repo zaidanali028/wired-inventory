@@ -37,7 +37,7 @@ class ProductsWired extends Component
     // something different from a picture
     use WithPagination;
 
-    
+
     public  $current_page;
     protected $paginationTheme = 'bootstrap';
     // allow livewire pagination
@@ -325,6 +325,7 @@ class ProductsWired extends Component
             $this->validate($this->rules, $this->message);
 
         }
+        // DD($this->inputs['supplier_id']);
 
 
 
@@ -341,10 +342,14 @@ class ProductsWired extends Component
 
         $auth_admin = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
         $product->uploaded_by = $auth_admin['name'];
+        // $product->created_at = date('Y-m-d H:i:s');
+        // $product->updated_at = date('Y-m-d H:i:s');
+        // dd($product);
+
 
         $product->save();
 
-        redirect()->back();
+        // redirect()->back();
         $this->dispatchBrowserEvent('hide-add-product-modal', ["success_msg" => 'New product Added Successfully']);
 
     }

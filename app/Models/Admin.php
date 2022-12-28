@@ -15,7 +15,10 @@ class Admin extends Authenticatable
     use HasFactory;
     protected $table = 'admins';
     protected $guard = 'admin';
-
+    protected $fillable = [
+        'status','photo','password','email','mobile',
+        'type','name'
+    ];
     public function get_vendor_details_from_admin()
     {
         return $this->belongsTo('App\Models\vendor', 'vendor_id', 'id');

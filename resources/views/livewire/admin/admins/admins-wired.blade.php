@@ -174,7 +174,7 @@
                             <h4 class="card-title"> Add New Admin</h4>
 
                             <div class="row">
-                                <div class="col-lg-10">
+                                <div class="col-lg-12">
 
                                     <div class="login-form">
                                         <div class="text-center">
@@ -206,7 +206,7 @@
                                                             wire:change.prevent="$emit('getEmp', $event.target.value)"
                                                             class="form-control @error('type') bg-danger is-invalid @enderror"
                                                             wire:model.defer="inputs.type">
-                                                            <optgroup label="SELECT AN ACCESS TYPE"></optgroup>
+                                                            <option value="">*SELECT ACCESS TYPE></option>
                                                             <option value="superadmin"> SUPER-ADMIN</option>
 
                                                             <option value="employee"> EMPLOYEE</option>
