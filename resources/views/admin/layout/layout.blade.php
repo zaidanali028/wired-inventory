@@ -47,7 +47,12 @@
 
     <!-- partial:partials/_navbar.html -->
 
-    @if(request()->is('login'))
+    @if(!empty($shop_details))
+    {{--  I AM USING THIS SAME TEMPLATE IN  THE CONFIG PAGE
+
+       BUT I DONT NEED THE HEADER IN THE CONFIG PAGE AND AS A RESULT THIS......
+       $shop_details is defined in AppServiceProvider
+        --}}
     @include('admin.layout.header')
 
     @endif

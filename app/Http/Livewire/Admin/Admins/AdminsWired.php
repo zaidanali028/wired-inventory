@@ -106,11 +106,10 @@ class AdminsWired extends Component
         // data validation
         $validated_data = Validator::make($this->inputs,
             ['name' => 'required|regex:/^[\pL\s\-]+$/u',
-                'email' => 'required|' . Rule::unique('admins', 'email'),
-
+                'email' => 'required|'
+                 . Rule::unique('admins', 'email'),
                 'type' => 'required',
-            'status' => 'required',
-
+                'status' => 'required',
                 'password' => 'required|min:10|alpha_num|max:30',
                 'mobile' => 'required'])->validate();
 

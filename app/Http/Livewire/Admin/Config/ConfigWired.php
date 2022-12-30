@@ -57,7 +57,8 @@ class ConfigWired extends Component
             $uploaded_img_path = public_path() . '\\storage\\' . $this->config_img_path . '\\';
 
             $img = Image::make($media_file);
-            $img->fit(300, 300)->save($uploaded_img_path . $new_file_name);
+            $img->save($uploaded_img_path . $new_file_name);
+            // $img->fit(73, 73)->save($uploaded_img_path . $new_file_name);
 
         }
         return $new_file_name;

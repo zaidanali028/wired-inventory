@@ -61,7 +61,7 @@
                                                 @php
                                                     if(!empty($Expense['expense_date'])){
                                                         $format_date = date("d-m-Y", strtotime($Expense['expense_date']));
-                                                        $format_date = date("j F Y", strtotime($format_date));
+                                                       // $format_date = date("j F Y", strtotime($format_date));
 
                                                     }
                                                 @endphp
@@ -160,13 +160,8 @@
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                                 </div>
-                                                <div  class="form-group"><input
-                                                    wire:model.defer="inputs.expense_date"
 
-                                                        type="date" id="exampleInputFirstName"
-                                                        placeholder="Enter Expense Date" class="form-control">
-                                                    <!---->
-                                                </div>
+
                                                 <div  class="form-group"><button
                                                         type="submit" class="btn btn-primary btn-block">{{ $btn_text }}</button>
                                                 </div>

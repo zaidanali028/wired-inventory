@@ -46,8 +46,8 @@ public $admin_img_path='admin_imgs';
         $new_file_name = '';
         if ($this->image) {
             $admin = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
-            if ($admin['image']) {
-                Storage::disk('public')->delete('admin_imgs/' . $admin['image']);
+            if ($admin['photo']) {
+                Storage::disk('public')->delete('admin_imgs/' . $admin['photo']);
 
             }
 
@@ -67,7 +67,7 @@ public $admin_img_path='admin_imgs';
 
         ];
         if (!empty($this->image[0])) {
-            $final_update_object["image"] = $new_file_name;
+            $final_update_object["photo"] = $new_file_name;
 
         }
         AdminModel::where('id', Auth::guard('admin')->user()->id)->update($final_update_object);

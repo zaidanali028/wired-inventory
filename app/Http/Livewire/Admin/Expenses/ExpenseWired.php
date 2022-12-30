@@ -49,11 +49,7 @@ class ExpenseWired extends Component
     }
     public function updateExpense(){
         $validated_data = Validator::make($this->inputs, $this->expense_val_obj)->validate();
-       if(!empty($this->inputs['expense_date'])){
-        // $format_date = date("d-m-Y", strtotime($this->inputs['expense_date']));
-        $validated_data['expense_date'] = $this->inputs['expense_date'];
-            // dd( $validated_data['expense_date']);
-       }
+       
     //    dd($this->expense_id);
       $expense= ExpensesModel::where(['id'=>$this->expense_id])->first();
       $expense->update($validated_data);
@@ -68,11 +64,13 @@ class ExpenseWired extends Component
     }
     public function submitaddNewExpense(){
         $validated_data = Validator::make($this->inputs, $this->expense_val_obj)->validate();
-       if(!empty($this->inputs['expense_date'])){
+
         // $format_date = date("d-m-Y", strtotime($this->inputs['expense_date']));
-        $validated_data['expense_date'] = $this->inputs['expense_date'];
+        $validated_data['expense_date'] = date('d/m/Y');
+
+
             // dd( $validated_data['expense_date']);
-       }
+
         ExpensesModel::create($validated_data);
         $this->dispatchBrowserEvent('hide-add-Expense-modal',['success_msg'=>'Expense Added Successfully!']);
 

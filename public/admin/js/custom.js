@@ -20,7 +20,7 @@ function makeSearchable() {
 
 
 $(document).ready(() => {
-    
+
 
     $("#current_password").keyup(() => {
         let current_pwd = $("#current_password").val();
@@ -217,6 +217,10 @@ $(document).ready(() => {
     // it must have the id #img_file for it to work
     window.addEventListener('clear-fieild', e => {
         let imgFile = $('#img_file').val('').clone(true);
+
+    })
+    $('.logo-link').click((e)=>{
+        window.location.href='/admin/orders'
 
     })
 

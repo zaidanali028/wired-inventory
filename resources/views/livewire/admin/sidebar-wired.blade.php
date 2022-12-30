@@ -1,9 +1,20 @@
 <div>
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
+            {{--  <li class="text-primary logo-link">
+
+
+                    <i class="mdi  mdi-chart-bubble text-primary"
+                    style="font-size:40px"
+                    ></i>
+                    <span class="menu-title text-bold " style="font-size: 25px">{{ !empty($shop_details)?$shop_details['shop_name']:''}} </span>
+                    <hr>
+
+            </li>  --}}
             <li class="nav-item">
 
-                <a class="nav-link" id="next-page-link"  href="{{ url('admin/dashboard') }}">
+                <a class="nav-link
+                @if (Session::get('page') == 'dashboard') bg-primary text-primary @endif" id="next-page-link"  href="{{ url('admin/dashboard') }}">
                     <i class="icon-grid menu-icon"></i>
                     <span class="menu-title">Dashboard</span>
                 </a>
@@ -139,7 +150,17 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link
+                            @if (Session::get('page') == 'shop-details') bg-primary text-primary @endif"
+
+                            " href="{{ url('admin/shop-details') }}">
+                                <i class="mdi mdi-rocket" style="font-size:20px"></i>
+                                <span class="menu-title">UPDATE SHOP CETAILS*</span>
+                            </a>
+                        </li>
                         @endif
+
 
                     </ul>
     </nav>

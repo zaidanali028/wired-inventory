@@ -283,9 +283,9 @@ position: absolute; ">
           <div class="mt-3">
             <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" >SIGN UP</button>
           </div>
-          <div class="text-center mt-4 font-weight-light">
+          {{--  <div class="text-center mt-4 font-weight-light">
             Already have an account? <a href="/admin/login" class="text-primary">Login</a>
-          </div>
+          </div>  --}}
         </form>
       </div>
     </div>

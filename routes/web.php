@@ -80,6 +80,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
             dd('Storage link :)');
         });
         Route::get('dashboard','adminController@dashboard');
+        Route::get('shop-details','adminController@shop_details');
         Route::get('pos','adminController@pos');
         Route::get('orders','adminController@orders');
         Route::get('expenses','adminController@expenses');

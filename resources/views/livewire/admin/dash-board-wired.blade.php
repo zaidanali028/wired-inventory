@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
                 <div class="card tale-bg">
-                    <div class="card-people mt-auto">
+                    <div class="card-people ">
                         @php
                             $random_bg_obj = (object) $random_bg;
                             $random_bg_key = array_rand($this->random_bg);
@@ -70,7 +70,7 @@
                         <div class="card card-light-danger">
                             <div class="card-body">
                                 <p class="mb-4">Number of Clients</p>
-                                <p class="fs-30 mb-2">{{ $total_customers }}</p>
+                                <p class="fs-30 mb-2">({{ $this_mnth_customers }}/{{ $last_mnth_customers }})<p>(This Month/Last Month)</p>{{ $total_customers }}</p>
                                 {{--  <p{{ $customer_pct_change }} % (30 days)</p>  --}}
                                 <p>{{ $customer_pct_change }}% (30 days)</p>
 
@@ -78,6 +78,9 @@
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
         </div>
         <div class="row">
@@ -111,6 +114,24 @@
                 </div>
             </div>
         </div>
+
+            <div class="col-lg-12 mb-4">
+                <div class="row">
+                    <div class="col-md-12 mb-4 mb-lg-0 stretch-card transparent">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <p class="mb-4">Expense Amount For Today</p>
+                                <p class="fs-30 mb-2">GH₵ {{ $today_expense }}</p>
+                                <p>{{ $expense_pct_change }}% (30 days)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
 
         <div class="col-xl-12 col-lg-12 col-md-12">
             <div class="row">

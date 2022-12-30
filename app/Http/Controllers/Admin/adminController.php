@@ -52,6 +52,16 @@ class adminController extends Controller
         return view('admin.pos.orders', ['admin_details' => $admin_details]);
 
     }
+
+    public function shop_details(){
+
+        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        Session::put('page', 'shop-details');
+
+        return view('admin.config.update', ['admin_details' => $admin_details]);
+
+    }
+
     public function dashboard()
     {
         // dd(Session::get('site_name'));

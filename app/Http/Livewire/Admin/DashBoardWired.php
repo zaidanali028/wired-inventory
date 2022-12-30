@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use App\Models\Admin as AdminModel;
+use App\Models\Expense as ExpenseModel;
 use App\Models\Customers as CustomersModel;
 use App\Models\Orders as OrdersModel;
 use App\Models\Products as ProductsModel;
@@ -41,6 +42,8 @@ class DashBoardWired extends Component
     protected $due_pct_change;
     protected $today_income;
     protected $today_due;
+    protected $today_expense;
+    protected $expense_pct_change;
     protected $total_customers;
     protected $customer_pct_change;
     // protected $stock_out_products;
@@ -152,7 +155,7 @@ public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
     // }
 
 
-    public function get_monthly_rate_diff($column_name)
+    public function get_order_monthly_rate_diff($column_name)
     {
         // this function aids in getting percentage difference between
         // this month and last month
@@ -168,6 +171,38 @@ public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
         $rate_pct = $lastMonthRecord != 0 ? ($thisMonthRecord / $lastMonthRecord) * 100 : 0;
        $rate_pct = number_format($rate_pct, 2);
        return $this->number_to_kmb($rate_pct);
+
+    }
+
+    public function get_expense_monthly_rate_diff($column_name)
+    {
+        // this function aids in getting percentage difference between
+        // this month and last month
+        $startOfLastMonth = Carbon::now()->subMonths(1)->startOfMonth()->toDateTimeString();
+        $endOfLastMonth = Carbon::now()->subMonths(1)->endOfMonth()->toDateTimeString();
+
+        $startOfThisMonth = Carbon::now()->startOfMonth()->toDateTimeString();
+        $endOfThisMonth = Carbon::now()->endOfMonth()->toDateTimeString();
+
+        $lastMonthRecord = ExpenseModel::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->sum($column_name);
+        $thisMonthRecord = ExpenseModel::whereBetween('created_at', [$startOfThisMonth, $endOfThisMonth])->sum($column_name);
+
+        $rate_pct = $lastMonthRecord != 0 ? ($thisMonthRecord / $lastMonthRecord) * 100 : 0;
+       $rate_pct = number_format($rate_pct, 2);
+       return $this->number_to_kmb($rate_pct);
+
+    }
+
+    public function get_customers_data(){
+        $startOfLastMonth = Carbon::now()->subMonths(1)->startOfMonth()->toDateTimeString();
+        $endOfLastMonth = Carbon::now()->subMonths(1)->endOfMonth()->toDateTimeString();
+
+        $startOfThisMonth = Carbon::now()->startOfMonth()->toDateTimeString();
+        $endOfThisMonth = Carbon::now()->endOfMonth()->toDateTimeString();
+
+        $lastMonthRecord = CustomersModel::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->count();
+        $thisMonthRecord = CustomersModel::whereBetween('created_at', [$startOfThisMonth, $endOfThisMonth])->count();
+        return [$this->number_to_kmb(($thisMonthRecord)),$this->number_to_kmb($lastMonthRecord)];
 
     }
     public function get_monthly_customer_RateDiff()
@@ -190,7 +225,7 @@ public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
             return $number;
         }
     }
-    public function get_monthly_record($column)
+    public function get_annual_record($column)
     {
         // A FUNCTION FOR GETTING MONTHLY RECORD FROM THE
         // ORDERS TABLE BASED ON A SPECIFIC MONTH(1-12)
@@ -219,7 +254,7 @@ public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
 
     }
     public function load_more(){
-        $this-> paginate_val+=1;
+        $this-> paginate_val+=20;
        $this->dispatchBrowserEvent('refreshCharts');
     }
 
@@ -242,30 +277,33 @@ public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
 
     public function render()
     {
+        $this_mnth_customers=$this->get_customers_data()[0];
+        $last_mnth_customers=$this->get_customers_data()[1];
         $quote=(object) $this->quotes;
         $random_key = array_rand($this->quotes);
-$random_item = $quote->$random_key;
+        $random_item = $quote->$random_key;
 
 
 
 
-        // dd($random_bg);
+        $this->today_expense =$this->number_to_kmb (ExpenseModel::where('expense_date', date('d/m/Y'))->sum('amount'));
+        $this->expense_pct_change=$this->get_expense_monthly_rate_diff('amount');
 
         // these attributes will be re-requested for more than once
         // by the client and as a result,it must be gotten anytime a user hits
         // the backend inorder to prevent nulltype error
-        $this->monthly_sell_records = $this->get_monthly_record('total');
+        $this->monthly_sell_records = $this->get_annual_record('total');
         $this->today_sell = $this->number_to_kmb(OrdersModel::where('order_date', date('d/m/Y'))->sum('total'));
-        $this->sell_pct_change = $this->get_monthly_rate_diff('total');
+        $this->sell_pct_change = $this->get_order_monthly_rate_diff('total');
 
 
         $this->today_due =$this->number_to_kmb (OrdersModel::where('order_date', date('d/m/Y'))->sum('due'));
-        $this->due_pct_change = $this->get_monthly_rate_diff('due');
+        $this->due_pct_change = $this->get_order_monthly_rate_diff('due');
 
-        $this->monthly_income_records =$this->get_monthly_record('pay');
+        $this->monthly_income_records =$this->get_annual_record('pay');
         $this->today_income =$this->number_to_kmb( OrdersModel::where('order_date', date('d/m/Y'))->sum('pay'));
-        $this->income_pct_change = $this->get_monthly_rate_diff('pay');
-// $this->total_customers  is fake,yoo!
+        $this->income_pct_change = $this->get_order_monthly_rate_diff('pay');
+
         $this->total_customers = $this->number_to_kmb(CustomersModel::count());
         $this->customer_pct_change = $this->get_monthly_customer_RateDiff();
 
@@ -279,12 +317,16 @@ $random_item = $quote->$random_key;
 
         return view('livewire.admin.dash-board-wired', [
             // 'random_bg'=>$random_bg,
+            'this_mnth_customers'=>$this_mnth_customers,
+            'last_mnth_customers'=>$last_mnth_customers,
             'random_key'=>$random_key,
             'random_item'=>$random_item,
             'admin_details' => $this->admin_details,
             'today_sell' => $this->today_sell,
             'today_income' => $this->today_income,
             'today_due' => $this->today_due,
+            'today_expense'=>$this->today_expense,
+            'expense_pct_change'=>$this->expense_pct_change,
             'sell_pct_change' => $this->sell_pct_change,
             'income_pct_change' => $this->income_pct_change,
             'due_pct_change' => $this->due_pct_change,
