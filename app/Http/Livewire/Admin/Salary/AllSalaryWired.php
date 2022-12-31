@@ -72,7 +72,7 @@ class AllSalaryWired extends Component
 
 
         $this->dispatchBrowserEvent('hide-add-salary-modal');
-        $this->dispatchBrowserEvent('success-dashboard',['success_msg'=>$month.'\'s debt for '.$this->employee['name'].' Has Been Updated Successfully!']);
+        $this->dispatchBrowserEvent('success-dashboard',['success_msg'=>'*REFRESH TO SEE UPDATE!'.$month.'\'s debt for '.$this->employee['name'].' Has Been Updated Successfully!']);
 
 
     }

@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Skydash Admin</title>
+    <title>{{ !empty($shop_details['shop_name'])?$shop_details['shop_name']:'SystemsMadeByZaid'}} | {{ Session::get('page') }}</title>
     <!-- plugins:css -->
     {{--  jquery css start  --}}
     <link rel="stylesheet" href="{{url('admin/css/dataTables.bootstrap4.min.css')}}">

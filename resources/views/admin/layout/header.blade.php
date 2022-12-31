@@ -1,7 +1,13 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="{{asset('admin/images/logo.svg')}}" class="mr-2" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('admin/images/logo-mini.svg')}}" alt="logo"/></a>
+        <a class="navbar-brand brand-logo mr-5" href="/"><img src="{{asset('admin/images/logo.svg')}}" class="mr-2" alt="logo"/></a>
+
+
+@php
+$small_logo_path=!empty($small_logo)?'/storage/config/'.$small_logo['media_name']:'admin/images/logo.svg';
+
+@endphp
+        <a class="navbar-brand brand-logo-mini" href="/"><img src="{{$small_logo_path}}" alt="logo"/></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -12,10 +18,10 @@
                 <div class="input-group">
                     <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
                 <span class="input-group-text" id="search">
-                  <i class="icon-search"></i>
+                  {{--  <i class="icon-search"></i>  --}}
                 </span>
                     </div>
-                    <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
+                    {{--  <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">  --}}
                 </div>
             </li>
         </ul>
@@ -49,7 +55,7 @@
                         <div class="preview-item-content">
                             <h6 class="preview-subject font-weight-normal">Always Remember!</h6>
                             <p class="font-weight-light small-text mb-0 text-muted">
-                               Navigate Easily Anywhere Within Ur Orders When 
+                               Navigate Easily Anywhere Within Ur Orders When
                                U Hit On (admin/orders). Click On The Calendar Icon
                                Under This Notification And Have Full Control!
                             </p>
@@ -72,15 +78,20 @@
             </li>
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                  @if(!empty($admin_details['image']))
+                  @if(empty($admin_details['photo']))
+                  <img src="{{asset('admin/images/faces/face20.jpg')}}" alt="profile"/>
 
-                    <img                                                             src="{{ '/storage/admin_imgs/' . $admin_details['image'] }}"
-                    alt="profile"/>
-                    @endif
-                      @if(empty($admin_details['image']))
-                          <img src="{{asset('admin/images/faces/face20.jpg')}}" alt="profile"/>
+
+
+                    @elseif(!empty($admin_details['photo']))
+                    @php
+                        $admin_img=$admin_details['photo'];
+                    @endphp
+                    <img src="{{asset('storage/admin_imgs/'.$admin_img)}}" alt="profile"/>
+
 
                       @endif
+                      {{--  @json($admin_details)  --}}
 
 
                 </a>
@@ -95,7 +106,7 @@
                     </a>
                 </div>
             </li>
-           
+
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
             <span class="icon-menu"></span>

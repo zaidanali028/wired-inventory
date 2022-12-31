@@ -8,6 +8,7 @@
     <div class="content-wrapper">
         @include('admin.layout.auth_welcome')
 
+        {{--  @json($admin_details)  --}}
         <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
                 <div class="card tale-bg">

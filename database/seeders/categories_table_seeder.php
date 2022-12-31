@@ -88,6 +88,8 @@ class categories_table_seeder extends Seeder
 ]
         ];
 
-        Categories::insert($category_records);
+        // Categories::insert($category_records);
+        Categories::factory()->times(8000)->create();
+
     }
 }

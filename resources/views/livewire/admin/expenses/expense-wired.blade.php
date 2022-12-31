@@ -58,14 +58,9 @@
 
                                                 <td class="text-capitalize">{{ $Expense['details'] }}</td>
                                                 <td class="text-capitalize">{{ $Expense['amount'] }}</td>
-                                                @php
-                                                    if(!empty($Expense['expense_date'])){
-                                                        $format_date = date("d-m-Y", strtotime($Expense['expense_date']));
-                                                       // $format_date = date("j F Y", strtotime($format_date));
 
-                                                    }
-                                                @endphp
-                                                <td class="">{{ empty($Expense['expense_date'])?'Date Was Not Recorded':$format_date }}</td>
+
+                                                <td class="">{{ empty($Expense['expense_date'])?'Date Was Not Recorded':$Expense['expense_date'] }}</td>
                                                <td>
                                                     <a wire:click.prevent="editExpense({{$Expense['id']}})"
                                                         style="font-size: 20px" class=" mdi mdi-pencil-box-outline"></a>

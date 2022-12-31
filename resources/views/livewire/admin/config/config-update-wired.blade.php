@@ -17,13 +17,22 @@
 
         <div class="row d-flex justify-content-center align-items-center">
 
-            <div class=" col-md-12 grid-margin stretch-card">
+            <div class=" col-md-10 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+
+                                </ul>
+                            </div>
+                        @endif
 
 
-
-                        <h4 class="card-title text-capitalize">{{$admin_details['name']}}, You can update your shop info here conveniently with no hassle</h4>
+                        <h4 class="card-title">{{$admin_details['name']}}, You can update your details here</h4>
                         @if(Session::has('error_msg'))
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{Session::get('error_msg')}}</strong>
@@ -43,33 +52,24 @@
                         <p class="card-description">
                             Is that simple :)
                         </p>
-                        <form class="pt-3" wire:submit.prevent='updateConfig'>
-                            @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
+                        <form method="POST" enctype="multipart/form-data" class="forms-sample"
+
+                            wire:submit.prevent="updateConfig">
 
 
-                                        @endforeach
 
-                                </ul>
-                            </div>
-                        @endif
-                            <div class="row">
-                          <div class="col-sm-12">
                             <div class="form-group">
-                              <input wire:model.defer='inputs.shop_name' type="text" class="form-control form-control-lg
-                              @error('shop_name')
-                                is-invalid
-                              @enderror
-                              " id="exampleInputUsername1" placeholder="Shop Name">
+                                <input wire:model.defer='inputs.shop_name' type="text" class="form-control form-control-lg
+                                @error('shop_name')
+                                  is-invalid
+                                @enderror
+                                " id="exampleInputUsername1" placeholder="Shop Name">
 
-                              @error('shop_name')
-                              <div class="invalid-feedback">{{ $message }}</div>
-                          @enderror
-                            </div>
-                            <div class="form-group">
+                                @error('shop_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                              </div>
+                              <div class="form-group">
                                 <input wire:model.defer='inputs.shop_number' type="text" class="form-control form-control-lg
                                 @error('shop_number')
                                   is-invalid
@@ -125,22 +125,27 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                               </div>
-                              <div class="form-group">
-                                <div x-data="{ isUploading_2: false, progress_2: 3 }"
+
+                                <div class="form-group" x-data="{ isUploading_2: false, progress_2: 3 }"
                                 x-on:livewire-upload-start="isUploading_2 = true"
                                 x-on:livewire-upload-finish="isUploading_2 = false; progress=3"
                                 x-on:livewire-upload-error="isUploading_2 = false"
                                 x-on:livewire-upload-progress="progress_2 = $event.detail.progress">
                                 <div class="custom-file" style="margin-top: 16px;"><input
+                                    multiple
                                         wire:model.defer="image" type="file"
                                         accept=".png,.jpeg,.jpg" id="img_file"
                                         class="custom-file-input @error('image')
                                                 is-invalid
 
                                                 @enderror">
+                                                @error('image.*')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+
 
                                     <label for="customFile" class="custom-file-label">Product
                                         Image [CAN BE EMPTY] </label>
@@ -152,42 +157,42 @@
                                         role="progressbar" x-bind:style="`width:${progress_2 }%`"
                                         aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
                                         style="width:3%"></div>
-                                    <span class="sr-only">40% complete</span>
+                                    <span class="sr-only" >40% complete</span>
                                 </div>
                                 <div class="d-flex justify-content-around">
 
-                                    @if (!empty($image) || !empty($inputs['shop_logo']))
+                                    @if (!empty($image) || !empty($configLogo))
                                         <ul>
 
 
                                             <div style="position:relative;" class="mt-5 ml-3">
-                                                @if (isset($image) && is_object($image))
-                                                    <button class="close"
-                                                        style=" right:50px;
-                position: absolute; ">
-                                                        <span class="text-white display-2"
-                                                            wire:click.prevent="removeImg()">&times;</span>
-                                                    </button>
+                                                @if (isset($image) && is_array($image))
 
-                                                    <li>
-                                                        <div
-                                                            class="item d-flex align-items-center justify-content-center">
 
-                                                            <img class="rounded"
-                                                                src="{{ $image->isPreviewable() ? $image->temporaryUrl() : '/storage/err.png' }}"
-                                                                width=250 height=230>
-                                                        </div>
-                                                    </li>
-                                                @elseif(!empty($inputs['shop_logo']))
-                                                    <li>
-                                                        <div
-                                                            class="item d-flex align-items-center justify-content-center">
-                                                            <img class="rounded" width=250
-                                                                height=250
-                                                                src="{{ '/storage/' . $shop_img_path . '/' . $inputs['shop_logo'] }}">
-                                                        </div>
+                                                   @foreach ($image as $image )
+                                                   <li class="mt-3 ">
+                                                    <div
+                                                        class="item d-flex align-items-center justify-content-center">
 
-                                                    </li>
+                                                        <img class="rounded"
+                                                            src="{{ $image->isPreviewable() ? $image->temporaryUrl() : '/storage/err.png' }}"
+                                                            width=250 height=230>
+                                                    </div>
+                                                </li>
+                                                   @endforeach
+                                                @elseif(isset($configLogo))
+
+                                                   @foreach ($configLogo as $config_img )
+                                                   <li class="mt-2">
+                                                    <div
+                                                        class="item d-flex align-items-center justify-content-center">
+                                                        <img class="rounded" width=250
+                                                            height=250
+                                                            src="{{ '/storage/' . $shop_img_path . '/' . $config_img['media_name'] }}">
+                                                    </div>
+
+                                                </li>
+                                                   @endforeach
                                                 @endif
                                             </div>
                                         </ul>
@@ -229,11 +234,6 @@
 
                             </div>
 
-                              </div>
-
-                          </div>
-
-                         </div>
 
 
 
@@ -241,14 +241,8 @@
 
 
 
-
-
-
-
-
-                          <div class="mt-3">
-                            <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" > UPDATE</button>
-                          </div>
+                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            <button type="reset" class="btn btn-light">Cancel</button>
 
                         </form>
                     </div>

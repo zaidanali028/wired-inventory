@@ -18,7 +18,7 @@ public $admin_img_path='admin_imgs';
     use WithFileUploads;
     public $admin_details;
     public $inputs = [];
-    public $image;
+    public $image=[];
     public $detail_rules = [
         'name' => 'required|regex:/^[\pL\s\-]+$/u',
         'mobile' => 'required',
@@ -44,9 +44,9 @@ public $admin_img_path='admin_imgs';
 
         $file_ext = '';
         $new_file_name = '';
-        if ($this->image) {
+        if (!empty($this->image)) {
             $admin = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
-            if ($admin['photo']) {
+            if (!empty($admin['photo'])) {
                 Storage::disk('public')->delete('admin_imgs/' . $admin['photo']);
 
             }
@@ -72,7 +72,7 @@ public $admin_img_path='admin_imgs';
         }
         AdminModel::where('id', Auth::guard('admin')->user()->id)->update($final_update_object);
         // $site_name=Session::get('site_name');
-        $this->dispatchBrowserEvent('success-dashboard-redirect', ['success_msg' => ucwords("You have succeeded in updating your details as an official admin!")]);
+        $this->dispatchBrowserEvent('success-dashboard-redirect', ['success_msg' => ucwords("*Page Needs Refresh!.You have succeeded in updating your details as an official admin!")]);
 
     }
     public function render()

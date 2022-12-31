@@ -81,7 +81,7 @@ class EmployeeManagemenWired extends Component
         //employee_record_validation
         $record_count = EmployeeModel::where(['emplyee_id' => $this->inputs['id']])->count();
         if ($record_count >= 1) {
-            $this->dispatchBrowserEvent('emp_rec_err', ['msg' => 'record Already Exsists!']);
+            $this->dispatchBrowserEvent('emp_rec_err', ['msg' => 'Record Already Exsists!']);
 
         } else {
             $employee = new EmployeeModel;
@@ -94,8 +94,8 @@ class EmployeeManagemenWired extends Component
             $employee->salary = $validated_data['salary'];
             $employee->national_id = $validated_data['national_id'];
             $employee->joining_date = $validated_data['joining_date'];
-            $format_date = date("d-m-Y", strtotime($employee->joining_date));
-            $employee->joining_date = date("j F Y", strtotime($format_date));
+            // $format_date = date("d-m-Y", strtotime($employee->joining_date));
+            // $employee->joining_date = date("j F Y", strtotime($format_date));
             $employee->save();
             $this->dispatchBrowserEvent('hide-add-employee-modal',);
             $this->dispatchBrowserEvent('show-success-toast', ['success_msg'=> 'New Employee With The Name ' . $employee->name . ' Added SuccessFully']);
@@ -125,7 +125,7 @@ class EmployeeManagemenWired extends Component
 
         $validated_data = Validator::make($this->inputs, $this->val_emp_obj)->validate();
         EmployeeModel::where('id', $this->employee_id)->update($validated_data);
-        $this->dispatchBrowserEvent('hide-add-employee-modal-', ['success_msg' => 'Successfully Added  A New Employee ']);
+        $this->dispatchBrowserEvent('hide-add-employee-modal', ['success_msg' => 'Successfully Updated Employee Record ']);
 
     }
 
@@ -151,7 +151,7 @@ class EmployeeManagemenWired extends Component
 
     public function render()
     {
-       
+
 
         $employees_data = AdminModel::where(['type'=>$this->employee_type,'status'=>1])->get()->toArray();
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();

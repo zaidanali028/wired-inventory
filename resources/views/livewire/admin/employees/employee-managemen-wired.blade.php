@@ -111,7 +111,7 @@
             <div class="modal-content">
                 <div class="modal-header">
 
-                    <h5 class="modal-title" id="add-employee-modal">Employee MANAGEMENT
+                    <h5 class="modal-title" id="add-employee-modal">EMPLOYEE MANAGEMENT
                     </h5>
                     <i style="font-size:20px" class="mdi mdi-close" type="button" class="btn-close"
                         data-bs-dismiss="modal" aria-label="Close"></i>

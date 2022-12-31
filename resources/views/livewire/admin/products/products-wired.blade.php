@@ -226,7 +226,7 @@
 
 
                                                     id="exampleInputName1"
-                                                placeholder="600">
+                                                placeholder="cake-343">
                                             @error('buying_price')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror

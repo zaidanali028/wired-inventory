@@ -1,7 +1,8 @@
 <div>
+    {{--  logo sizes(138/34-40/34)  --}}
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-            {{--  <li class="text-primary logo-link">
+            <li class="text-primary logo-link">
 
 
                     <i class="mdi  mdi-chart-bubble text-primary"
@@ -10,7 +11,7 @@
                     <span class="menu-title text-bold " style="font-size: 25px">{{ !empty($shop_details)?$shop_details['shop_name']:''}} </span>
                     <hr>
 
-            </li>  --}}
+            </li>
             <li class="nav-item">
 
                 <a class="nav-link
@@ -46,25 +47,7 @@
                     <span class="menu-title">EXPENSES</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="ti-settings menu-icon"></i>
-                    <span class="menu-title">Settings</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="ui-basic">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a
-                                class="nav-link
-                                @if (Session::get('page') == 'update-password') bg-white text-primary @endif"
-                                href="{{ url('admin/update-password') }}" ">Update My
-                                Password</a></li>
-                        <li class="nav-item"> <a class="nav-link  @if (Session::get('page') == 'update-details') bg-white text-primary @endif" href="{{ url('admin/update-details') }}">Update My
-                                Details</a></li>
 
-                    </ul>
-                </div>
-            </li>
              @if ($admin_details['type'] == 'superadmin')
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false"
@@ -160,6 +143,26 @@
                             </a>
                         </li>
                         @endif
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <i class="ti-settings menu-icon"></i>
+                                <span class="menu-title">Settings</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="ui-basic">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a
+                                            class="nav-link
+                                            @if (Session::get('page') == 'update-password') bg-white text-primary @endif"
+                                            href="{{ url('admin/update-password') }}" ">Update My
+                                            Password</a></li>
+                                    <li class="nav-item"> <a class="nav-link  @if (Session::get('page') == 'update-details') bg-white text-primary @endif" href="{{ url('admin/update-details') }}">Update My
+                                            Details</a></li>
+
+                                </ul>
+                            </div>
+                        </li>
 
 
                     </ul>

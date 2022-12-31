@@ -19,6 +19,12 @@ class Admin extends Authenticatable
         'status','photo','password','email','mobile',
         'type','name'
     ];
+
+    // protected static function newFactory()
+    // {
+    //     return \Database\Factories\AdminFactory::new();
+    // }
+
     public function get_vendor_details_from_admin()
     {
         return $this->belongsTo('App\Models\vendor', 'vendor_id', 'id');

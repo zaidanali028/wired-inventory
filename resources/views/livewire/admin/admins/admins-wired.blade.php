@@ -162,7 +162,7 @@
             <div class="modal-content">
                 <div class="modal-header">
 
-                    <h5 class="modal-title" id="add-employee-modal">Admin MANAGEMENT
+                    <h5 class="modal-title" id="add-employee-modal">ADMIN MANAGEMENT
                     </h5>
                     <i style="font-size:20px" class="mdi mdi-close" type="button" data-bs-dismiss="modal"
                         aria-label="Close"></i>
@@ -206,7 +206,7 @@
                                                             wire:change.prevent="$emit('getEmp', $event.target.value)"
                                                             class="form-control @error('type') bg-danger is-invalid @enderror"
                                                             wire:model.defer="inputs.type">
-                                                            <option value="">*SELECT ACCESS TYPE></option>
+                                                            <option value="">*SELECT ACCESS TYPE</option>
                                                             <option value="superadmin"> SUPER-ADMIN</option>
 
                                                             <option value="employee"> EMPLOYEE</option>

@@ -202,7 +202,7 @@ protected $listeners=[
         $customer_to_delete->delete();
         redirect()->back();
 
-        $this->dispatchBrowserEvent('delete_comfirmation', ['success_msg' => 'customer Deleted SuccessFully!']);
+        $this->dispatchBrowserEvent('delete_comfirmation', ['success_msg' => 'Customer Deleted SuccessFully!']);
 
     }
 
@@ -223,7 +223,7 @@ protected $listeners=[
 
     public function render()
     {
-       
+
 
 
         // $customers_by_type=CustomerModel::latest()->paginate(15)->toArray();

@@ -98,15 +98,20 @@
                 x-on:livewire-upload-error="isUploading_2 = false"
                 x-on:livewire-upload-progress="progress_2 = $event.detail.progress">
                 <div class="custom-file" style="margin-top: 16px;"><input
+                    multiple
                         wire:model.defer="image" type="file"
-                        accept=".png,.jpeg,.jpg" id="customFile"
+                        accept=".png,.jpeg,.jpg" id="img_file"
                         class="custom-file-input @error('image')
                                 is-invalid
 
                                 @enderror">
+                                @error('image.*')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                     @error('image')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+
 
                     <label for="customFile" class="custom-file-label">Product
                         Image [CAN BE EMPTY] </label>
@@ -122,35 +127,32 @@
                 </div>
                 <div class="d-flex justify-content-around">
 
-                    @if (!empty($image) || !empty($inputs['image']))
+                    @if (!empty($image) || !empty($inputs['shop_logo']))
                         <ul>
 
 
                             <div style="position:relative;" class="mt-5 ml-3">
-                                @if (isset($image) && is_object($image))
-                                    <button class="close"
-                                        style=" right:50px;
-position: absolute; ">
-                                        <span class="text-white display-2"
-                                            wire:click.prevent="removeImg()">&times;</span>
-                                    </button>
+                                @if (isset($image) && is_array($image))
 
-                                    <li>
-                                        <div
-                                            class="item d-flex align-items-center justify-content-center">
 
-                                            <img class="rounded"
-                                                src="{{ $image->isPreviewable() ? $image->temporaryUrl() : '/storage/err.png' }}"
-                                                width=250 height=230>
-                                        </div>
-                                    </li>
-                                @elseif(!empty($inputs['image']))
+                                   @foreach ($image as $image )
+                                   <li class="mt-3 ">
+                                    <div
+                                        class="item d-flex align-items-center justify-content-center">
+
+                                        <img class="rounded"
+                                            src="{{ $image->isPreviewable() ? $image->temporaryUrl() : '/storage/err.png' }}"
+                                            width=250 height=230>
+                                    </div>
+                                </li>
+                                   @endforeach
+                                @elseif(!empty($inputs['shop_logo']))
                                     <li>
                                         <div
                                             class="item d-flex align-items-center justify-content-center">
                                             <img class="rounded" width=250
                                                 height=250
-                                                src="{{ '/storage/' . $product_img_path . '/' . $inputs['image'] }}">
+                                                src="{{ '/storage/' . $shop_img_path . '/' . $inputs['shop_logo'] }}">
                                         </div>
 
                                     </li>

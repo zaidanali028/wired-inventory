@@ -228,11 +228,11 @@ class ProductsWired extends Component
 
 
 
-        $this->dispatchBrowserEvent('hide-add-product-modal', ["success_msg" => ' Product Updated Successfully']);
+        $this->dispatchBrowserEvent('hide-add-product-modal', ["success_msg" => '*Refresh This Paget To See Image Update(s). Product Updated Successfully']);
 
     }
     // remove a temp image from images list
-    public function removeImg($image_index)
+    public function removeImg()
     {
 
     $this->image = '';
@@ -348,6 +348,8 @@ class ProductsWired extends Component
 
 
         $product->save();
+        $this->image='';
+
 
         // redirect()->back();
         $this->dispatchBrowserEvent('hide-add-product-modal', ["success_msg" => 'New product Added Successfully']);

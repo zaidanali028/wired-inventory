@@ -29,6 +29,17 @@ class adminController extends Controller
 
     }
 
+    public function forgot(){
+
+        Session::put('page', 'forgot');
+        // dd(Session::get('page'));
+
+        return view('admin.settings.forgot-pass');
+
+
+
+        }
+
     public function pos()
     {
         $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
@@ -66,9 +77,9 @@ class adminController extends Controller
     {
         // dd(Session::get('site_name'));
         Session::put('page', 'dashboard');
-        // $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
 
-        return view('admin.dash_board');
+        return view('admin.dash_board',['admin_details'=>$admin_details]);
     }
 
     public function login(Request $request)

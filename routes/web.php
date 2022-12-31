@@ -49,6 +49,10 @@ Route::prefix('/')->namespace('App\Http\Controllers\Admin')->group(function(){
     Route::get('config-shop','adminController@index');
 
 });
+Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
+    Route::get('forgot','adminController@forgot');
+
+});
 
 //Clear App cache:
 Route::get('/ref', function () {

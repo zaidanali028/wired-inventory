@@ -67,8 +67,13 @@
                                                 <td class="text-capitalize">{{ $order['payBy'] }}</td>
 
                                                 <td>{{ $order['order_date'] }}</td>
-                                                <td><button wire:click.prevent="show_view_order({{ $order['id'] }})"
+                                                <td>
+                                                    <button wire:click.prevent="show_view_order({{ $order['id'] }})"
                                                         class="btn btn-sm bg-primary text-white">View Order</button>
+                                                        <button wire:click.prevent="show_view_order({{ $order['id'] }})"
+                                                        class="btn btn-sm bg-primary text-white">
+                                                    <i class="mdi mdi-printer-alert" style="font-size:20px"></i>
+                                                    </button>
                                                 </td>
 
                                             </tr>

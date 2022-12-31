@@ -242,7 +242,7 @@
                                                         class="btn btn-sm shadow-lg p-3 mb-5 bg-white rounded  @if ($clicked_product_id == $product['id']) border border-primary @endif"><img
                                                             id="image_size"
                                                             @php
-$product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $product['image'] : '' @endphp
+$product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $product['image'] : '/storage/default_product.jpg' @endphp
                                                             src="{{ $product_img }}" alt="PRODUCT IMAGE"
                                                             class="card-img-top rounded">
                                                         <div class="card-body">

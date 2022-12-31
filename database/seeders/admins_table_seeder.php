@@ -31,7 +31,7 @@ class admins_table_seeder extends Seeder
 
      ];
         //insert one admin record
-        // Admin::insert($admin_record);
+        Admin::insert($admin_record);
 
         // insert datat using adminfactory
         // Admin::factory()->times(80)->create();

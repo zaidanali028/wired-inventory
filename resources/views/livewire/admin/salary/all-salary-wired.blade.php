@@ -152,7 +152,6 @@
 
 
                                             @endphp
-                                            {{ $currentMonthName }}
                                 <div  class="form-row">
                                     <div  class="col-md-6"><label
                                             for="exampleFormControlSelect1">employee</label> <input
