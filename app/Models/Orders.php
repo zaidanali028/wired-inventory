@@ -13,6 +13,7 @@ class Orders extends Model
     public function get_customer(){
         return $this->belongsTo('App\Models\Customers','customer_id','id');
     }
+    pub
 
     public function get_issued_admin(){
         return $this->belongsTo('App\Models\Admin','issued_by','id');

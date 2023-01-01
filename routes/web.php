@@ -94,6 +94,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('shop-details','adminController@shop_details');
         // Route::get('pos','adminController@pos')->name('pos_page_');
         Route::get('orders','adminController@orders');
+        Route::get('employee-sales','adminController@employee_sales');
+
         Route::get('expenses','adminController@expenses');
         Route::get('employee-management','employeesController@employee_management');
         Route::get('admin-management','adminController@admin_management');

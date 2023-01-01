@@ -6,10 +6,11 @@ use App\Models\Admin as AdminModel;
 use App\Models\Orders as OrdersModel;
 use App\Models\Config as ConfigModel;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
+
 
 class OrdersWired extends Component
 {
@@ -71,7 +72,7 @@ class OrdersWired extends Component
         $admin = Auth::guard('admin')->user();
 
         // Build the base query depending on whether the user is a superadmin
-        $query = $admin->type == 'superadmin' ? OrdersModel::with('get_issued_admin')->query() : OrdersModel::with('get_issued_admin')->where('issued_by', $admin->id);
+        $query = $admin->type == 'superadmin' ? OrdersModel::query()->with('get_issued_admin'): OrdersModel::with('get_issued_admin')->where('issued_by', $admin->id);
 
         // Fetch today's date in the correct format
         $today = date('d/m/Y');

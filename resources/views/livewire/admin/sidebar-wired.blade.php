@@ -37,6 +37,15 @@
                 </a>
             </li>
             @if (Auth::guard('admin')->user() && $admin_details['type'] == 'superadmin')
+            <li class="nav-item">
+                <a class="nav-link
+                @if (Session::get('page') == 'employee-sales') bg-primary text-primary @endif"
+
+                " href="{{ url('admin/employee-sales') }}">
+                    <i class="mdi mdi-cart-outline" style="font-size:20px"></i>
+                    <span class="menu-title">EMPLOYEE SALES</span>
+                </a>
+            </li>
                 <li class="nav-item">
                     <a class="nav-link
                 @if (Session::get('page') == 'expenses') bg-primary text-primary @endif" href="{{ url('admin/expenses') }}">

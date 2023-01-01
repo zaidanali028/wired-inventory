@@ -24,18 +24,26 @@
                     <div class="col-lg-12 mb-4">
                         <div class="card">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h2 class="m-0 font-weight-bold text-primary">All Sales / Orders List</h2> <a
-                                    wire:click.prevent="orders_today" class="btn btn-primary float-right"
-                                    style="margin-top: 6px; margin-right: 6px;">Sales / Orders Today <strong> (GH₵ {{$sales_today}}) </strong></a>
+                                <h2 class="m-0 font-weight-bold text-primary">All Sales / Orders List</h2>
+                                <a wire:click.prevent="orders_today" class="btn btn-primary float-right"
+                                    style="margin-top: 6px; margin-right: 6px;">Sales / Orders Today <strong> (GH₵
+                                        {{ $sales_today }}) </strong></a>
+
+                                        @if (Auth::guard('admin')->user() && $admin_details['type'] == 'superadmin')
+
+                                        <a href="/admin/employee-sales" class="btn btn-outline-success float-right"
+                                        style="margin-top: 6px; margin-right: 6px;">Employees' Sales <strong>
+                                            </strong></a>
+                                            @endif
                             </div>
                             @if (!empty($orders))
                                 <div class="table-responsive">
                                     <table id='' class="dataTable table table-striped">
                                         <thead>
                                             <tr>
-                                                    <th>
-                                                        Issued By
-                                                    </th>
+                                                <th>
+                                                    Issued By
+                                                </th>
                                                 <th>
 
                                                     Customer #
@@ -67,8 +75,9 @@
 
                                             @foreach ($orders as $order)
                                                 <tr>
-                                                    @if(Auth::guard('admin')->user())
-                                                    <td>{{ $order['get_issued_admin']['name']??" NOT CAPTURED! " }}</td>
+                                                    @if (Auth::guard('admin')->user())
+                                                        <td>{{ $order['get_issued_admin']['name'] ?? ' NOT CAPTURED! ' }}
+                                                        </td>
                                                     @endif
 
                                                     <td class="text-capitalize">{{ $order['get_customer']['name'] }}
@@ -148,9 +157,9 @@
 
 
 
-                {{--  My own start here  --}}
+                    {{--  My own start here  --}}
 
-            </div>
+                </div>
 
 
 

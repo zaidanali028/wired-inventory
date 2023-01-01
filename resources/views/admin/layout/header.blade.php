@@ -78,7 +78,7 @@ $small_logo_path=!empty($small_logo)?'/storage/config/'.$small_logo['media_name'
             </li>
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                  @if(empty($admin_details['photo']))
+                  @if(empty($admin_details['photo'])  && Auth::guard('admin')->user())
                   <img src="{{asset('admin/images/faces/face20.jpg')}}" alt="profile"/>
 
 
