@@ -6,7 +6,8 @@
         @include('admin.layout.auth_welcome')
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800 text-capitalize">
-                {{ Session::get('page') }}
+                {{ Session::get('page') }} Sales / Overall Sales  <strong> (GH₵
+                    {{ $sales_overall }}) </strong>
 
             </h1>
             <ol class="breadcrumb">
@@ -25,7 +26,9 @@
                         <div class="card">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h2 class="m-0 font-weight-bold text-primary">All Time Sales / Orders (By Each Employee)</h2>
-
+                                <a wire:click.prevent="orders_today" class="btn btn-primary float-right"
+                                style="margin-top: 6px; margin-right: 6px;">Sales / Orders Today <strong> (GH₵
+                                    {{ $sales_today }}) </strong></a>
                             </div>
                             @if (!empty($orders))
                             <div class="table-responsive">
@@ -35,25 +38,16 @@
                                             <th>
                                                 Issued By
                                             </th>
-                                            <th>
 
-                                                Customer #
-                                            </th>
                                             <th>Qty. Of Items Sold</th>
                                             <th>
                                                 Sale Worth(IN GH₵)
                                             </th>
-                                            <th>
-                                                Paid By
-                                            </th>
-                                            <th>
-                                                Order Date
-                                            </th>
 
 
-                                            <th>
-                                                Action(s)
-                                            </th>
+
+
+
 
 
 
@@ -71,20 +65,12 @@
                                                     </td>
                                                 @endif
 
-                                                <td class="text-capitalize">{{ $order['get_customer']['name'] }}
-                                                </td>
-                                                <td class="text-capitalize">{{ $order['qty'] }}</td>
-                                                <td class="text-capitalize">₵{{ $order['total'] }}</td>
-                                                <td class="text-capitalize">{{ $order['payBy'] }}</td>
 
-                                                <td>{{ $order['order_date'] }}</td>
+                                                <td class="text-capitalize">{{ $order->getEmployeeItemSoldQty($order['issued_by'],$query_today) }}</td>
+                                                <td class="text-capitalize">₵{{ $order->getEmployeeSaleWorth($order['issued_by'],$query_today) }}</td>
 
-                                                <td>
-                                                    <button
-                                                        wire:click.prevent="show_view_order({{ $order['id'] }})"
-                                                        class="btn btn-sm bg-primary text-white">View Order</button>
 
-                                                </td>
+
 
                                             </tr>
                                         @endforeach

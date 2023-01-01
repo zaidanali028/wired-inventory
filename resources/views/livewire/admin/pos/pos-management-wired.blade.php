@@ -220,8 +220,9 @@
                                     <div class="row">
                                         @if(!empty($products))
                                         @forelse ($products as $product)
-                                            <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
-                                                class="col-lg-3 col-md-3 col-sm-6 col-6 m-4">
+                                      <div class="col-md-5">
+   <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
+                                                class="">
                                                 <div class="
 
                                                 card"
@@ -251,6 +252,40 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                                     </button>
                                                 </div>
                                             </div>
+                                      </div>
+
+
+                                            {{-- <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
+                                                class="col-lg-3 col-md-3 col-sm-6 col-6 m-4">
+                                                <div class="
+
+                                                card"
+                                                    style="align-items: center; margin-bottom: 5px;">
+                                                    <button
+                                                        class="btn btn-sm shadow-lg p-3 mb-5 bg-white rounded  @if ($clicked_product_id == $product['id']) border border-primary @endif"><img
+                                                            id="image_size"
+                                                            @php
+$product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $product['image'] : '/storage/default_product.jpg' @endphp
+                                                            src="{{ $product_img }}" alt="PRODUCT IMAGE"
+                                                            class="card-img-top rounded">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title text-center">
+                                                                {{ $product['product_name'] }} -
+                                                                ₵{{ $product['selling_price'] }}</h5>
+                                                            <td>
+                                                                @if ($product['product_quantity'] >= 1)
+                                                                    <span class="badge badge-success">Available <span
+                                                                            class="badge badge-light">{{ $product['product_quantity'] }}</span></span>
+                                                                @else
+                                                                    <span class="badge badge-danger">Not Available
+                                                                        <span
+                                                                            class="badge badge-light">{{ $product['product_quantity'] }}</span></span>
+                                                                @endif
+                                                            </td>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </div> --}}
                                             @empty
                                            <p>No Data To Show!</p>
                                         @endforelse
@@ -271,7 +306,7 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                         @if (!empty($category_items))
                                             @forelse ($category_items as $cat_product)
                                                 <div wire:click.prevent="add_to_cart({{ $cat_product['id'] }})"
-                                                    class="col-lg-3 col-md-3 col-sm-6 col-6 m-4">
+                                                    class="col-md-5">
                                                     <div class="card"
                                                         style="align-items: center; margin-bottom: 10px;">
                                                         <button

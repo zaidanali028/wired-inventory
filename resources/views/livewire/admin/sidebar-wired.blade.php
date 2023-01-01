@@ -42,7 +42,7 @@
                 @if (Session::get('page') == 'employee-sales') bg-primary text-primary @endif"
 
                 " href="{{ url('admin/employee-sales') }}">
-                    <i class="mdi mdi-cart-outline" style="font-size:20px"></i>
+                    <i class="mdi mdi-cash " style="font-size:20px"></i>
                     <span class="menu-title">EMPLOYEE SALES</span>
                 </a>
             </li>
