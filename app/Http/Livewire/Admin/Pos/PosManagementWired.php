@@ -51,7 +51,8 @@ class PosManagementWired extends Component
     {
         $this->current_tab = 'category';
         $this->current_category_id = $cat_id;
-        $this->category_items = ProductsModel::where(['category_id' => $this->current_category_id])->latest()->get()->toArray();
+        $this->category_items = ProductsModel::where(['category_id' => $this->current_category_id])->latest()->paginate(3);
+        // dd($this->category_items);
 
     }
 
@@ -236,7 +237,14 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
 
             if (isset($this->inputs['pay'])) {
                 $amount_paid = $this->inputs['pay'];
+                if($this->inputs['pay']>=$this->sub_total){
                 $this->inputs['due'] = floatval($amount_paid) - $this->sub_total;
+
+
+                }else{
+            $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [PAY] amount!']);
+
+                }
 
             }
             if (isset($this->inputs['discount'])) {

@@ -279,6 +279,7 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                 class="tab-pane fade">
                                 <div class="card-body">
                                     <div class="row">
+                                        
                                         @if (!empty($category_items))
                                             @forelse ($category_items as $cat_product)
                                                 <div wire:click.prevent="add_to_cart({{ $cat_product['id'] }})"
@@ -289,7 +290,7 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                                             class="btn btn-sm shadow-lg p-3 mb-5 bg-white rounded @if ($clicked_product_id == $cat_product['id']) border border-primary @endif"><img
                                                                 id="image_size"
                                                                 @php
-$cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'/' . $cat_product['image'] : '' @endphp
+$cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'/' . $cat_product['image'] : '/storage/default_product.jpg' @endphp
                                                                 src="{{ $cat_product_img }}" alt="PRODUCT IMAGE"
                                                                 class="card-img-top rounded">
                                                             <div class="card-body">

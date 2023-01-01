@@ -36,7 +36,7 @@
     <form class="pt-3" wire:submit.prevent='submitForgotPass' method="post">
         @csrf
         <div class="form-group">
-            <input type="email" id="email" wire:model.defer="inputs.email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
+            <input type="email" id="email" wire:model.defer="inputs.email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="your email">
         </div>
 
         <div class="mt-3">

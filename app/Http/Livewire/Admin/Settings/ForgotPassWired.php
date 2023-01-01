@@ -16,7 +16,7 @@ class ForgotPassWired extends Component
 
     public function send_sms($msg,$recepient)
     {
-        $message='Hello there,kindly use '.$msg.' as your new shop passwordFor security reasons,change it as soon as you rollback onto your admin portal for your safety sytemsByZaid';
+        $message="Hello there,kindly use ".$msg." as your new shop password.For security reasons,change it as soon as you rollback onto your admin portal for your shop's safety. #SytemsMadeByZaid";
         // $receipient mut be:
              //International format (233) excluding the (+)
 
@@ -33,8 +33,14 @@ class ForgotPassWired extends Component
 
 // dd($url);
          $res=file_get_contents($url);
+         $res=json_decode($res);
 
-        dd( $res);
+        if($res->status=='0000'){
+            return 1;
+
+        }else{
+            return 0;
+        }
 
     }
 
@@ -46,12 +52,21 @@ class ForgotPassWired extends Component
 
         if (AdminModel::where(['email' => $this->inputs['email']])->count() >= 1) {
             $admin = AdminModel::where(['email' => $this->inputs['email']]);
-            $new_pass = Str::random(15);
+            $new_pass = Str::random(10);
             $admin->update([
                 'password' => Hash::make($new_pass),
             ]);
+
             $receiver=$admin->first()->toArray()['mobile'];
-            $this->send_sms($new_pass,$receiver);
+            if($this->send_sms($new_pass,$receiver)==1){
+                // dd($new_pass);
+
+
+                $this->dispatchBrowserEvent('success-dashboard', ['success_msg' => 'An SMS has been sent to your mobile number']);
+                redirect('/admin/login');
+
+
+            }
 
         } else {
             return back()->with('error_msg', "Invalid Email!");

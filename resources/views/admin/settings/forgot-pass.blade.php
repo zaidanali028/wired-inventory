@@ -75,6 +75,8 @@
 <script src="{{url('admin/js/bootstrap.min.js')}}"></script>
 <script src="{{url('admin/js/toastr.min.js')}}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{url('admin/js/custom.js')}}"></script>
+
 <livewire:scripts />
 
 

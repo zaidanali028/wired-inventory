@@ -21,14 +21,13 @@ class employees_table_seeder extends Seeder
     public function run()
     {
 
-        // AdminModel::factory($this->constant_amount)->create()
-        // ->each(function($admin){
+        AdminModel::factory($this->constant_amount)->create()
+        // relational seeding using factories(kvngthr!v3)
+        ->each(function($admin){
             EmployeeModel::factory()->times(1)->create([
-                'emplyee_id'=>'1',
+                'emplyee_id'=>$admin->id,
               ]);
-
-
-        // });
+             });
 
     }
 }

@@ -541,6 +541,18 @@ $(document).ready(() => {
     // @this.set('selected', data)
     // })
 
+    const printButton = document.querySelector("#print-me");
+    printButton.onclick = function(){
+        const divToPrint = document.querySelector("#divToPrint");
+        const newWin = window.open('', 'Print-Window');
+        newWin.document.open();
+        newWin.document.write(`<html><body onload="window.print()">${divToPrint.outerHTML}</body><html>`);
+        newWin.document.close();
+        setTimeout(() => {
+            newWin.close();
+        }, 10);
+    }
+
 
 
 });
