@@ -6,6 +6,7 @@ use App\Models\Admin as AdminModel;
 use App\Models\Categories as CategoriesModel;
 use App\Models\Customers as CustomersModel;
 use App\Models\OrderDetails as OrderDetailsModel;
+use App\Models\Config as ConfigModel;
 use App\Models\Orders as OrdersModel;
 use App\Models\Pos as PosModel;
 use App\Models\Products as ProductsModel;
@@ -16,6 +17,9 @@ use Livewire\Component;
 
 class PosManagementWired extends Component
 {
+protected $listeners=['ready_for_print'];
+public $orderRecord_=[];
+
     public $admin_details;
     public $pos_products;
     public $pos_item_count;
@@ -25,6 +29,7 @@ class PosManagementWired extends Component
     public $total_qty;
     public $date_today;
     public $current_page;
+    public $orderRecord_id;
 
     public $categories;
     public $product_img_path = 'product_imgs';
@@ -47,12 +52,30 @@ class PosManagementWired extends Component
 
     public $search='';
 
+
+
     public function getCategoryProducts($cat_id)
     {
         $this->current_tab = 'category';
         $this->current_category_id = $cat_id;
-        $this->category_items = ProductsModel::where(['category_id' => $this->current_category_id])->latest()->paginate(3);
+        $this->category_items = ProductsModel::where(['category_id' => $this->current_category_id])->latest()->get()->toArray();
         // dd($this->category_items);
+
+    }
+    public function ready_for_print(){
+        $this->show_view_order($this->orderRecord_id);
+
+    }
+    public function show_view_order($orderRecord_id)
+    {
+
+        $this->orderRecord_id = $orderRecord_id;
+        $this->orderRecord_ = OrdersModel::with(['get_customer', 'get_order_detail'])->where(['id' => $this->orderRecord_id])->first()->toArray();
+        $this->orderRecord_['company_details']=ConfigModel::first()->toArray();
+        // dd($this->orderRecord_['company_details']['shop_name']);
+
+        $this->dispatchBrowserEvent('show-view-order-modal');
+
 
     }
 
@@ -126,6 +149,7 @@ $randomNumber = mt_rand(1000000, 9999999);
 // Concatenate the current time and the random number to create a unique number
 return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$randomNumber;
     }
+
 
     public function process_order()
     {
@@ -205,12 +229,16 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
                 ProductsModel::where('id', $content->product_id)->update(['product_quantity' => $product_qty - $content->product_quantity]);
 
                 PosModel::query()->delete();
+                $this->orderRecord_id= $order_id ;
 
                 $this->dispatchBrowserEvent('success-orders-redirect', ['success_msg' => 'Order Placed Successfully,Will You Like To Preview Orders?']);
             }
         }
 
     }
+
+
+
     public function home_tab_clicked()
     {
         $this->current_tab = 'home';
@@ -242,6 +270,7 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
 
 
                 }else{
+                    $this->inputs['pay']='';
             $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [PAY] amount!']);
 
                 }
@@ -249,7 +278,13 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
             }
             if (isset($this->inputs['discount'])) {
                 $discount_given = $this->inputs['discount'];
+                if($discount_given <$this->sub_total){
                 $this->total = $this->sub_total - floatval($discount_given);
+             }else{
+                $this->inputs['discount']='';
+                $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [DISCOUNT] amount!']);
+
+                    }
 
             }
         } else {

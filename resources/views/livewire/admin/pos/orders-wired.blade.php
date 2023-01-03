@@ -73,10 +73,7 @@
                                                         <button
                                                             wire:click.prevent="show_view_order({{ $order['id'] }})"
                                                             class="btn btn-sm bg-primary text-white">View Order</button>
-                                                        <button wire:click.prevent="print_order({{ $order['id'] }})"
-                                                            class="btn btn-sm bg-primary text-white">
-                                                            <i class="mdi mdi-printer-alert" style="font-size:20px"></i>
-                                                        </button>
+
                                                     </td>
 
                                                 </tr>
@@ -152,7 +149,7 @@
                                 }
 
                                 .company-name {
-                                    font-size: 13px;
+                                    font-size: 15px;
                                 }
 
                                 .rest {
@@ -169,9 +166,9 @@
                             </div>
                         </div><br>
 
-                        <div style="text-align: center" class="company-name">
+                        <div style="text-align: center" class="company-name text-capitalize">
                             {{ !empty($orderRecord_) ? $orderRecord_['company_details']['shop_name'] : '' }}</div>
-                        <div style="text-align: center" class="cmp-det">
+                        <div style="text-align: center; font-size:11px" class="">
                             {{ !empty($orderRecord_) ? $orderRecord_['company_details']['shop_location'] : '' }}</div>
                         <div style="text-align: center" class="cmp-det">
                             {{ !empty($orderRecord_) ? $orderRecord_['company_details']['shop_number'] : '' }}</div>
@@ -237,7 +234,13 @@
                         </div>
                         <hr>
 
-                        <div style="text-align: center;" style="font-size: 11px;"><b>#SystemsMadeBy Ali</b> 0240040834
+                        <div style="text-align: center;" style="font-size: 11px;"><b>
+
+                          <i class=""></i>  Thank You And We hope To See You Again Soon</b></div>
+                                <br>
+
+                        <div style="text-align: center;" style="font-size: 11px;"><b>#SystemsMadeByZaid</b> 0240040834
+
                         </div>
 
 

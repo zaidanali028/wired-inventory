@@ -62,9 +62,6 @@
                                             <th>
                                                 Uploaded By
                                             </th>
-                                            <th>
-                                                Product Code
-                                            </th>
 
                                             <th>Actions</th>
 
@@ -98,7 +95,7 @@
                                                         <img src="{{ asset('storage/'.$product_img_path.'/' . $product['image']) }}"
                                                             alt="image">
                                                     @elseif(empty($product['image']))
-                                                        <img src="{{ asset('admin/images/faces/face6.jpg') }}"
+                                                        <img src="{{ asset('/storage/default_product.jpg') }}"
                                                             alt="profile" />
                                                     @endif
 
@@ -106,7 +103,7 @@
 
                                                 </td>
                                                 <td class="text-capitalize">{{ $product['uploaded_by'] }}</td>
-                                                <td class="text-capitalize">{{ !empty($product['product_code'])?$product['product_code']:'Product Has No Code!' }}</td>
+                                             
 
 
 

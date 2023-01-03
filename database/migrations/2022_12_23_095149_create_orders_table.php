@@ -34,6 +34,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_month');
             $table->string('order_year');
             $table->string('day');
+            
             $table->timestamps();
         });
     }

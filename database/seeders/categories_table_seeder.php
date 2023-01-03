@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Categories;
+use App\Models\Products;
 
 class categories_table_seeder extends Seeder
 {
@@ -89,7 +90,8 @@ class categories_table_seeder extends Seeder
         ];
 
         // Categories::insert($category_records);
-        Categories::factory()->times(8000)->create();
+        Categories::factory()->times(15)->create();
+
 
     }
 }

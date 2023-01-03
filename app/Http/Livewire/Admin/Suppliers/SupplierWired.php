@@ -126,7 +126,7 @@ protected $listeners=[
             if ($this->photo) {
                 $supplier->photo = $this->store_pic($this->photo, $supplier->name);
             }
-            if ($this->inputs['shopName']) {
+            if (!empty($this->inputs['shopName'])) {
                 $supplier->shopName = $validated_data['shopName'];
             }
             $this->photo = '';
@@ -241,7 +241,7 @@ protected $listeners=[
 
     public function render()
     {
-       
+
 
 
         // $suppliers_by_type=SupplierModel::latest()->paginate(15)->toArray();

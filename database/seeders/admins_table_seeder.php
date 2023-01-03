@@ -21,7 +21,7 @@ class admins_table_seeder extends Seeder
         [
                 'id'=>81,
                 'name'=>'Employee 8',
-                'type'=>'SUPERADMIN',
+                'type'=>'superadmin',
                 // 'vendor_id'=>4,
                 'mobile'=>'+233240040834',
                 'email'=>'superadgy@yutamart.com',

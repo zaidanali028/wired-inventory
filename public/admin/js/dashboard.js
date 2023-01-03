@@ -24,6 +24,7 @@
   let monthlySaleRecords=$('#monthlySaleRecords').val().split(',')
 //   alert(monthlySaleRecords)
   let monthlyIncomeRecords=$('#monthlyIncomeRecords').val().split(',')
+//   alert(monthlySaleRecords)
 
 
   $(function() {
@@ -80,7 +81,7 @@ function charts(){
                 ticks: {
                   display: true,
                   min: 0,
-                  max: 5000,
+                  max: 10000,
                   callback: function(value, index, values) {
                     return  value + '₵' ;
                   },

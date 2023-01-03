@@ -433,12 +433,13 @@ $(document).ready(() => {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#00000',
-            confirmButtonText: "Lemi Glance My Orders!"
+            confirmButtonText: "Print This Order!"
             // confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
                 //    if user clicks ok,they are redirected to the dashboard
-                window.location.href = '/admin/orders'
+                // window.location.href = '/admin/orders'
+                Livewire.emit('ready_for_print')
 
             }
         })

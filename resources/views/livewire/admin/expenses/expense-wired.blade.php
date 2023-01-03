@@ -56,7 +56,7 @@
                                         @forelse ($Expenses as $Expense)
                                             <tr>
 
-                                                <td class="text-capitalize">{{ $Expense['details'] }}</td>
+                                                <td class="text-capitalize">{{substr($Expense['details'] , 0, 48) }}...</td>
                                                 <td class="text-capitalize">{{ $Expense['amount'] }}</td>
 
 

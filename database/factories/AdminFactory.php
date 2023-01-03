@@ -18,10 +18,10 @@ class AdminFactory extends Factory
         $status=[0,1];
         return [
             // 'id' => 1,
-        'name' => $this->faker->name,
+        'name' => $this->faker->unique()->name,
         'type' => $this->faker->randomElement($type),
-        'mobile' => $this->faker->phoneNumber,
-        'email' => $this->faker->email,
+        'mobile' => $this->faker->unique()->phoneNumber,
+        'email' => $this->faker->unique()->safeEmail,
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
         'photo' => '',
         'status' => $this->faker->randomElement($status)

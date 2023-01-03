@@ -13,13 +13,13 @@ class CategoriesFactory extends Factory
      */
     public function definition()
     {
-        $type=['superadmin','employee'];
+        // $type=['superadmin','employee'];
 
         $status=[0,1];
         return [
             // 'id' => 1,
         'category_name' => $this->faker->name,
-        
+
         'status' => $this->faker->randomElement($status)
     ];
     }

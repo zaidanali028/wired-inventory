@@ -19,18 +19,7 @@
         </div>
 
         <div id="container-wrapper" class="container-fluid">
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800 text-capitalize">
-                    {{ Session::get('page') }}
-
-                </h1>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a >Home</a></li>
-                    <li aria-current="page" class="breadcrumb-item  ">
-                        {{ Session::get('page') }}
-                    </li>
-                </ol>
-            </div>
+           
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="card mb-4">
@@ -138,7 +127,6 @@
                                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                             @empty
 
-                                                <option > No Data To Show!</option>
 
 
 
@@ -151,7 +139,7 @@
                                     </div>
                                     <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Pay</label> <input
 
-                                            type="text" wire:model.debounce.500ms="inputs.pay" id="exampleFormControlInput1" class="form-control
+                                            type="text" wire:model.debounce.1000ms="inputs.pay" id="exampleFormControlInput1" class="form-control
                                             @error('pay') is-invalid @enderror
                                             ">
                                             @error('pay')
@@ -169,7 +157,7 @@
                                         </div>
                                         <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Discount</label> <input
 
-                                            type="text" wire:model.debounce.500ms="inputs.discount" id="exampleFormControlInput1" class="form-control
+                                            type="text" wire:model.debounce.1000ms="inputs.discount" id="exampleFormControlInput1" class="form-control
                                             @error('discount') is-invalid @enderror
                                             ">
                                             @error('discount')
@@ -279,7 +267,7 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                 class="tab-pane fade">
                                 <div class="card-body">
                                     <div class="row">
-                                        
+
                                         @if (!empty($category_items))
                                             @forelse ($category_items as $cat_product)
                                                 <div wire:click.prevent="add_to_cart({{ $cat_product['id'] }})"
@@ -336,5 +324,151 @@ $cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'
 
         <!-- partial -->
     </div>
+
+    <!-- Modal -->
+    <div wire:ignore.self class="modal  fade" id="view-order-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="view-order-modal">ORDER(S) MANAGEMENT
+                    </h5>
+                    <i style="font-size:20px" class="mdi mdi-close" type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></i>
+
+                </div>
+                {{-- ............................. modal -body .........................  --}}
+
+
+
+                {{--  My own start here  --}}
+                <div class="modal-body">
+                    <div id="divToPrint">
+
+
+                        {{-- print styling   --}}
+                        <style>
+                            @media print {
+
+                                .top-print,
+                                .cpm-det,
+                                ,
+                                .dev,
+                                table {
+                                    font-size: 11px;
+                                }
+
+                                .company-name {
+                                    font-size: 15px;
+                                }
+
+                                .rest {
+                                    font-size: 12px;
+                                }
+                                {{--  picture,receipt,admin_type  --}}
+
+                            }
+                        </style>
+
+
+                        <div style="display: inline" class="top-print">
+                            <div class="">{{ date('d/m/y h:i:s') }}</div>
+                            <div style="float: right">Receipt#: {{ !empty($orderRecord_) ? $orderRecord_['id'] : '' }}
+                            </div>
+                        </div><br>
+
+                        <div style="text-align: center" class="company-name text-capitalize">
+                            {{ !empty($orderRecord_) ? $orderRecord_['company_details']['shop_name'] : '' }}</div>
+                        <div style="text-align: center;font-size:11px" class="cmp-det">
+                            {{ !empty($orderRecord_) ? $orderRecord_['company_details']['shop_location'] : '' }}</div>
+                        <div style="text-align: center" class="cmp-det">
+                            {{ !empty($orderRecord_) ? $orderRecord_['company_details']['shop_number'] : '' }}</div>
+
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush" style="width: 100%; font-size: 11px;">
+                                <thead class="thead-light">
+                                    <tr style="text-align: left;">
+                                        <th style="width: 40%">Item</th>
+                                        <th style="width: 10%">Qty</th>
+                                        <th style="width: 20%">Unit Price</th>
+                                        <th style="width: 30%">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (!empty($orderRecord_))
+                                        @foreach ($orderRecord_['get_order_detail'] as $orderRecord_item)
+                                            <tr>
+                                                {{--  @json($orderRecord_item['product_details']["product_name"])  --}}
+                                                <td>{{ $orderRecord_item['product_details']['product_name'] }}</td>
+                                                {{--  <td>{{ !empty($orderRecord_item['product_details']['product_code'])?$orderRecord_item['product_details']['product_code']:'Product Has No Code'}}</td>  --}}
+                                                {{--  <td>{{ $orderRecord_item['product_details']['image']}}</td>  --}}
+                                                {{--  <td>
+                                    @if (!empty($orderRecord_item['product_details']['image']))
+                                        <img src="{{ asset('storage/'.$product_img_path.'/' .$orderRecord_item['product_details']['image']) }}"
+                                            alt="image">
+                                    @elseif(empty($admin_by_type['photo']))
+                                        <img src="{{ asset('admin/images/faces/face20.jpg') }}"
+                                            alt="profile" />
+                                    @endif</td>  --}}
+
+
+                                                {{--  @json($orderRecord_item['product_quantity'])  --}}
+                                                <td>{{ isset($orderRecord_item['product_quantity']) ? $orderRecord_item['product_quantity'] . 'x' : '' }}
+                                                </td>
+                                                <td>{{ isset($orderRecord_item['product_price']) ? number_format($orderRecord_item['product_price'],2) : '' }}
+                                                </td>
+                                                <td>{{ isset($orderRecord_item['sub_total']) ?number_format($orderRecord_item['sub_total'],2 ): '' }}
+                                                </td>
+
+
+                                            </tr>
+                                        @endforeach
+
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+
+                        <div class="rest">
+                            <div style="float: right">Subtotal: GH₵
+                                {{ !empty($orderRecord_) ? $orderRecord_['sub_total'] : '' }}</div><br>
+                            <div style="float: right">Tax: GH₵ {{ !empty($orderRecord_) ? number_format($orderRecord_['vat'],2) : '' }}
+                            </div><br>
+                            <div style="float: right">Discount: GH₵
+                                {{ !empty($orderRecord_) ?number_format($orderRecord_['discount'],2) : '' }}</div><br>
+                            <div style="float: right">RECEIPT TOTAL: GH₵
+                                {{ !empty($orderRecord_) ? number_format($orderRecord_['total'], 2) : '' }}</div><br>
+                            <br>
+                            <div>Amount Tendered: GH₵ {{ !empty($orderRecord_) ?number_format($orderRecord_['pay'],2) : '' }}</div>
+                            <div>Change: GH₵ {{ !empty($orderRecord_) ? number_format($orderRecord_['due'],2) : '' }}</div><br>
+                        </div>
+                        <hr>
+                         <div style="text-align: center;" style="font-size: 11px;"><b>
+
+                          <i class=""></i>  Thank You And We hope To See You Again Soon</b></div>
+                                <br>
+
+                        <div style="text-align: center;" style="font-size: 11px;"><b>#SystemsMadeByZaid</b> 0240040834
+                        </div>
+
+
+                    </div>
+
+                    <button id="print-me" class="btn btn-sm bg-primary text-white">
+                        <i class="mdi mdi-printer-alert" style="font-size:20px"></i>
+                    </button>
+                </div>
+
+
+
+
+                {{--  My own start here  --}}
+
+            </div>
+        </div>
+    </div >
+    <!-- Modal -->
 
 </div>

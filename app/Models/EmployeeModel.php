@@ -14,7 +14,7 @@ class EmployeeModel extends Model
     //     return \Database\Factories\EmployeesFactory::new();
     // }
     protected $table = 'employees';
-    protected $fillable = ['name','email','phone','address','salary','photo','national_id','joining_date'];
+    protected $fillable = ['name','email','mobile','address','salary','national_id','joining_date'];
 
     function get_employee_admin_data(){
         return $this->belongsTo(Admin::class,'emplyee_id','id');

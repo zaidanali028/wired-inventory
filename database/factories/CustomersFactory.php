@@ -17,14 +17,14 @@ class CustomersFactory extends Factory
                     // name,email,phone,address,photo
 
 
-        $status=[0,1];
+
         return [
             // 'id' => 1,
         'name' => $this->faker->name,
         'phone' => $this->faker->phoneNumber,
         'email' => $this->faker->email,
         'address' => $this->faker->address,
-        'photo' => $this->faker->imageUrl(),
+        'photo' =>'',
     ];
     }
 }

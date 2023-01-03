@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use DateTime;
 class employees_table_seeder extends Seeder
 {
-   protected $constant_amount=200;
+   protected $constant_amount=500;
 //    protected $random_date = $this->faker->dateTime($end_date, $start_date);
 
 
@@ -21,10 +21,10 @@ class employees_table_seeder extends Seeder
     public function run()
     {
 
-        AdminModel::factory($this->constant_amount)->create()
-        // relational seeding using factories(kvngthr!v3)
+        AdminModel::factory()->times($this->constant_amount)->create()
+        // relational seeding using factories(kvngthr!v3)(1 ADMIN(TYPE==EMPLOYEE) 1-EMPLOYEE
         ->each(function($admin){
-            EmployeeModel::factory()->times(1)->create([
+            EmployeeModel::factory()->create([
                 'emplyee_id'=>$admin->id,
               ]);
              });

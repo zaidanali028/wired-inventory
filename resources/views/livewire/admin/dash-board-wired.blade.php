@@ -205,7 +205,7 @@
                                                     <img src="{{ asset('storage/' . $product_img_path . '/' . $product['image']) }}"
                                                         alt="image">
                                                 @elseif(empty($product['image']))
-                                                    <img src="{{ asset('admin/images/faces/face6.jpg') }}"
+                                                    <img src="{{ asset('/storage/default_product.jpg') }}"
                                                         alt="profile" />
                                                 @endif
 

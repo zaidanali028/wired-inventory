@@ -51,11 +51,10 @@ class DashBoardWired extends Component
         "Prophet Muhammad" => "To give thanks to Allah is to recognize the blessings He has bestowed upon you.",
         "Imam Ali" => "The best of deeds are those that are consistent, even if they are few.",
         "Imam al-Ghazali" => "Knowledge is the most powerful weapon a person can possess.",
-        "Imam al-Shafi'i" => "Seek knowledge, even if it takes you to China.",
-        "Imam Abu Hanifa" => "The best form of worship is to benefit others.",
+
         "Imam al-Bukhari" => "The best of people are those who bring most benefit to the rest of mankind.",
         "Imam al-Tirmidhi" => "The most beloved of actions to Allah are those that are consistent, even if they are few.",
-        "Albert Einstein" => "Imagination is more important than knowledge.",
+
         "Neil Armstrong" => "That's one small step for a man, one giant leap for mankind.",
         "William Shakespeare" => "To be, or not to be, that is the question.",
         "Mark Twain" => "Good friends, good books, and a sleepy conscience: this is the ideal life.",
@@ -73,7 +72,6 @@ class DashBoardWired extends Component
         "Abraham Lincoln" => "Nearly all men can stand adversity, but if you want to test a man's character, give him power.",
         "Eleanor Roosevelt" => "No one can make you feel inferior without your consent.",
         "Confucius" => "The man who asks a question is a fool for a minute, the man who does not ask is a fool for life.",
-        "Carl Sagan" => "Somewhere, something incredible is waiting to be known.",
         "Frederick Douglass" => "It is easier to build strong children than to repair broken men.",
         "Vincent van Gogh" => "I dream my painting and then I paint my dream.",
         "John D. Rockefeller" => "I do not think that there is any other quality so essential to success of any kind as the quality of perseverance. It overcomes almost everything, even nature.",
@@ -102,56 +100,11 @@ class DashBoardWired extends Component
 
 
     ];
+
 public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
-    // public function getWeather()
-    // {
-    //     // // Set the API endpoint and your API key
-    //     // $apiEndpoint = 'https://api.openweathermap.org/data/2.5/weather';
-    //     // $apiKey = env('API_KEY');
-
-    //     // // Set the location for which you want to get the weather data
-    //     // $latitude = 37.7749;
-    //     // $longitude = -122.4194;
-
-    //     // // Create a new Guzzle HTTP client
-    //     $client = new Client();
-
-    //     try {
-    //         $response = $client->get('https://geoip.maxmind.com/geoip/v2.1/city/me', [
-    //             'query' => [
-    //                 'api_key' => env('MAXMIND_API_KEY'),
-    //             ],
-    //         ]);
-
-    //         $location = json_decode($response->getBody(), true);
-
-    //         $latitude = $location['location']['latitude'];
-    //         $longitude = $location['location']['longitude'];
 
 
-    //     //     // Make a request to the API endpoint using the GET method
-    //     //     $response = $client->request('GET', $apiEndpoint, [
-    //     //         'query' => [
-    //     //             'lat' => $latitude,
-    //     //             'lon' => $longitude,
-    //     //             'appid' => $apiKey,
-    //     //         ],
-    //     //     ]);
 
-    //     //     // Get the response body as a JSON object
-    //     //     $weatherData = json_decode($response->getBody());
-
-    //     //     // Use the weather data as needed
-    //     //     // For example, you can access the current temperature like this:
-    //     //     $temperature = $weatherData->main->temp;
-
-    //         // Return the weather data to the view
-    //         // return view('weather', ['weatherData' => $weatherData]);
-    //     } catch (GuzzleException $e) {
-    //         // Handle any errors that occurred during the request
-    //         // return view('error', ['error' => $e->getMessage()]);
-    //     }
-    // }
 
 
     public function get_order_monthly_rate_diff($column_name)
@@ -185,9 +138,11 @@ public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
 
         $lastMonthRecord = ExpenseModel::whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth])->sum($column_name);
         $thisMonthRecord = ExpenseModel::whereBetween('created_at', [$startOfThisMonth, $endOfThisMonth])->sum($column_name);
+        // dd( $thisMonthRecord ,$lastMonthRecord);
 
         $rate_pct = $lastMonthRecord != 0 ? ($thisMonthRecord / $lastMonthRecord) * 100 : 0;
        $rate_pct = number_format($rate_pct, 2);
+    //    dd( $this->number_to_kmb($rate_pct));
        return $this->number_to_kmb($rate_pct);
 
     }
@@ -247,6 +202,8 @@ public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
             // STORE CURRENTLY GOTTEN MOHTH'S DATA INTO THE DEFINE
             // ARRAY[ $final_monthy_records] AND USING ITS NUMERIC VALUE AS KEY
         }
+        // DD( $final_monthy_records);
+
 
         // RETURN ARRAY
         return $final_monthy_records;
@@ -279,6 +236,7 @@ public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
         $this_mnth_customers=$this->get_customers_data()[0];
         $last_mnth_customers=$this->get_customers_data()[1];
         $quote=(object) $this->quotes;
+
         $random_key = array_rand($this->quotes);
         $random_item = $quote->$random_key;
 
