@@ -210,7 +210,7 @@ public $random_bg=[1,2,3,4,5,6,7,8,9,10,11,12,13,14];
 
     }
     public function load_more(){
-        $this-> paginate_val+=20;
+        $this-> paginate_val+=45;
        $this->dispatchBrowserEvent('refreshCharts');
     }
 

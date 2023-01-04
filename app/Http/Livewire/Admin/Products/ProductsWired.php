@@ -57,7 +57,7 @@ class ProductsWired extends Component
     public $current_category_id;
     // public $product_img_path='product_imgs';
 
-    protected $rules = ['image' => 'image'];
+    protected $rules = ['image' => 'image|mimes:jpeg,png'];
     public $message = [
         'image.image' => 'This field only takes image inputs',
     ];
@@ -294,7 +294,12 @@ class ProductsWired extends Component
             $new_file_name = 'product_pic' . "_" . $product_name . "_." . $file_ext;
             $uploaded_img_path = public_path() . '\\storage\\' . $this->product_img_path . '\\';
 
+
+
             $img = Image::make($media_file);
+
+            $media_file->storeAs( $this->product_img_path,$new_file_name);
+            // dd(Image::make($media_file));
             $img->fit(300, 300)->save($uploaded_img_path . $new_file_name);
 
         }

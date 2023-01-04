@@ -96,9 +96,9 @@ $small_logo_path=!empty($small_logo)?'/storage/config/'.$small_logo['media_name'
 
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item">
+                    <a class="dropdown-item" href="{{url('/admin/update-details')}}">
                         <i class="mdi mdi-meteor text-primary"></i>
-                        Settings
+                        Update Details
                     </a>
                     <a class="dropdown-item" href="{{url('/admin/logout')}}">
                         <i class="ti-power-off text-primary"></i>

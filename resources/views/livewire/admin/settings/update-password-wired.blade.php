@@ -41,7 +41,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">E-mail</label>
-                                    <input type="text"  readonly class="form-control" id="exampleInputUsername1" placeholder="Username">
+                                    <input type="text" value="{{ $admin_details['email']}}"  readonly class="form-control" id="exampleInputUsername1" placeholder="Username">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Account Type</label>

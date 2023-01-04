@@ -36,11 +36,13 @@ public $admin_img_path='admin_imgs';
     public function removeImg()
     {
         $this->dispatchBrowserEvent('clear-fieild');
-        $this->image = "";
+        $this->image = [];
     }
 
     public function update_details()
     {
+        // dd($this->image);
+
 
         $file_ext = '';
         $new_file_name = '';
@@ -55,7 +57,8 @@ public $admin_img_path='admin_imgs';
             $file_ext = $this->image[0]->getClientOriginalExtension();
             $new_file_name = 'admin_' . $this->inputs['name'] . '.' . $file_ext;
             $uploaded_img_path = public_path() . '\\storage\\' . $this->admin_img_path.'\\' . '\\';
-            Image::make($this->image[0])->save($uploaded_img_path . $new_file_name);
+            $img=Image::make($this->image[0]);
+            $img->save($uploaded_img_path . $new_file_name);
 
         }
         $validated_data = Validator::make($this->inputs, $this->detail_rules)->validate();
@@ -79,7 +82,7 @@ public $admin_img_path='admin_imgs';
     {
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
         $this->inputs = $this->admin_details;
-        // dd(  $this->admin_details);
+        // dd(  $this->inputs);
 
         return view('livewire.admin.settings.update-details-wired');
 

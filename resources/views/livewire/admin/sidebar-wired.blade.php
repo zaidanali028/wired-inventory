@@ -89,30 +89,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false"
-                                aria-controls="ui-basic4">
-                                <i class="mdi mdi-basket-unfill"></i>
-                                <span class="menu-title">Catalogue Management</span>
-                                <i class="menu-arrow"></i>
-                            </a>
-                            <div class="collapse" id="ui-basic4">
-                                <ul class="nav flex-column sub-menu">
 
-                                    <li class="nav-item"> <a
-                                            class="nav-link  @if (Session::get('page') == 'categories') bg-white text-primary @endif"
-                                            href="{{ url('admin/categories') }}">
-                                             Categories</a></li>
-
-
-                                    <li class="nav-item"> <a
-                                            class="nav-link  @if (Session::get('page') == 'products') bg-white text-primary @endif"
-                                            href="{{ url('admin/products') }}">Products</a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </li>
 
 
                         <li class="nav-item">
@@ -143,6 +120,30 @@
                             </a>
                         </li>
                         @endif
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false"
+                                aria-controls="ui-basic4">
+                                <i class="mdi mdi-basket-unfill"></i>
+                                <span class="menu-title">Catalogue Management</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="collapse" id="ui-basic4">
+                                <ul class="nav flex-column sub-menu">
+
+                                    <li class="nav-item"> <a
+                                            class="nav-link  @if (Session::get('page') == 'categories') bg-white text-primary @endif"
+                                            href="{{ url('admin/categories') }}">
+                                             Categories</a></li>
+
+
+                                    <li class="nav-item"> <a
+                                            class="nav-link  @if (Session::get('page') == 'products') bg-white text-primary @endif"
+                                            href="{{ url('admin/products') }}">Products</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">

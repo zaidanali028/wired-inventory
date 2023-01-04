@@ -127,7 +127,7 @@ protected $listeners=[
 
             $customer->save();
     $this->dispatchBrowserEvent('hide-add-customer-modal');
-    $this->dispatchBrowserEvent('show-success-toast', ['success_msg'=> 'New Employee With The Name ' . $customer->name . ' Added SuccessFully']);
+    $this->dispatchBrowserEvent('show-success-toast', ['success_msg'=> 'New Customer With The Name ' . $customer->name . ' Added SuccessFully']);
 
 
         }

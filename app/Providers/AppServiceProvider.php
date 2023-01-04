@@ -31,7 +31,6 @@ class AppServiceProvider extends ServiceProvider
 //         return 'Database\\Factories\\' . class_basename($class) . 'Factory';
 //     });
 // }
-
     public function boot()
     {
         // USING THIS TO STORE STORE DETAILS THROUGH OUT THE APPLICATION

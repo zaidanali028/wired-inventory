@@ -19,12 +19,12 @@ class admins_table_seeder extends Seeder
     {
         $admin_record=
         [
-                'id'=>81,
+                'id'=>80,
                 'name'=>'Employee 8',
-                'type'=>'superadmin',
+                'type'=>'empoyee',
                 // 'vendor_id'=>4,
                 'mobile'=>'+233240040834',
-                'email'=>'superadgy@yutamart.com',
+                'email'=>'z@yutamart.com',
                 'password'=>Hash::make('12345678'),
                 'photo'=>'',
             'status'=>1

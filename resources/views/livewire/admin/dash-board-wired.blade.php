@@ -84,6 +84,20 @@
 
             </div>
         </div>
+        <div class="col-lg-12 mb-4">
+            <div class="row">
+                <div class="col-md-12 mb-4 mb-lg-0 stretch-card transparent">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <p class="mb-4">Expense Amount For Today</p>
+                            <p class="fs-30 mb-2">GH₵ {{ $today_expense }}</p>
+                            <p>{{ $expense_pct_change }}% (30 days)</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <div class="row">
 
             <div class="col-md-6 grid-margin stretch-card">
@@ -116,20 +130,8 @@
             </div>
         </div>
 
-            <div class="col-lg-12 mb-4">
-                <div class="row">
-                    <div class="col-md-12 mb-4 mb-lg-0 stretch-card transparent">
-                        <div class="card bg-success text-white">
-                            <div class="card-body">
-                                <p class="mb-4">Expense Amount For Today</p>
-                                <p class="fs-30 mb-2">GH₵ {{ $today_expense }}</p>
-                                <p>{{ $expense_pct_change }}% (30 days)</p>
-                            </div>
-                        </div>
-                    </div>
 
-                </div>
-            </div>
+
 
 
 
@@ -197,7 +199,7 @@
                                             <td class="text-capitalize">{{ $product['product_name'] }}</td>
                                             <td class="text-capitalize">{{ $product['get_category']['category_name'] }}
                                             </td>
-                                            <td class="text-capitalize">{{ $product['get_supplier']['name'] }}</td>
+                                            <td class="text-capitalize">{{ !empty($product['get_supplier'])?$product['get_supplier']['name']:'No Supplier' }}</td>
                                             <td class="text-capitalize">{{ $product['selling_price'] }}</td>
                                             <td class="text-capitalize">{{ $product['buying_price'] }}</td>
                                             <td>

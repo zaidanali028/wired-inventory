@@ -100,97 +100,99 @@
 
 
 
-
                                 <div x-data="{ isUploading_2: false, progress_2: 3 }" x-on:livewire-upload-start="isUploading_2 = true"
-                                    x-on:livewire-upload-finish="isUploading_2 = false; progress=3"
-                                    x-on:livewire-upload-error="isUploading_2 = false"
-                                    x-on:livewire-upload-progress="progress_2 = $event.detail.progress">
-                                    <input type="file" multiple id="img_file" accept=".png,.jpeg,.jpg"
-                                        class="form-control  @error('image') is-invalid @enderror  @error('image') is-invalid @enderror"
-                                        wire:model.defer="image">
-                                    <div x-show="isUploading_2" class="progress progress-sm rounded  mt-2">
-                                        <div class="progress-bar bg-primary progress-bar-striped"
-                                            role="progressbar" x-bind:style="`width:${progress_2 }%`"
-                                            aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                        <span class="sr-only">40% complete</span>
-                                    </div>
+                                x-on:livewire-upload-finish="isUploading_2 = false; progress=3"
+                                x-on:livewire-upload-error="isUploading_2 = false"
+                                x-on:livewire-upload-progress="progress_2 = $event.detail.progress">
+                                <input type="file" multiple id="img_file" accept=".png,.jpeg,.jpg"
+                                    class="form-control  @error('image') is-invalid @enderror  @error('image') is-invalid @enderror"
+                                    wire:model.defer="image">
+                                <div x-show="isUploading_2" class="progress progress-sm rounded  mt-2">
+                                    <div class="progress-bar bg-primary progress-bar-striped"
+                                        role="progressbar" x-bind:style="`width:${progress_2 }%`"
+                                        aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <span class="sr-only">40% complete</span>
+                                </div>
 
-                                    @error('image')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-
-
-                                    <div class="d-flex justify-content-around">
-                                        @if (!empty($image) ||!empty($admin_details['image']))
-                                        <ul>
+                                @error('image')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
 
 
-                                                <div style="position:relative;" class="mt-5 ml-3">
-                                                    @if (isset($image) && is_object($image[0]))
-                                                        {{--  if object-then user is trying to upload new file  --}}
+                                <div class="d-flex justify-content-around">
+                                    @if (!empty($image) ||!empty($admin_details['image']))
+                                    <ul>
 
-                                                        <button class="close"
-                                                            style=" right:50px;
-                                   position: absolute; ">
-                                                            <span class="text-dark display-2"
-                                                                wire:click="removeImg()">&times;</span>
-                                                        </button>
 
-                                                        <li>
-                                                            <div class="item d-flex align-items-center justify-content-center">
+                                            <div style="position:relative;" class="mt-5 ml-3">
+                                                @if (isset($image) && is_object($image[0]))
+                                                    {{--  if object-then user is trying to upload new file  --}}
 
+                                                    <button class="close"
+                                                        style=" right:50px;
+                                position: absolute; ">
+                                                        <span class="text-dark display-2"
+                                                            wire:click="removeImg()">&times;</span>
+                                                    </button>
+
+                                                    <li>
+                                                        <div class="item d-flex align-items-center justify-content-center">
+
+                                                    <img class="rounded"
+                                                        src="{{ $image[0]->isPreviewable() ? $image[0]->temporaryUrl() : '/storage/err.png' }}"
+                                                        width=250 height=230>
+                                                        </div>
+                                                    </li>
+
+
+                                                @endif
+
+                                            </div>
+                                            @elseif(!empty($inputs['photo']))
+                                                {{--  else get old one from the db  --}}
+
+
+                                                <li>
+                                                    <div class="item d-flex align-items-center justify-content-center">
                                                         <img class="rounded"
-                                                            src="{{ $image[0]->isPreviewable() ? $image[0]->temporaryUrl() : '/storage/err.png' }}"
-                                                            width=250 height=230>
-                                                            </div>
-                                                        </li>
-                                                    @else
-                                                        {{--  else get old one from the db  --}}
+                                                        width=250 height=250
 
+                                                        src="{{ '/storage/admin_imgs/' . $inputs['photo'] }}"
 
-                                                        <li>
-                                                            <div class="item d-flex align-items-center justify-content-center">
-                                                                <img class="rounded"
-                                                                width=250 height=250
+                                                            >
+                                                    </div>
 
-                                                                src="{{ '/storage/admin_imgs/' . $admin_details['image'] }}"
+                                        </li>
+                                        </ul>
+                                        <style>
+                                            ul {
+                                                max-width: 300px;
+                                                margin-left: auto;
+                                                margin-right: auto;
+                                                // background-color: red;
+                                              }
 
-                                                                    >
-                                                            </div>
+                                              ul {
+                                                min-width: 75;
+                                                padding-left: 0;
+                                                list-style: none;
+                                                display: grid;
+                                                grid-template-columns: repeat(auto-fit, minmax(75, 1fr));
+                                                gap: 1rem 1rem;
+                                              }
 
-                                                </li>
-                                                    @endif
-                                                </div>
-                                            </ul>
-                                            <style>
-                                                ul {
-                                                    max-width: 300px;
-                                                    margin-left: auto;
-                                                    margin-right: auto;
-                                                    // background-color: red;
-                                                  }
+                                              .item {
+                                                background-color: #4b49ac;
+                                                padding: 0.2rem;
+                                                border-radius: 1rem;
+                                                min-height: 8rem;
+                                              }
 
-                                                  ul {
-                                                    min-width: 75;
-                                                    padding-left: 0;
-                                                    list-style: none;
-                                                    display: grid;
-                                                    grid-template-columns: repeat(auto-fit, minmax(75, 1fr));
-                                                    gap: 1rem 1rem;
-                                                  }
+                                          </style>
 
-                                                  .item {
-                                                    background-color: #4b49ac;
-                                                    padding: 0.2rem;
-                                                    border-radius: 1rem;
-                                                    min-height: 8rem;
-                                                  }
+                                    @endif
 
-                                              </style>
-
-                                        @endif
-
-                                    </div>
+                                </div>
 
                                 </div>
 

@@ -81,7 +81,7 @@ function charts(){
                 ticks: {
                   display: true,
                   min: 0,
-                  max: 10000,
+                  max: 100000,
                   callback: function(value, index, values) {
                     return  value + '₵' ;
                   },

@@ -103,7 +103,7 @@
 
                                                 </td>
                                                 <td class="text-capitalize">{{ $product['uploaded_by'] }}</td>
-                                             
+
 
 
 
@@ -237,7 +237,7 @@
 
 
                                                     id="exampleInputName1"
-                                                placeholder="600">
+                                                placeholder="product_2343">
                                             @error('product_code')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
