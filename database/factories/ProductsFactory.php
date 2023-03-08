@@ -21,8 +21,8 @@ class ProductsFactory extends Factory
             'product_quantity' => $this->faker->numberBetween(600, 1000),
             'selling_price' => $this->faker->numberBetween(900, 5000),
             'buying_price' => $this->faker->numberBetween(900, 3000),
-            'image' => '',
-            // 'image' => $this->faker->image(storage_path('public/storage/product_imgs'),300,300),
+
+             'image' => $this->faker->image('public/storage/fakes',300,300),
 
 
         ];

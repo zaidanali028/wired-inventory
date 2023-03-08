@@ -4,10 +4,10 @@
 
 
 @php
-$small_logo_path=!empty($small_logo)?'/storage/config/'.$small_logo['media_name']:'admin/images/logo.svg';
+$small_logo_path=!empty($small_logo)?'/storage/config/'.$small_logo['media_name']:'admin/images/logo-mini.svg';
 
 @endphp
-        <a class="navbar-brand brand-logo-mini" href="/"><img src="{{$small_logo_path}}" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="/"><img src="{{asset($small_logo_path)}}" alt="logo"/></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">

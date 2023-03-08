@@ -52,9 +52,14 @@
                                             <th>
                                                 Selling Price
                                             </th>
+
+                                            @if ($admin_details['type']=='admin')
+
                                             <th>
                                                 Buying Price
                                             </th>
+                                            @endif
+
                                             </th>
                                             <th>
                                                  Image
@@ -87,9 +92,13 @@
 
                                                 <td class="text-capitalize">{{ $product['product_name'] }}</td>
                                                  <td class="text-capitalize">{{ $product['get_category']['category_name'] }}</td>
-                                                 <td class="text-capitalize">{{!empty($product['get_supplier'])? $product['get_supplier']['name']:'No Supplie!' }}</td>
+                                                 <td class="text-capitalize">{{!empty($product['get_supplier'])? $product['get_supplier']['name']:'No Supplier!' }}</td>
+
                                                  <td class="text-capitalize">{{ $product['selling_price'] }}</td>
-                                                 <td class="text-capitalize">{{ $product['buying_price'] }}</td>
+                                            @if ($admin_details['type']=='admin')
+                                            <td class="text-capitalize">{{ $product['buying_price'] }}</td>
+                                                 @endif
+
                                                  <td>
                                                     @if (!empty($product['image']))
                                                         <img src="{{ asset('storage/'.$product_img_path.'/' . $product['image']) }}"
@@ -204,7 +213,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Selling Price</label>
                                             <input value="" wire:model.defer="inputs.selling_price"
-                                                type="number"
+                                                type="text"
                                                 class="form-control @error('selling_price') is-invalid @enderror
 
 
@@ -218,7 +227,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Buying Price [YOU CAN CHOOSE NOT TO SPECIFY]</label>
                                             <input value="" wire:model.defer="inputs.buying_price"
-                                                type="number"
+                                                type="text"
                                                 class="form-control @error('buying_price') is-invalid @enderror
 
 

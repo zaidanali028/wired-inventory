@@ -19,7 +19,7 @@
         </div>
 
         <div id="container-wrapper" class="container-fluid">
-           
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="card mb-4">
@@ -344,123 +344,14 @@ $cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'
 
                 {{--  My own start here  --}}
                 <div class="modal-body">
-                    <div id="divToPrint">
+                    @include('admin.layout.order-det')
 
 
-                        {{-- print styling   --}}
-                        <style>
-                            @media print {
-
-                                .top-print,
-                                .cpm-det,
-                                ,
-                                .dev,
-                                table {
-                                    font-size: 11px;
-                                }
-
-                                .company-name {
-                                    font-size: 15px;
-                                }
-
-                                .rest {
-                                    font-size: 12px;
-                                }
-                                {{--  picture,receipt,admin_type  --}}
-
-                            }
-                        </style>
 
 
-                        <div style="display: inline" class="top-print">
-                            <div class="">{{ date('d/m/y h:i:s') }}</div>
-                            <div style="float: right">Receipt#: {{ !empty($orderRecord_) ? $orderRecord_['id'] : '' }}
-                            </div>
-                        </div><br>
+                {{--  My own start here  --}}
 
-                        <div style="text-align: center" class="company-name text-capitalize">
-                            {{ !empty($orderRecord_) ? $orderRecord_['company_details']['shop_name'] : '' }}</div>
-                        <div style="text-align: center;font-size:11px" class="cmp-det">
-                            {{ !empty($orderRecord_) ? $orderRecord_['company_details']['shop_location'] : '' }}</div>
-                        <div style="text-align: center" class="cmp-det">
-                            {{ !empty($orderRecord_) ? $orderRecord_['company_details']['shop_number'] : '' }}</div>
-
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush" style="width: 100%; font-size: 11px;">
-                                <thead class="thead-light">
-                                    <tr style="text-align: left;">
-                                        <th style="width: 40%">Item</th>
-                                        <th style="width: 10%">Qty</th>
-                                        <th style="width: 20%">Unit Price</th>
-                                        <th style="width: 30%">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (!empty($orderRecord_))
-                                        @foreach ($orderRecord_['get_order_detail'] as $orderRecord_item)
-                                            <tr>
-                                                {{--  @json($orderRecord_item['product_details']["product_name"])  --}}
-                                                <td>{{ $orderRecord_item['product_details']['product_name'] }}</td>
-                                                {{--  <td>{{ !empty($orderRecord_item['product_details']['product_code'])?$orderRecord_item['product_details']['product_code']:'Product Has No Code'}}</td>  --}}
-                                                {{--  <td>{{ $orderRecord_item['product_details']['image']}}</td>  --}}
-                                                {{--  <td>
-                                    @if (!empty($orderRecord_item['product_details']['image']))
-                                        <img src="{{ asset('storage/'.$product_img_path.'/' .$orderRecord_item['product_details']['image']) }}"
-                                            alt="image">
-                                    @elseif(empty($admin_by_type['photo']))
-                                        <img src="{{ asset('admin/images/faces/face20.jpg') }}"
-                                            alt="profile" />
-                                    @endif</td>  --}}
-
-
-                                                {{--  @json($orderRecord_item['product_quantity'])  --}}
-                                                <td>{{ isset($orderRecord_item['product_quantity']) ? $orderRecord_item['product_quantity'] . 'x' : '' }}
-                                                </td>
-                                                <td>{{ isset($orderRecord_item['product_price']) ? number_format($orderRecord_item['product_price'],2) : '' }}
-                                                </td>
-                                                <td>{{ isset($orderRecord_item['sub_total']) ?number_format($orderRecord_item['sub_total'],2 ): '' }}
-                                                </td>
-
-
-                                            </tr>
-                                        @endforeach
-
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
-                        <hr>
-
-                        <div class="rest">
-                            <div style="float: right">Subtotal: GH₵
-                                {{ !empty($orderRecord_) ? $orderRecord_['sub_total'] : '' }}</div><br>
-                            <div style="float: right">Tax: GH₵ {{ !empty($orderRecord_) ? number_format($orderRecord_['vat'],2) : '' }}
-                            </div><br>
-                            <div style="float: right">Discount: GH₵
-                                {{ !empty($orderRecord_) ?number_format($orderRecord_['discount'],2) : '' }}</div><br>
-                            <div style="float: right">RECEIPT TOTAL: GH₵
-                                {{ !empty($orderRecord_) ? number_format($orderRecord_['total'], 2) : '' }}</div><br>
-                            <br>
-                            <div>Amount Tendered: GH₵ {{ !empty($orderRecord_) ?number_format($orderRecord_['pay'],2) : '' }}</div>
-                            <div>Change: GH₵ {{ !empty($orderRecord_) ? number_format($orderRecord_['due'],2) : '' }}</div><br>
-                        </div>
-                        <hr>
-                         <div style="text-align: center;" style="font-size: 11px;"><b>
-
-                          <i class=""></i>  Thank You And We hope To See You Again Soon</b></div>
-                                <br>
-
-                        <div style="text-align: center;" style="font-size: 11px;"><b>#SystemsMadeByZaid</b> 0240040834
-                        </div>
-
-
-                    </div>
-
-                    <button id="print-me" class="btn btn-sm bg-primary text-white">
-                        <i class="mdi mdi-printer-alert" style="font-size:20px"></i>
-                    </button>
-                </div>
-
+            </div>
 
 
 

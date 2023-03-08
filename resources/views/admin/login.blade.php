@@ -5,7 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Skydash Admin</title>
+    <title>{{ !empty($shop_details['shop_name'])?$shop_details['shop_name']:'SystemsMadeByZaid'}} | {{ Session::get('page') }}</title>
+
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{url('admin/vendors/feather/feather.css')}}">
     <link rel="stylesheet" href="{{url('admin/vendors/ti-icons/css/themify-icons.css')}}">
@@ -16,7 +17,8 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{url('admin/css/vertical-layout-light/style.css')}}">
     <!-- endinject -->
-    <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" />
+    <link rel="shortcut icon" href="{{asset('admin/images/logo-mini.svg')}}" />
+
 </head>
 
 <body>
@@ -67,7 +69,7 @@
                                 <input type="password" name="password" id="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
                             </div>
                             <div class="mt-3">
-                                <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">SIGN IN/</button>
+                                <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">SIGN IN</button>
                             </div>
                             <div class="my-2 d-flex justify-content-between align-items-center">
                                 <div class="form-check">

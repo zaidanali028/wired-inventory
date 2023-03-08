@@ -159,10 +159,12 @@
 
 
                                             @endphp
-                                            {{ $currentMonthName }}
                                 <div  class="form-row">
                                     <div  class="col-md-6"><label
-                                            for="exampleFormControlSelect1">employee</label> <input
+                                            for="exampleFormControlSelect1">
+                                            Employee
+                                            Salary
+                                        </label> <input
                                             disabled="disabled" type="number" id="exampleInputemployee"
                                             wire:model.defer="inputs.employee_salary"
                                             placeholder="Enter employee" class="form-control">

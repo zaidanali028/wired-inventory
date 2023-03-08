@@ -21,6 +21,7 @@ function makeSearchable() {
 
 $(document).ready(() => {
 
+    
 
     $("#current_password").keyup(() => {
         let current_pwd = $("#current_password").val();

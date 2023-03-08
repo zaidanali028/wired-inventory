@@ -242,7 +242,7 @@ class AdminsWired extends Component
         // $admins = AdminModel::latest()->paginate(15);
 
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
-dd($this->admin_details,  $this->admins_by_type);
+// dd($this->admin_details,  $this->admins_by_type);
         return view('livewire.admin.admins.admins-wired', [
             'admins_by_type' => $admins_by_type,
         ]);

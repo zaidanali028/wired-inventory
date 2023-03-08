@@ -38,6 +38,7 @@ class EmployeeManagemenWired extends Component
         'salary' => 'required|numeric',
         'national_id' => 'required',
         'joining_date' => 'required',
+        'id' => 'required',
     ];
     protected $rules = ['photo' => 'required'];
     public $message = [
@@ -61,15 +62,15 @@ class EmployeeManagemenWired extends Component
 
     }
 
-    public function getEmp($emp_id)
-    {
-        $emp_record = AdminModel::where(['id' => $emp_id, 'type' => $this->employee_type,])->first()->toArray();
-        $this->inputs['name'] = $emp_record['name'];
-        $this->inputs['email'] = $emp_record['email'];
-        $this->inputs['mobile'] = $emp_record['mobile'];
-        $this->inputs['photo'] = $emp_record['photo'];
+    // public function getEmp($emp_id)
+    // {
+    //     $emp_record = AdminModel::where(['id' => $emp_id, 'type' => $this->employee_type,])->first()->toArray();
+    //     $this->inputs['name'] = $emp_record['name'];
+    //     $this->inputs['email'] = $emp_record['email'];
+    //     $this->inputs['mobile'] = $emp_record['mobile'];
+    //     $this->inputs['photo'] = $emp_record['photo'];
 
-    }
+    // }
 
     public function submitaddNewEmployee()
     { // datavalidation

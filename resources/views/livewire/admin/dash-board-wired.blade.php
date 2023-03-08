@@ -166,9 +166,7 @@
                                         <th>
                                             Selling Price
                                         </th>
-                                        <th>
-                                            Buying Price
-                                        </th>
+
                                         </th>
                                         <th>
                                             Image
@@ -201,7 +199,6 @@
                                             </td>
                                             <td class="text-capitalize">{{ !empty($product['get_supplier'])?$product['get_supplier']['name']:'No Supplier' }}</td>
                                             <td class="text-capitalize">{{ $product['selling_price'] }}</td>
-                                            <td class="text-capitalize">{{ $product['buying_price'] }}</td>
                                             <td>
                                                 @if (!empty($product['image']))
                                                     <img src="{{ asset('storage/' . $product_img_path . '/' . $product['image']) }}"

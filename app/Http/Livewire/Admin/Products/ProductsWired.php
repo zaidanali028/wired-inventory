@@ -67,7 +67,7 @@ class ProductsWired extends Component
     public $product_validation_object = [
         'product_name' => 'required',
         'product_quantity' => 'required|numeric',
-        'selling_price' => 'required',
+        'selling_price' => 'required|numeric',
         'category_id' => 'required',
         // product_code,,,uploaded_by
 

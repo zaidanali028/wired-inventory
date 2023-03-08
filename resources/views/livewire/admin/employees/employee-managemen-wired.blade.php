@@ -1,17 +1,16 @@
 <div class="main-panel">
     <x-spinner />
 
-    <div class="c
-        fontent-wrapper">
+    <div class="c fontent-wrapper">
         @include('admin.layout.auth_welcome')
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800 text-capitalize">
+        <div class="mb-4 d-sm-flex align-items-center justify-content-between">
+            <h1 class="mb-0 text-gray-800 h3 text-capitalize">
                 {{ Session::get('page') }}
 
             </h1>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a >Home</a></li>
-                <li aria-current="page" class="breadcrumb-item  ">
+                <li aria-current="page" class="breadcrumb-item ">
                     {{ Session::get('page') }}
                 </li>
             </ol>
@@ -21,16 +20,16 @@
         <div class="row">
             <div  class="col-xl-12 col-lg-12 col-md-12">
                 <div  class="row">
-                    <div  class="col-lg-12 mb-4">
+                    <div  class="mb-4 col-lg-12">
                         <div  class="card">
                             <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                class="flex-row py-3 card-header d-flex align-items-center justify-content-between">
                                 <h2  class="m-0 font-weight-bold text-primary">Employee List</h2> <a
                                 wire:click.prevent="newEmployee"
-                                    class="btn btn-primary float-right" style="margin-top: 6px; margin-right: 6px;">Add New Employee</a>
+                                    class="float-right btn btn-primary" style="margin-top: 6px; margin-right: 6px;">Add New Employee</a>
                             </div>
                             <div  class="table-responsive">
-                                <table id='' class="dataTable table table-striped">
+                                <table id='' class="table dataTable table-striped">
                                     <thead>
                                         <tr>
                                             <th>
@@ -81,7 +80,7 @@
 
                                     </tbody>
                                 </table>
-                                <button class="ml-2   btn btn-outline-primary" onclick="makeSearchable()">Search
+                                <button class="ml-2 btn btn-outline-primary" onclick="makeSearchable()">Search
                                     Employees</button>
 
                                 <div class="mt-3 d-flex justify-content-end">
@@ -105,7 +104,7 @@
         <!-- partial -->
     </div>
     <!-- Modal -->
-    <div wire:ignore.self class="modal  fade" id="add-employee-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div wire:ignore.self class="modal fade" id="add-employee-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered ">
             <div class="modal-content">
@@ -119,7 +118,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="card">
-                        <div class="card-body p-0">
+                        <div class="p-0 card-body">
                             <h4 class="card-title"> {{ $addNewEmployee ? 'Add New Employee' : 'Edit Employee' }}</h4>
 
                             <div class="row">
@@ -150,17 +149,15 @@
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <label for="">Employee ID</label>
-                                                    <select wire:change.prevent= "$emit('getEmp', $event.target.value)"
+                                                    <select
                                                     class="form-control @error('id') bg-danger is-invalid @enderror"
 
                                                         wire:model.defer="inputs.id">
-                                                        <optgroup label="SELECT AN EMPLOYEE" ></optgroup>
+                                                        <option value="" >SELECT AN EMPLOYEE</option >
                                                         @forelse ($employees_data as $employee_data)
-                                                         @if(!empty($this->inputs) &&  $this->inputs['id']==$employee_data['id'])>
-                                                           <option value="{{ $employee_data['id'] }}" selected> {{ $employee_data['name'] }}</option>
-                                                           @else
+
                                                            <option value="{{ $employee_data['id'] }}"> {{ $employee_data['name'] }}</option>
-                                                           @endif
+                                                           
                                                            @empty
                                             <tr>
                                                 <td colspan="2"> No Data To Show!</td>
@@ -269,7 +266,7 @@
                                                             x-on:livewire-upload-progress="progress_2 = $event.detail.progress">
 
                                                             <div x-show="isUploading_2"
-                                                                class="progress progress-sm rounded  mt-2">
+                                                                class="mt-2 rounded progress progress-sm">
                                                                 <div class="progress-bar bg-primary progress-bar-striped"
                                                                     role="progressbar"
                                                                     x-bind:style="`width:${progress_2 }%`"
@@ -347,7 +344,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-primary mr-2">{{ $btn_text }}</button>
+                                                <button type="submit" class="mr-2 btn btn-primary">{{ $btn_text }}</button>
 
                                             </div>
                                         </form>

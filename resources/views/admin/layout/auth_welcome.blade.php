@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12 grid-margin">
+    <div class="col-md-12 grid-margin mt-5">
         <div class="row">
             <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                 <h3 class="font-weight-bold">Hello there [{{!empty($admin_details['name'])?$admin_details['name']:''}}], Welcome to {{ !empty($shop_details)?$shop_details['shop_name']:''}}</h3>

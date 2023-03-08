@@ -20,11 +20,12 @@
 
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 mt-3">
-                <strong class="mb-3"> MANAGE ALL SALARIES </strong>
+                <strong class="mb-3 mt-1"> MANAGE ALL SALARIES </strong>
                 <div>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         @forelse ($salary_by_mnths as $salary_by_mnth=>$month_data )
+
                         <li class="nav-item " wire:ignore >
                             <a  class="nav-link  @if ($loop->first)
                                 active

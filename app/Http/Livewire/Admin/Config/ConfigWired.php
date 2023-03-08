@@ -99,7 +99,8 @@ protected $messages = [
         // dd($config_data);
 
         $admin_data = Validator::make($this->inputs_2,
-         ['name' => 'required|regex:/^[\pL\s\-]+$/u',
+         [
+            'name' => 'required|regex:/^[\pL\s\-]+$/u',
         'email' =>'required|'.Rule::unique('admins', 'email'),
         // ->ignore($this->user)
         'password' => 'required|confirmed|min:10|alpha_num|max:30',

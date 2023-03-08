@@ -81,7 +81,8 @@ class AllSalaryWired extends Component
     {
         $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
 
-        $salary_by_mnths = SalaryModel::with(['get_emp'])->latest()->get()->groupBy('salary_month');
+        $salary_by_mnths = SalaryModel::with(['get_emp'])->latest()->get()->groupBy('salary_month','salary_year');
+        // dd($salary_by_mnths);
 
 
 

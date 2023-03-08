@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{url('admin/css/toastr.css')}}">
     <link rel="stylesheet" href="{{url('admin/css/load-awesome.css')}}">
     <!-- endinject -->
-    <link rel="shortcut icon" href="{{asset('admin/images/favicon.png')}}" />
+    <link rel="shortcut icon" href="{{asset('admin/images/logo-mini.svg')}}" />
     <livewire:styles />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />

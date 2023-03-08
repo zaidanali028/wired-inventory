@@ -16,10 +16,10 @@ class products_table_seeder extends Seeder
     public function run()
     {
 
-        Categories::factory()->times(7)->create()
+        Categories::factory()->times(17)->create()
         // relational seeding using factories(kvngthr!v3)(1 ADMIN(TYPE==EMPLOYEE) 1-EMPLOYEE
             ->each(function ($category) {
-                Products::factory()->times(15)->create([
+                Products::factory()->times(685)->create([
                     'category_id' => $category->id,
 
                 ]);
