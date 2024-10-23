@@ -122,6 +122,7 @@ class ProductsWired extends Component
 
     public function newproduct()
     {
+        // dd('yo');
         $this->dispatchBrowserEvent('clear-file-fields');
         // the event above clears the input fields
 

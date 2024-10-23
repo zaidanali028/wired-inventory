@@ -88,6 +88,7 @@ class AdminsWired extends Component
             $file_ext = $media_file->getClientOriginalExtension();
             $new_file_name = 'admin_pic' . "_" . $admin_name . "_." . $file_ext;
             $uploaded_img_path = public_path() . '\\storage\\' . $this->admin_img_path . '\\';
+            // $uploaded_img_path = public_path() . '\\storage\\' . $this->admin_img_path . '\\';
 
             $img = Image::make($media_file);
             $img->fit(300, 300)->save($uploaded_img_path . $new_file_name);

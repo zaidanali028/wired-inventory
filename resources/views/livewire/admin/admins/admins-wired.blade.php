@@ -231,7 +231,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="form-row">
-                                                        <div class="col-md-12"><input type="text"
+                                                        <div class="col-md-12 mt-5 "><input type="text"
                                                                 id="exampleInputFirstName"
                                                                 wire:model.defer="inputs.name"
                                                                 placeholder="Enter Your Full Name"
