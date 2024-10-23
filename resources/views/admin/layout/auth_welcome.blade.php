@@ -1,10 +1,18 @@
 <div class="row">
     <div class="col-md-12 grid-margin mt-5">
+        @if(Auth::guard('admin')->user())
+
         <div class="row">
             <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                 <h3 class="font-weight-bold">Hello there [{{!empty($admin_details['name'])?$admin_details['name']:''}}], Welcome to {{ !empty($shop_details)?$shop_details['shop_name']:''}}</h3>
                 <h6 class="font-weight-normal mb-0">All systems are running smoothly!  <span class="text-primary"> do have a great day!</span></h6>
             </div>
+            @else
+            <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                <h3 class="font-weight-bold">Hello there, Welcome to {{ !empty($shop_details)?$shop_details['shop_name']:''}}</h3>
+                <h6 class="font-weight-normal mb-0">All systems are running smoothly!  <span class="text-primary"> <a href="/admin/login" target="_blank">login here to record sales!</a></span></h6>
+            </div>
+            @endif
             <div class="col-12 col-xl-4">
                 <div class="justify-content-end d-flex">
                     <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
