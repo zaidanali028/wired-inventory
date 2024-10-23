@@ -10,10 +10,10 @@ class SidebarWired extends Component
 {
     public $admin_details;
 
-   
+
     public function render()
     {
-        $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        $this->admin_details = Auth::guard('admin')->user()?AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray():[];
 
         return view('livewire.admin.sidebar-wired');
     }

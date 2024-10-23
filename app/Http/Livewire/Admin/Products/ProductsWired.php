@@ -290,20 +290,36 @@ class ProductsWired extends Component
     }
     public function store_pic($media_file, $product_name)
     {
+        // dd();
         if (!empty($media_file)) {
+            // Get the file extension
             $file_ext = $media_file->getClientOriginalExtension();
+
+            // Create a new file name
             $new_file_name = 'product_pic' . "_" . $product_name . "_." . $file_ext;
-            $uploaded_img_path = public_path() . '\\storage\\' . $this->product_img_path . '\\';
 
+            // Define the storage path for product images
+            $uploaded_img_path = storage_path('app/public/' . $this->product_img_path . '/'); // Adjust to storage path
 
+            // Make sure the directory exists, if not, create it
+            if (!file_exists($uploaded_img_path)) {
+                mkdir($uploaded_img_path, 0755, true); // Create the directory if it doesn't exist
+            }
 
+            // Use Intervention Image to manipulate the image
             $img = Image::make($media_file);
-
-            $media_file->storeAs( $this->product_img_path,$new_file_name);
-            // dd(Image::make($media_file));
             $img->fit(300, 300)->save($uploaded_img_path . $new_file_name);
 
+            // Save the file to the storage/app/public/product_img_path
+            $media_file->storeAs($this->product_img_path, $new_file_name, 'public'); // Ensure it is stored in public disk
+
+            // Generate the public URL for the image
+            $public_img_url = asset('storage/' . $this->product_img_path . '/' . $new_file_name);
+
+            // Optional: Use dd() to debug the saved image path and public URL
+            // dd($public_img_url);
         }
+
         return $new_file_name;
 
     }
@@ -353,7 +369,12 @@ class ProductsWired extends Component
         // dd($product);
 
 
-        $product->save();
+        if((Auth::guard('admin')->user()) && (Auth::guard('admin')->user()['type'] == 'superadmin')){
+            $product->save();
+
+        }else{
+            dd('YOU MUST BE AN ADMIN TO DO THIS!');
+        }
         $this->image='';
 
 

@@ -55,39 +55,46 @@ protected $messages = [
         $this->image = '';
         $this->dispatchBrowserEvent('clear-fieild');
     }
-    public function store_pic($media_files, $shop_name,$config_id){
-        $final_images=[];
-      //   [0]=>40/34
-      //   [1]=>138/34
-          if (!empty($media_files)) {
-              foreach ($media_files as $index=>$media_file) {
-                  $file_ext = $media_file->getClientOriginalExtension();
-                  $new_file_name = 'shop_logo_'.$index . "_" . $shop_name . "_." . $file_ext;
-                  $uploaded_img_path = public_path() . '\\storage\\' . $this->config_img_path . '\\';
+    public function store_pic($media_files, $shop_name, $config_id)
+    {
+        $final_images = [];
 
-                  $img = Image::make($media_file);
-                  // $img->fit(73, 73)->save($uploaded_img_path . $new_file_name);
-                  $img->save($uploaded_img_path . $new_file_name);
+        // Check if media files are not empty
+        if (!empty($media_files)) {
+            foreach ($media_files as $index => $media_file) {
+                // Get the file extension
+                $file_ext = $media_file->getClientOriginalExtension();
 
-                  $final_images[$index]=$new_file_name;
+                // Create a new file name
+                $new_file_name = 'shop_logo_' . $index . "_" . $shop_name . "_." . $file_ext;
 
-                  $logo=new LogoModel;
-                  $logo->media_name=$new_file_name;
-                  $logo->config_id=$config_id;
-                  $logo->media_index=$index;
-                  $logo->save();
+                // Define the storage path for config images
+                $uploaded_img_path = storage_path('app/public/' . $this->config_img_path . '/'); // Use storage path
 
+                // Ensure the directory exists, if not, create it
+                if (!file_exists($uploaded_img_path)) {
+                    mkdir($uploaded_img_path, 0755, true); // Create directory if it doesn't exist
+                }
 
+                // Resize and save the image using Intervention Image
+                $img = Image::make($media_file);
+                $img->save($uploaded_img_path . $new_file_name); // Save the image
 
-              }
+                // Store the file name in the array
+                $final_images[$index] = $new_file_name;
 
+                // Save the logo to the database
+                $logo = new LogoModel;
+                $logo->media_name = $new_file_name;
+                $logo->config_id = $config_id;
+                $logo->media_index = $index;
+                $logo->save();
+            }
+        }
 
+        return $final_images;
+    }
 
-
-          }
-          return $final_images;
-
-      }
     public function submitConfig()
     {
         if ($this->image) {

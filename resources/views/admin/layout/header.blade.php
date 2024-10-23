@@ -95,6 +95,7 @@ $small_logo_path=!empty($small_logo)?'/storage/config/'.$small_logo['media_name'
 
 
                 </a>
+                @if(Auth::guard('admin')->user())
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="{{url('/admin/update-details')}}">
                         <i class="mdi mdi-meteor text-primary"></i>
@@ -105,6 +106,7 @@ $small_logo_path=!empty($small_logo)?'/storage/config/'.$small_logo['media_name'
                         Logout
                     </a>
                 </div>
+                @endif
             </li>
 
         </ul>

@@ -41,32 +41,39 @@
                     <div class="col-md-6 mb-4 stretch-card transparent">
                         <div class="card card-tale  bg-dark">
                             <div class="card-body">
-                                <p class="mb-4">Sales Today</p>
+                                <p class="mb-4">Total Sales Today</p>
                                 <p class="fs-30 mb-2">GH₵ {{ $today_sell }}</p>
                                 <p>{{ $sell_pct_change }}% (30 days)</p>
                             </div>
                         </div>
                     </div>
+                    @if(Auth::guard('admin')->user()->type=='superadmin')
                     <div class="col-md-6 mb-4 stretch-card transparent">
                         <div class="card card-dark-blue">
                             <div class="card-body">
-                                <p class="mb-4">Icome Today</p>
+                                <p class="mb-4">Money Inflow Today</p>
                                 <p class="fs-30 mb-2">GH₵ {{ $today_income }}</p>
                                 <p>{{ $income_pct_change }}% (30 days)</p>
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="row">
+                    @if(Auth::guard('admin')->user()->type=='superadmin')
+
                     <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                         <div class="card card-light-blue">
                             <div class="card-body">
-                                <p class="mb-4">Due Amount For Today</p>
+                                <p class="mb-4">Due/Change/Outflow Amount For Today</p>
                                 <p class="fs-30 mb-2">GH₵ {{ $today_due }}</p>
                                 <p>{{ $due_pct_change }}% (30 days)</p>
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if(Auth::guard('admin')->user()->type=='superadmin')
+
                     <div class="col-md-6 stretch-card transparent">
                         <div class="card card-light-danger">
                             <div class="card-body">
@@ -78,6 +85,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
 
 

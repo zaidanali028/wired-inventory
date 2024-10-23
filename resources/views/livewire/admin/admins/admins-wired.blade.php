@@ -88,7 +88,12 @@
                                                     </td>
                                                     <td>
                                                         @if (!empty($admin_by_type['photo']))
-                                                            <img src="{{ asset('storage/'.$admin_img_path.'/' . $admin_by_type['photo']) }}"
+                                                        @php
+                                                            $public_img_url = asset('storage/' . $admin_img_path . '/' . $admin_by_type['photo']);
+
+                                                        @endphp
+                                                        
+                                                            <img src="{{ $public_img_url }}"
                                                                 alt="image">
                                                         @elseif(empty($admin_by_type['photo']))
                                                             <img src="{{ asset('admin/images/faces/face20.jpg') }}"

@@ -153,6 +153,12 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
 
     public function process_order()
     {
+        if(!Auth::guard('admin')->user()){
+            $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Please [SIGN IN!] to submit order!!']);
+            return;
+
+
+        }
         // dd(empty($this->inputs['customer_id']));
 
         $validated_data = Validator::make($this->inputs, $this->order_validation_object)->validate();
@@ -197,8 +203,11 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
         $data['day'] = date('j');
         $data["created_at"] = date('Y-m-d H:i:s');
         $data["updated_at"] = date('Y-m-d H:i:s');
+        $data["issued_by"] = Auth::guard('admin')->user()->id;
+
 
         $order_id = OrdersModel::insertGetId($data);
+
 
         $cartContents = PosModel::get();
         $this->total = '';
@@ -217,12 +226,14 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
             if ($product_qty < $content->product_quantity) {
                 // product in db is less than requested product
                 OrdersModel::findOrFail($order_id)->delete();
+
                 $product_name = $product['product_name'];
                 $err_msg = 'This Operation Aint Possible, [' . ucfirst($product_name) . '] Must Be Either Removed Or Deleted From Cart.The Amount Requested Aint Available!';
                 $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => $err_msg]);
 
             } else {
                 // dd($cartData);
+
                 OrderDetailsModel::insert($cartData);
 
 
@@ -258,7 +269,7 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
         $this->sub_total = PosModel::sum('sub_total');
         $this->total = $this->sub_total;
         $this->total_qty = PosModel::sum('product_quantity');
-        $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        $this->admin_details = Auth::guard('admin')->user()?AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray():[];
         $this->customers = CustomersModel::orderBy('name')->where('address','!=','anonymous')->latest()->get();
 
         if ($this->pos_item_count > 0) {

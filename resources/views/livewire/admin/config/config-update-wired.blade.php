@@ -147,7 +147,7 @@
                                     @enderror
 
 
-                                    <label for="customFile" class="custom-file-label">Product
+                                    <label for="customFile" class="custom-file-label">SHop
                                         Image [CAN BE EMPTY] </label>
                                 </div>
                                 <div x-show="isUploading_2"

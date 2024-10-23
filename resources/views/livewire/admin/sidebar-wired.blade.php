@@ -24,7 +24,7 @@
                 <a class="nav-link
                 @if (Session::get('page') == 'pos') bg-primary text-primary @endif"
 
-                " href="{{ url('admin/pos') }}">
+                " href="{{ route('pos_page') }}">
                     <i class="mdi mdi-fingerprint" style="font-size:20px"></i>
                     <span class="menu-title">POS</span>
                 </a>
@@ -35,7 +35,7 @@
 
                 " href="{{ url('admin/orders') }}">
                     <i class="mdi mdi-cart-outline" style="font-size:20px"></i>
-                    <span class="menu-title">ORDERS</span>
+                    <span class="menu-title">REPORTS/ORDERS</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -48,7 +48,7 @@
                 </a>
             </li>
 
-             @if ($admin_details['type'] == 'superadmin')
+             @if(Auth::guard('admin')->user() && $admin_details['type'] == 'superadmin')
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false"
                                 aria-controls="ui-basic2">
@@ -120,6 +120,8 @@
                             </a>
                         </li>
                         @endif
+                        @if(Auth::guard('admin')->user() && $admin_details['type'] == 'superadmin')
+
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false"
                                 aria-controls="ui-basic4">
@@ -144,6 +146,9 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
+
+            @if(Auth::guard('admin')->user())
 
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
@@ -164,6 +169,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
 
 
                     </ul>

@@ -1,9 +1,10 @@
 <?php
+namespace App\Http\Controllers\Admin;
+
 // https://preview.themeforest.net/item/revel-ecommerce-multi-vendor-multipurpose-html-template/full_screen_preview/39607470?_ga=2.119932235.2128217863.1666533585-796281154.1666533585&_gac=1.211928736.1666533585.EAIaIQobChMIst2CmcD2-gIVBhoGAB26bgFfEAAYASAAEgLPZvD_BwE
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Artisan;
-
 use App\Http\Controllers\Front\indexController;
 use App\Models\Config as ConfigModel;
 use App\Models\Admin as AdminModel;
@@ -72,6 +73,12 @@ require __DIR__.'/auth.php';
 
 
 
+
+Route::get('/', function () {
+    return redirect()->route('pos_page');
+});
+Route::get('/pos',[adminController::class, 'pos'])->name('pos_page');
+
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
 
     Route::match(['get','post'],'login','adminController@login');
@@ -85,7 +92,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         });
         Route::get('dashboard','adminController@dashboard');
         Route::get('shop-details','adminController@shop_details');
-        Route::get('pos','adminController@pos');
+        // Route::get('pos','adminController@pos')->name('pos_page_');
         Route::get('orders','adminController@orders');
         Route::get('expenses','adminController@expenses');
         Route::get('employee-management','employeesController@employee_management');

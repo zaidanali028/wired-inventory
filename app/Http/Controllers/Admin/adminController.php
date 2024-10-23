@@ -42,7 +42,7 @@ class adminController extends Controller
 
     public function pos()
     {
-        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        $admin_details = Auth::guard('admin')->user()?AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray():[];
         Session::put('page', 'pos');
         return view('admin.pos.pos-management', ['admin_details' => $admin_details]);
 
@@ -77,7 +77,7 @@ class adminController extends Controller
     {
         // dd(Session::get('site_name'));
         Session::put('page', 'dashboard');
-        $admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
+        $admin_details =Auth::guard('admin')->user()? AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray():[];
 
         return view('admin.dash_board',['admin_details'=>$admin_details]);
     }

@@ -24,21 +24,25 @@
                     <div class="col-lg-12 mb-4">
                         <div class="card">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h2 class="m-0 font-weight-bold text-primary">All Orders List</h2> <a
+                                <h2 class="m-0 font-weight-bold text-primary">All Sales / Orders List</h2> <a
                                     wire:click.prevent="orders_today" class="btn btn-primary float-right"
-                                    style="margin-top: 6px; margin-right: 6px;">Orders Today</a>
+                                    style="margin-top: 6px; margin-right: 6px;">Sales / Orders Today <strong> (GH₵ {{$sales_today}}) </strong></a>
                             </div>
                             @if (!empty($orders))
                                 <div class="table-responsive">
                                     <table id='' class="dataTable table table-striped">
                                         <thead>
                                             <tr>
+                                                    <th>
+                                                        Issued By
+                                                    </th>
                                                 <th>
+
                                                     Customer #
                                                 </th>
-                                                <th>Quantity Of Items Orderd</th>
+                                                <th>Qty. Of Items Sold</th>
                                                 <th>
-                                                    Order Worth(IN GH₵)
+                                                    Sale Worth(IN GH₵)
                                                 </th>
                                                 <th>
                                                     Paid By
@@ -46,6 +50,8 @@
                                                 <th>
                                                     Order Date
                                                 </th>
+
+
                                                 <th>
                                                     Action(s)
                                                 </th>
@@ -61,6 +67,9 @@
 
                                             @foreach ($orders as $order)
                                                 <tr>
+                                                    @if(Auth::guard('admin')->user())
+                                                    <td>{{ $order['get_issued_admin']['name']??" NOT CAPTURED! " }}</td>
+                                                    @endif
 
                                                     <td class="text-capitalize">{{ $order['get_customer']['name'] }}
                                                     </td>
@@ -69,6 +78,7 @@
                                                     <td class="text-capitalize">{{ $order['payBy'] }}</td>
 
                                                     <td>{{ $order['order_date'] }}</td>
+
                                                     <td>
                                                         <button
                                                             wire:click.prevent="show_view_order({{ $order['id'] }})"

@@ -24,6 +24,20 @@ class OrdersWired extends Component
 
     public $admin_details;
     protected $orders;
+
+    function number_to_kmb($number)
+    {
+        $number = intVal($number);
+        if ($number >= 1000000000) {
+            return round($number / 1000000000, 1) . "B";
+        } elseif ($number >= 1000000) {
+            return round($number / 1000000, 1) . "M";
+        } elseif ($number >= 1000) {
+            return round($number / 1000, 1) . "K";
+        } else {
+            return $number;
+        }
+    }
     public function mount()
     {
         $this->orders = $this->default_order_query();
@@ -38,22 +52,53 @@ class OrdersWired extends Component
         // $end_date = Carbon::now()->startOfYear()->month(intVal($endMonth))->toDateTimeString();
         $end_date = Carbon::now()->endOfYear()->month(intVal($endMonth))->toDateTimeString();
         // dd( $start_date, $end_date);
-        $this->orders = OrdersModel::whereBetween(
-            'created_at', [$start_date, $end_date]
-        )->latest()->with(['get_customer'])->paginate(15);
-        // dd( $this->orders);
+        $admin = Auth::guard('admin')->user();
+
+        // Build the base query depending on whether the user is a superadmin
+        $query = $admin->type == 'superadmin' ? OrdersModel::with('get_issued_admin')->query() : OrdersModel::with('get_issued_admin')->where('issued_by', $admin->id);
+
+        // Apply the date filter, relationships, and pagination
+        $this->orders = $query->whereBetween('created_at', [$start_date, $end_date])
+            ->latest()
+            ->with(['get_customer'])
+            ->paginate(100);
+
+
     }
     public function orders_today()
     {
-        $this->orders = OrdersModel::where(['order_date' => date('d/m/Y')])->latest()->with(['get_customer'])->paginate(15);
+        // dd();
+        $admin = Auth::guard('admin')->user();
+
+        // Build the base query depending on whether the user is a superadmin
+        $query = $admin->type == 'superadmin' ? OrdersModel::with('get_issued_admin')->query() : OrdersModel::with('get_issued_admin')->where('issued_by', $admin->id);
+
+        // Fetch today's date in the correct format
+        $today = date('d/m/Y');
+        // Query today's orders, load relationships, and paginate
+        $this->orders = $query->where('order_date', $today)
+            ->latest()
+            ->with(['get_customer'])
+            ->paginate(100);
+
 
     }
     public function show_view_order($orderRecord_id)
     {
 
         $this->orderRecord_id = $orderRecord_id;
-        $this->orderRecord_ = OrdersModel::with(['get_customer', 'get_order_detail'])->where(['id' => $this->orderRecord_id])->first()->toArray();
-        $this->orderRecord_['company_details']=ConfigModel::first()->toArray();
+        $admin = Auth::guard('admin')->user();
+
+// Build the base query depending on whether the user is a superadmin
+$query = $admin->type == 'superadmin' ? OrdersModel::query() : OrdersModel::where('issued_by', $admin->id);
+
+// Query the order record by ID and load related data
+$this->orderRecord_ = $query->with(['get_customer', 'get_order_detail'])
+    ->where('id', $this->orderRecord_id)
+    ->first()
+    ->toArray();
+
+        $this->orderRecord_['company_details'] = ConfigModel::first()->toArray();
         // dd($this->orderRecord_['company_details']['shop_name']);
 
         $this->dispatchBrowserEvent('show-view-order-modal');
@@ -64,18 +109,40 @@ class OrdersWired extends Component
     public function print_order($order_id)
     {
         $this->orderRecord_id = $order_id;
-        $this->orderRecord_ = OrdersModel::with(['get_customer', 'get_order_detail'])->where(['id' => $this->orderRecord_id])->first()->toArray();
-        $this->orderRecord_['company_details']=ConfigModel::first()->toArray();
+        $admin = Auth::guard('admin')->user();
+
+        // Build the base query depending on whether the user is a superadmin
+        $query = $admin->type == 'superadmin' ? OrdersModel::query() : OrdersModel::where('issued_by', $admin->id);
+
+        // Query the order record by ID and load related data
+        $this->orderRecord_ = $query->with(['get_customer', 'get_order_detail'])
+            ->where('id', $this->orderRecord_id)
+            ->first()
+            ->toArray();
+
+        $this->orderRecord_['company_details'] = ConfigModel::first()->toArray();
         dd($this->orderRecord_);
 
     }
     public function default_order_query()
     {
-        return OrdersModel::orderBy('created_at', 'desc')->with(['get_customer'])->paginate(15);
+        $admin = Auth::guard('admin')->user();
+
+        // Build the base query depending on whether the user is a superadmin
+        $query = $admin->type == 'superadmin' ? OrdersModel::query()->with('get_issued_admin') : OrdersModel::with('get_issued_admin')->where('issued_by', $admin->id);
+
+        // Order by creation date, eager load related data, and paginate the results
+        return $query->orderBy('created_at', 'desc')
+            ->with(['get_customer'])
+            ->paginate(100);
+
     }
     public function render()
     {
-        $order = '';
+        $admin=Auth::guard('admin')->user();
+        $query = $admin->type == 'superadmin' ? OrdersModel::query()->with('get_issued_admin') : OrdersModel::with('get_issued_admin')->where('issued_by', $admin->id);
+
+
         if (!empty($this->orders)) {
             // when rendering(which happens each time a
             // call is made th the backend,
@@ -89,14 +156,18 @@ class OrdersWired extends Component
             $orders = $this->default_order_query();
 
         }
+        $today = date('d/m/Y');
+
         $this->admin_details = AdminModel::where('email', Auth::guard('admin')->user()->email)->first()->toArray();
-        // dd($this->orders);
+        $sales_today=$query->where('order_date', $today)->sum('total');
+
 
         $this->current_page = Session::get('page');
 
         return view('livewire.admin.pos.orders-wired', [
             'orders' => $orders,
             'date_today' => $this->date_today,
+            'sales_today'=>$this->number_to_kmb($sales_today)
 
         ]);
     }

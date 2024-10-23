@@ -85,21 +85,36 @@ class AdminsWired extends Component
     public function store_pic($media_file, $admin_name)
     {
         if (!empty($media_file)) {
+            // Get the file extension
             $file_ext = $media_file->getClientOriginalExtension();
-            $new_file_name = 'admin_pic' . "_" . $admin_name . "_." . $file_ext;
-            $uploaded_img_path = public_path() . '\\storage\\' . $this->admin_img_path . '\\';
-            // $uploaded_img_path = public_path() . '\\storage\\' . $this->admin_img_path . '\\';
 
+            // Create a new file name
+            $new_file_name = 'admin_pic' . "_" . $admin_name . "_." . $file_ext;
+
+            // Use the storage path for uploads, make sure to use the storage/app/public path
+            $uploaded_img_path = storage_path('app/public/' . $this->admin_img_path . '/');
+
+            // Make sure the directory exists, if not create it
+            if (!file_exists($uploaded_img_path)) {
+                mkdir($uploaded_img_path, 0755, true);  // Create the directory with write permissions
+            }
+
+            // Resize and save the image using Intervention Image
             $img = Image::make($media_file);
             $img->fit(300, 300)->save($uploaded_img_path . $new_file_name);
 
+            // Generate the public URL for the image
+            $public_img_url = asset('storage/' . $this->admin_img_path . '/' . $new_file_name);
+
+            // Debug to check the saved image path and public URL
+            // dd($public_img_url);
         }
+
         return $new_file_name;
 
     }
     public function submitaddNewadmin()
     {
-        // dd($this->inputs['type']);
 
         // photo validation
         $this->validate($this->rules, $this->message);

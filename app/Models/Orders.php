@@ -14,6 +14,9 @@ class Orders extends Model
         return $this->belongsTo('App\Models\Customers','customer_id','id');
     }
 
+    public function get_issued_admin(){
+        return $this->belongsTo('App\Models\Admin','issued_by','id');
+    }
     public function get_order_detail(){
         return $this->hasMany('App\Models\OrderDetails','order_id','id')->with('product_details');
     }
