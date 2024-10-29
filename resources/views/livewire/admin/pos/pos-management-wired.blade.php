@@ -146,20 +146,25 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                         </div>
-                                        <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Due</label> <input
-
-                                            type="text" wire:model.defair="inputs.due" id="exampleFormControlInput1" class="form-control
-                                            @error('due') is-invalid @enderror
-                                            ">
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1"><strong>(GH₵) Due / Change</strong></label>
+                                            <textarea
+                                                wire:model.defer="inputs.due"
+                                                id="exampleFormControlTextarea1"
+                                                class="form-control text-muted  @error('due') is-invalid @enderror"
+                                                rows="3"
+                                                disabled
+                                                style="font-weight:bold"
+                                            ></textarea>
                                             @error('due')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
+
                                         <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Discount</label> <input
 
                                             type="text" wire:model.debounce.1000ms="inputs.discount" id="exampleFormControlInput1" class="form-control
-                                            @error('discount') is-invalid @enderror
-                                            ">
+                                            @error('discount') is-invalid @enderror" disabled>
                                             @error('discount')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -220,7 +225,7 @@
                                     <div class="row">
                                         @if(!empty($products))
                                         @forelse ($products as $product)
-                                      <div class="col-md-5">
+                                      <div class="col-sm-5">
    <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
                                                 class="">
                                                 <div class="
@@ -306,7 +311,7 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                         @if (!empty($category_items))
                                             @forelse ($category_items as $cat_product)
                                                 <div wire:click.prevent="add_to_cart({{ $cat_product['id'] }})"
-                                                    class="col-md-5">
+                                                    class="col-sm-5">
                                                     <div class="card"
                                                         style="align-items: center; margin-bottom: 10px;">
                                                         <button

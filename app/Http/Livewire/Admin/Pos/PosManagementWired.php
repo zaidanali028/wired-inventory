@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
-
+use NumberFormatter;
 class PosManagementWired extends Component
 {
 protected $listeners=['ready_for_print'];
@@ -46,6 +46,49 @@ public $orderRecord_=[];
 
     ];
 
+   function numberToWords($num) {
+    // Check if the input is numeric
+    if (!is_numeric($num)) {
+        throw new \InvalidArgumentException("Input must be a numeric value.");
+    }
+
+    // Handle negative numbers
+    if ($num < 0) {
+        return "Negative " . $this->numberToWords(abs($num));
+    }
+
+    // Split into integer and decimal parts
+    $integerPart = (int) $num;
+    $decimalPart = round(($num - $integerPart) * 100); // Convert decimals to whole numbers (e.g., 0.80 -> 80)
+
+    // Format the integer part
+    $formatter = new NumberFormatter('en', NumberFormatter::SPELLOUT);
+    $integerWords = ucfirst($formatter->format($integerPart));
+
+    // Format the decimal part if any
+    if ($decimalPart > 0) {
+        $decimalWords = ucfirst($formatter->format($decimalPart));
+        return " {$integerWords} Ghana Cedis  and {$decimalWords} Pesewas";
+    }
+
+    return $integerWords;
+}
+
+function formatNumber($num) {
+    try {
+        // Format number with commas
+        $formattedNumber = number_format($num, 2);
+        // Convert number to words
+        $numberInWords = $this->numberToWords($num);
+
+        return "GH₵ $formattedNumber - $numberInWords";
+    } catch (\InvalidArgumentException $e) {
+        return "Error: " . $e->getMessage();
+    } catch (\Exception $e) {
+        return "An unexpected error occurred: " . $e->getMessage();
+    }
+}
+
     // this attribut will aid in keeping track of the current tab
     //  ,is home by default
     public $current_tab = 'home';
@@ -53,6 +96,13 @@ public $orderRecord_=[];
     public $search='';
 
 
+
+    public function mount()
+    {
+
+        // as soon as view is mounted, set discount to 0
+        $this->inputs['discount']=0;
+    }
 
     public function getCategoryProducts($cat_id)
     {
@@ -274,17 +324,28 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
 
         if ($this->pos_item_count > 0) {
 
-            if (isset($this->inputs['pay'])) {
+            if (isset($this->inputs['pay']) && is_numeric($this->inputs['pay'])) {
                 $amount_paid = $this->inputs['pay'];
+
                 if($this->inputs['pay']>=$this->sub_total){
-                $this->inputs['due'] = floatval($amount_paid) - $this->sub_total;
+                $this->inputs['due'] = $amount_paid - $this->sub_total;
+                $this->inputs['due'] =  $this->inputs['due'] < 1000000000000 ? $this->formatNumber(  $this->inputs['due']):"Number Too Large!";
+
 
 
                 }else{
                     $this->inputs['pay']='';
-            $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [PAY] amount!']);
+                    $this->inputs['due']='';
+                    $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [PAY] amount!']);
 
                 }
+
+            }
+            else{
+                $this->inputs['pay']='';
+                $this->inputs['due']='';
+
+                $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [PAY] amount!']);
 
             }
             if (isset($this->inputs['discount'])) {
