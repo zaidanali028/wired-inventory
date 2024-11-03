@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Pay</label> <input
 
-                                            type="text" wire:model.debounce.1000ms="inputs.pay" id="exampleFormControlInput1" class="form-control
+                                            type="text" wire:model.debounce.3s="inputs.pay" id="exampleFormControlInput1" class="form-control
                                             @error('pay') is-invalid @enderror
                                             ">
                                             @error('pay')

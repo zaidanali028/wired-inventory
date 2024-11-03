@@ -324,7 +324,7 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
 
         if ($this->pos_item_count > 0) {
 
-            if (isset($this->inputs['pay']) && is_numeric($this->inputs['pay'])) {
+            if (isset($this->inputs['pay']) && $this->inputs['pay']!=''   && is_numeric($this->inputs['pay'])) {
                 $amount_paid = $this->inputs['pay'];
 
                 if($this->inputs['pay']>=$this->sub_total){
@@ -336,16 +336,15 @@ return $uniqueCustomer ='anonymous_customer_'. (string)$microtime . (string)$ran
                 }else{
                     $this->inputs['pay']='';
                     $this->inputs['due']='';
-                    $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [PAY] amount!']);
+                    $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [PAY] amountT!']);
 
                 }
 
-            }
-            else{
+            }else{
                 $this->inputs['pay']='';
                 $this->inputs['due']='';
 
-                $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [PAY] amount!']);
+                // $this->dispatchBrowserEvent('show-error-toast', ['error_msg' => 'Invalid [PAY] amount!']);
 
             }
             if (isset($this->inputs['discount'])) {

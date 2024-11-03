@@ -416,7 +416,7 @@ class ProductsWired extends Component
         // dd(Auth::guard('admin')->user());
 
 
-        $products = ProductsModel::with(['get_supplier'])->latest()->paginate(25);
+        $products = ProductsModel::with(['get_supplier'])->latest()->paginate(100);
         // $products=ProductsModel::with(['get_product_section','get_product_category','get_product_brand','get_vendor_details'])->latest()->get()->toArray();
         // dd($products);
 

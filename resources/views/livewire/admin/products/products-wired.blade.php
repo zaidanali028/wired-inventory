@@ -122,8 +122,8 @@
 
 
 
-                                                    <a style="font-size: 20px" class="mdi mdi-close-box-outline"
-                                                        wire:click.prevent="deleteproductConfirm({{ $product['id'] }})"></a>
+                                                    {{-- <a style="font-size: 20px" class="mdi mdi-close-box-outline"
+                                                        wire:click.prevent="deleteproductConfirm({{ $product['id'] }})"></a> --}}
                                                 </td>
                                             </tr>
                                             @empty
