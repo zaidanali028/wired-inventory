@@ -38,11 +38,12 @@ class ProductsWired extends Component
     use WithPagination;
 
 
-    public  $current_page;
+    public $current_page;
     protected $paginationTheme = 'bootstrap';
     // allow livewire pagination
     public $admin_details;
     public $inputs = [];
+    private $products;
     public $categories_from_section;
     public $product_img_path = 'product_imgs';
 
@@ -56,6 +57,7 @@ class ProductsWired extends Component
     public $current_supplier_id;
     public $current_category_id;
     // public $product_img_path='product_imgs';
+    public $search = '';
 
     protected $rules = ['image' => 'image|mimes:jpeg,png'];
     public $message = [
@@ -63,7 +65,7 @@ class ProductsWired extends Component
     ];
 
     protected $listeners = ['confirm_product_delete' => 'confirmproductDelete', 'confirm_product_delete_all' => 'confirmproductDeleteAll', 'confirm_delete_only_vid' => 'confirmed_delete_only_vid'];
-// WORK ON DELETING MEDIA FILES(PICTURES AND VIDEOS WHEN DELETING PRODUCTS)
+    // WORK ON DELETING MEDIA FILES(PICTURES AND VIDEOS WHEN DELETING PRODUCTS)
     public $product_validation_object = [
         'product_name' => 'required',
         'product_quantity' => 'required|numeric',
@@ -79,6 +81,8 @@ class ProductsWired extends Component
         'product_attributes.*.stock.required' => 'Please specify the stock quantity for this attribute',
 
     ];
+
+
 
     public function DeleteVid()
     {
@@ -186,46 +190,46 @@ class ProductsWired extends Component
 
     public function updateproduct()
     {
-        $product=ProductsModel::where('id',  $this->product_id)->first()->toArray();
-        if(!empty($product['image']) && empty($this->image)){
+        $product = ProductsModel::where('id', $this->product_id)->first()->toArray();
+        if (!empty($product['image']) && empty($this->image)) {
             // if product has a picture and client is not trying to upload,
             $this->rules['image'] = '';
 
 
-    }else{
-        $this->rules['image'] = 'image';
+        } else {
+            $this->rules['image'] = 'image';
 
-    }
-
-
+        }
 
 
 
-            // datavalidation
-
-           $validated_data = Validator::make($this->inputs, $this->product_validation_object)->validate();
-            // browser dispath here!.........
-
-            // imagevalidation
-
-            if ($this->image) {
-                // new image uploaded
-
-                $this->validate($this->rules, $this->message);
 
 
-                if (!empty($this->inputs['image'])) {
-                    // there is also previous image
-                    Storage::disk('public')->delete($this->product_img_path.'/' .$product['image']);
+        // datavalidation
 
-                }
+        $validated_data = Validator::make($this->inputs, $this->product_validation_object)->validate();
+        // browser dispath here!.........
 
-                $validated_data['image'] = $this->store_pic($this->image, $this->inputs['product_name']);
+        // imagevalidation
+
+        if ($this->image) {
+            // new image uploaded
+
+            $this->validate($this->rules, $this->message);
+
+
+            if (!empty($this->inputs['image'])) {
+                // there is also previous image
+                Storage::disk('public')->delete($this->product_img_path . '/' . $product['image']);
 
             }
 
-            ProductsModel::where('id',  $this->product_id)->update($validated_data);
-            $this->image='';
+            $validated_data['image'] = $this->store_pic($this->image, $this->inputs['product_name']);
+
+        }
+
+        ProductsModel::where('id', $this->product_id)->update($validated_data);
+        $this->image = '';
 
 
 
@@ -236,8 +240,8 @@ class ProductsWired extends Component
     public function removeImg()
     {
 
-    $this->image = '';
-    $this->dispatchBrowserEvent('clear-fieild');
+        $this->image = '';
+        $this->dispatchBrowserEvent('clear-fieild');
     }
     // remove a db image from images list
 //     public function removeDbImg($image_id){
@@ -247,7 +251,7 @@ class ProductsWired extends Component
 //         $this->dispatchBrowserEvent('show-add-product-modal');
 // }
 
-// public function store_media($media_path, $media_file, $prd_slug, $media_type, $new_product)
+    // public function store_media($media_path, $media_file, $prd_slug, $media_type, $new_product)
 //     {
 //         // both images and vides
 //         if (!empty($media_file) && $media_type == 'product_video') {
@@ -257,7 +261,7 @@ class ProductsWired extends Component
 //             $default_file_name = explode('/', $default_file_name)[1];
 //             $file_ext = $media_file->getClientOriginalExtension();
 
-//             $new_file_name = 'prd_video_' . $prd_slug . "_." . $file_ext;
+    //             $new_file_name = 'prd_video_' . $prd_slug . "_." . $file_ext;
 //             $absoulute_path = 'storage/' . $media_path . '/';
 //             // override default name
 //             File::move($absoulute_path . $default_file_name, $absoulute_path . $new_file_name);
@@ -281,7 +285,7 @@ class ProductsWired extends Component
 //         }
 //         return $new_product;
 
-//     }
+    //     }
     public function get_category_section_id($category_id)
     {
         // get section id of category based on categoryid (given)
@@ -369,13 +373,13 @@ class ProductsWired extends Component
         // dd($product);
 
 
-        if((Auth::guard('admin')->user()) && (Auth::guard('admin')->user()['type'] == 'superadmin')){
+        if ((Auth::guard('admin')->user()) && (Auth::guard('admin')->user()['type'] == 'superadmin')) {
             $product->save();
 
-        }else{
+        } else {
             dd('YOU MUST BE AN ADMIN TO DO THIS!');
         }
-        $this->image='';
+        $this->image = '';
 
 
         // redirect()->back();
@@ -395,7 +399,7 @@ class ProductsWired extends Component
         $product_to_delete = ProductsModel::findOrFail($this->delete_prd_id);
 
         if (!empty($product_to_delete['image'])) {
-            Storage::disk('public')->delete($this->product_img_path.'/' .$product_to_delete['image']);
+            Storage::disk('public')->delete($this->product_img_path . '/' . $product_to_delete['image']);
 
 
         }
@@ -409,6 +413,31 @@ class ProductsWired extends Component
 
 
 
+    public function run_search()
+    {
+        if (!empty($this->search)) {
+            // Search for category IDs matching the search term
+            $matchingCategoryIds = CategoriesModel::where('category_name', 'like', '%' . $this->search . '%')->pluck('id');
+
+            // Find products where any field matches the search term, or where the category_id matches
+            $results = ProductsModel::whereIn('category_id', $matchingCategoryIds)
+                ->orWhere('product_name', 'like', '%' . $this->search . '%')
+                ->orWhere('product_quantity', 'like', '%' . $this->search . '%')
+                ->orWhere('selling_price', 'like', '%' . $this->search . '%')
+                ->orWhere('product_code', 'like', '%' . $this->search . '%')
+                ->orWhere('supplier_id', 'like', '%' . $this->search . '%')
+                ->orWhere('buying_price', 'like', '%' . $this->search . '%')
+                ->orWhere('uploaded_by', 'like', '%' . $this->search . '%')
+                ->with(['get_supplier'])->latest()->paginate(100);
+
+
+            $this->products=$results;
+        } else {
+            // Reset products when the search is empty
+            $this->products = ProductsModel::with(['get_supplier'])->latest()->paginate(100);
+        }
+        // dd(   $this->products);
+    }
 
     public function render()
     {
@@ -416,15 +445,15 @@ class ProductsWired extends Component
         // dd(Auth::guard('admin')->user());
 
 
-        $products = ProductsModel::with(['get_supplier'])->latest()->paginate(100);
-        // $products=ProductsModel::with(['get_product_section','get_product_category','get_product_brand','get_vendor_details'])->latest()->get()->toArray();
-        // dd($products);
+        // Call run_search to update products based on current search
+        $this->run_search();
 
         $categories = CategoriesModel::where(['status' => 1])->latest()->get()->toArray();
         $suppliers = SuppliersModel::latest()->get()->toArray();
-        // dd($categories,$suppliers);
-
+       $products=$this->products;
         return view('livewire.admin.products.products-wired')->with(compact('products', 'categories', 'suppliers'));
     }
+
+
 
 }

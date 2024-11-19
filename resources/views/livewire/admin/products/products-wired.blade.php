@@ -10,7 +10,7 @@
 
             </h1>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a >Home</a></li>
+                <li class="breadcrumb-item"><a>Home</a></li>
                 <li aria-current="page" class="breadcrumb-item  ">
                     {{ Session::get('page') }}
                 </li>
@@ -19,18 +19,18 @@
 
         <div class="row">
 
-            <div  class="col-xl-12 col-lg-12 col-md-12">
-                <div  class="row">
-                    <div  class="col-lg-12 mb-4">
-                        <div  class="card">
-                            <div
-                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h2  class="m-0 font-weight-bold text-primary">Product List</h2> <a
-                                wire:click.prevent="newproduct"
-                                    class="btn btn-primary float-right" style="margin-top: 6px; margin-right: 6px;">Add Product</a>
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="row">
+                    <div class="col-lg-12 mb-4">
+                        <div class="card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h2 class="m-0 font-weight-bold text-primary">Product List</h2> <a
+                                    wire:click.prevent="newproduct" class="btn btn-primary float-right"
+                                    style="margin-top: 6px; margin-right: 6px;">Add Product</a>
+
                             </div>
-                            <div  class="table-responsive">
-                                <table id='' class="dataTable table table-striped">
+                            <div class="table-responsive">
+                                <table id='' class=" table table-striped">
                                     <thead>
                                         <tr>
                                             <th>
@@ -43,7 +43,7 @@
                                                 Product Name
                                             </th>
                                             <th>
-                                                 Cateogory
+                                                Cateogory
                                             </th>
                                             <th>
                                                 Supplier
@@ -53,16 +53,15 @@
                                                 Selling Price
                                             </th>
 
-                                            @if ($admin_details['type']=='admin')
-
-                                            <th>
-                                                Buying Price
-                                            </th>
+                                            @if ($admin_details['type'] == 'admin')
+                                                <th>
+                                                    Buying Price
+                                                </th>
                                             @endif
 
                                             </th>
                                             <th>
-                                                 Image
+                                                Image
                                             </th>
                                             <th>
                                                 Uploaded By
@@ -75,33 +74,51 @@
                                     </thead>
                                     <tbody>
 
+                                        <div class="row">
+                                            <div class="col-md-9"></div>
+                                            <div class="col-md-3 ">
+                                                <form wire:submit.prevent='run_search'>
+                                                    <input wire:model.defer="search"
+                                                        class="mt-3 mb-3 mr-5 form-control rounded-pill" type="search"
+                                                        placeholder="Search" aria-label="Search">
+                                                    <button type="button" wire:click.prevent="run_search" class="btn btn-outline-primary">Search
+                                                        Products</button>
+                                                </form>
 
+
+
+
+                                            </div>
+                                        </div>
 
                                         @forelse ($products as $product)
                                             <tr>
                                                 <td>
-                                                 @if(intVal($product['product_quantity'])<1)
-                                                <p class="badge badge-danger"> {{ 'Out Of Stock!' }}</p>
-                                                @elseif(intVal($product['product_quantity'])<=10)
-                                                <p class="badge badge-warning"> {{ 'Averagely Stocked' }}</p>
-                                                 @else
-                                                 <p class="badge badge-success">    {{'Still Stocked' }} </p>
-                                                 @endif
+                                                    @if (intVal($product['product_quantity']) < 1)
+                                                        <p class="badge badge-danger"> {{ 'Out Of Stock!' }}</p>
+                                                    @elseif(intVal($product['product_quantity']) <= 10)
+                                                        <p class="badge badge-warning"> {{ 'Averagely Stocked' }}</p>
+                                                    @else
+                                                        <p class="badge badge-success"> {{ 'Still Stocked' }} </p>
+                                                    @endif
                                                 </td>
                                                 <td class="text-capitalize">{{ $product['product_quantity'] }}</td>
 
                                                 <td class="text-capitalize">{{ $product['product_name'] }}</td>
-                                                 <td class="text-capitalize">{{ $product['get_category']['category_name'] }}</td>
-                                                 <td class="text-capitalize">{{!empty($product['get_supplier'])? $product['get_supplier']['name']:'No Supplier!' }}</td>
+                                                <td class="text-capitalize">
+                                                    {{ $product['get_category']['category_name'] }}</td>
+                                                <td class="text-capitalize">
+                                                    {{ !empty($product['get_supplier']) ? $product['get_supplier']['name'] : 'No Supplier!' }}
+                                                </td>
 
-                                                 <td class="text-capitalize">{{ $product['selling_price'] }}</td>
-                                            @if ($admin_details['type']=='admin')
-                                            <td class="text-capitalize">{{ $product['buying_price'] }}</td>
-                                                 @endif
+                                                <td class="text-capitalize">{{ $product['selling_price'] }}</td>
+                                                @if ($admin_details['type'] == 'admin')
+                                                    <td class="text-capitalize">{{ $product['buying_price'] }}</td>
+                                                @endif
 
-                                                 <td>
+                                                <td>
                                                     @if (!empty($product['image']))
-                                                        <img src="{{ asset('storage/'.$product_img_path.'/' . $product['image']) }}"
+                                                        <img src="{{ asset('storage/' . $product_img_path . '/' . $product['image']) }}"
                                                             alt="image">
                                                     @elseif(empty($product['image']))
                                                         <img src="{{ asset('/storage/default_product.jpg') }}"
@@ -126,7 +143,7 @@
                                                         wire:click.prevent="deleteproductConfirm({{ $product['id'] }})"></a> --}}
                                                 </td>
                                             </tr>
-                                            @empty
+                                        @empty
                                             <tr>
                                                 <td colspan="2"> No Data To Show!</td>
                                             </tr>
@@ -135,14 +152,13 @@
 
                                     </tbody>
                                 </table>
-                                <button class="btn btn-outline-primary" onclick="makeSearchable()">Search
-                                    Products</button>
+
 
                                 <div class="mt-3 d-flex justify-content-end">
                                     {{ $products->links() }}
                                 </div>
                             </div>
-                            <div  class="card-footer"></div>
+                            <div class="card-footer"></div>
                         </div>
                     </div>
                 </div>
@@ -179,7 +195,7 @@
                                     <div class="card-body">
                                         <h4 class="card-title">
                                             {{ $addNewproduct ? 'Add New product' : 'Edit product' }}
-                                         </h4>
+                                        </h4>
                                         <p class="card-description">
 
                                         </p>
@@ -199,7 +215,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputName1">Product's Quantity</label>
-                                            <input value="" wire:model.defer="inputs.product_quantity" type="number"
+                                            <input value="" wire:model.defer="inputs.product_quantity"
+                                                type="number"
                                                 class="form-control @error('product_quantity') is-invalid @enderror
 
 
@@ -212,8 +229,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputName1">Selling Price</label>
-                                            <input value="" wire:model.defer="inputs.selling_price"
-                                                type="text"
+                                            <input value="" wire:model.defer="inputs.selling_price" type="text"
                                                 class="form-control @error('selling_price') is-invalid @enderror
 
 
@@ -225,7 +241,8 @@
 
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputName1">Buying Price [YOU CAN CHOOSE NOT TO SPECIFY]</label>
+                                            <label for="exampleInputName1">Buying Price [YOU CAN CHOOSE NOT TO
+                                                SPECIFY]</label>
                                             <input value="" wire:model.defer="inputs.buying_price"
                                                 type="text"
                                                 class="form-control @error('buying_price') is-invalid @enderror
@@ -284,9 +301,10 @@
                                                             class="progress progress-sm rounded  mt-2"
                                                             style="display: none;">
                                                             <div class="progress-bar bg-primary progress-bar-striped"
-                                                                role="progressbar" x-bind:style="`width:${progress_2 }%`"
-                                                                aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
-                                                                style="width:3%"></div>
+                                                                role="progressbar"
+                                                                x-bind:style="`width:${progress_2 }%`"
+                                                                aria-valuenow="70" aria-valuemin="0"
+                                                                aria-valuemax="100" style="width:3%"></div>
                                                             <span class="sr-only">40% complete</span>
                                                         </div>
                                                         <div class="d-flex justify-content-around">
@@ -385,11 +403,10 @@
 
                                                 @forelse ($categories as $category)
                                                     <option @if (!empty($current_category_id) && $current_category_id == $category['id']) selected @endif
-                                                        value="{{ $category['id'] }}">{{ $category['category_name'] }}
+                                                        value="{{ $category['id'] }}">
+                                                        {{ $category['category_name'] }}
                                                     </option>
-                                                    @empty
-
-
+                                                @empty
                                                 @endforelse
                                             </select>
 
@@ -404,21 +421,19 @@
                                         <div class="form-group">
 
 
-                                            <label for="exampleInputName1">Choose Product's Supplier [LEAVE BLANK IF NONE]</label>
+                                            <label for="exampleInputName1">Choose Product's Supplier [LEAVE BLANK IF
+                                                NONE]</label>
 
                                             <select
                                                 class="form-control  @error('supplier_id') bg-danger is-invalid @enderror"
                                                 wire:model.defer="inputs.supplier_id">
-                                                <option  value="">Choose Product's Supplier </option>
+                                                <option value="">Choose Product's Supplier </option>
 
 
-                                                @foreach($suppliers as $supplier)
+                                                @foreach ($suppliers as $supplier)
                                                     <option @if (!empty($current_supplier_id) && $current_supplier_id == $supplier['id']) selected @endif
                                                         value="{{ $supplier['id'] }}">{{ $supplier['name'] }}
                                                     </option>
-
-
-
                                                 @endforeach
                                             </select>
 

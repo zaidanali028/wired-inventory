@@ -21,9 +21,10 @@
 
 
 
-  let monthlySaleRecords=$('#monthlySaleRecords').val().split(',')
+  let monthlySaleRecords = ($('#monthlySaleRecords').val() || "").split(',');
+
 //   alert(monthlySaleRecords)
-  let monthlyIncomeRecords=$('#monthlyIncomeRecords').val().split(',')
+let monthlyIncomeRecords = ($('#monthlyIncomeRecords').val() || "").split(',');
 //   alert(monthlySaleRecords)
 
 
@@ -37,9 +38,10 @@
 function charts(){
     // a function that is called when  admin/dashboard is visited by client
     // inorder to get income and monthly sale records from laravel
-    let monthlySaleRecords=$('#monthlySaleRecords').val().split(',')
+    let monthlySaleRecords = ($('#monthlySaleRecords').val() || "").split(',');
 
-      let monthlyIncomeRecords=$('#monthlyIncomeRecords').val().split(',')
+
+    let monthlyIncomeRecords = ($('#monthlyIncomeRecords').val() || "").split(',');
     if ($("#sales-chart").length) {
         var SalesChartCanvas = $("#sales-chart").get(0).getContext("2d");
         var SalesChart = new Chart(SalesChartCanvas, {

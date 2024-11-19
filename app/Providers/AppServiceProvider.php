@@ -35,13 +35,13 @@ class AppServiceProvider extends ServiceProvider
     {
         // USING THIS TO STORE STORE DETAILS THROUGH OUT THE APPLICATION
 
-        $shop_details=ConfigModel::all()->count()>=1?ConfigModel::all()->first()->toArray():[];
-        $small_logo=LogoModel::all()->count()>=1?LogoModel::where(['media_index'=>0])->first()->toArray():[];
-        $big_logo=LogoModel::all()->count()>=1?LogoModel::where(['media_index'=>1])->first()->toArray():[];
+        // $shop_details=ConfigModel::all()->count()>=1?ConfigModel::all()->first()->toArray():[];
+        // $small_logo=LogoModel::all()->count()>=1?LogoModel::where(['media_index'=>0])->first()->toArray():[];
+        // $big_logo=LogoModel::all()->count()>=1?LogoModel::where(['media_index'=>1])->first()->toArray():[];
 
-        View::share('shop_details', $shop_details);
-        View::share('small_logo', $small_logo);
-        View::share('big_logo', $big_logo);
+        // View::share('shop_details', $shop_details);
+        // View::share('small_logo', $small_logo);
+        // View::share('big_logo', $big_logo);
     }
 
 

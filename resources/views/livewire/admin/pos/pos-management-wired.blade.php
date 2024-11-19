@@ -1,6 +1,24 @@
 <div class="main-panel">
     <x-spinner />
+    <style>
+        /* Make the left column fixed */
+        .left-column {
+          /* position: fixed;
+          width: 100%; /* Adjust width as needed */
+          /* height: 120vh; Full viewport height */
+          /* overflow-y: auto; Add scrolling if needed */
+          /* background-color: #f8f9fa; Light gray background */ */
+        }
 
+        /* Make the right column fill remaining space */
+        .right-column {
+           /* margin-left: 45%; */
+          /*padding: 1rem;
+          background-color: #ffffff;
+          overflow-y: auto;
+          max-height: 100vh; */
+        }
+      </style>
 
     <div class="c
         fontent-wrapper">
@@ -21,7 +39,7 @@
         <div id="container-wrapper" class="container-fluid">
 
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md-6 left-column">
                     <div class="card mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h5 class="m-0 font-weight-bold text-primary">POINT OF SALE</h5>
@@ -36,6 +54,7 @@
                                                 <th>Qty</th>
                                                 <th>Unit</th>
                                                 <th>Total(In GH₵)</th>
+                                                <th>Stat</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -55,9 +74,14 @@
                                                                     class="btn btn-primary btn-sm bootstrap-touchspin-down
                                                             @if ($pos_product->product_quantity <= 1) disabled @endif
                                                             ">-</button></span>
-                                                            <input type="text" readonly="readonly"
-                                                                value="{{ $pos_product->product_quantity }}"<"
-                                                                class="form-control" style="width: 5px;"> <span
+                                                            {{-- <input type="text" readonly="readonly" --}}
+                                                            <input type="text"
+                                                                value="{{ $pos_product->product_quantity }}"
+
+                                                                class="form-control" style="width: 5px;"
+                                                            wire:model.defer="cartItems.{{ $pos_product->product_id }}"
+
+                                                                > <span
                                                                 class="input-group-btn input-group-append"><button
                                                                     type="button"
                                                                     class="btn btn-primary btn-sm bootstrap-touchspin-up"
@@ -66,6 +90,7 @@
                                                     </td>
                                                     <td>{{ $pos_product->product_price }}</td>
                                                     <td>₵ {{ $pos_product->sub_total }} </td>
+                                                    <td> {{ $pos_product->stock -$pos_product->product_quantity }} </td>
                                                     <td><a wire:click.prevent="cart_item_delete({{ $pos_product->product_id }})"
                                                             class="btn btn-sm btn-danger" style="color: white;">X</a>
                                                     </td>
@@ -194,7 +219,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 right-column">
                     <div class="card mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h5 class="m-0 font-weight-bold text-primary">Products</h5> <input type="text"

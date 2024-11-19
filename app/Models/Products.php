@@ -43,6 +43,10 @@ class Products extends Model
         // ->select('name');
 
     }
+    public function get_uploaded_by(){
+        return $this->belongsTo('App\Models\Admins','category_id','id');
+
+    }
     // public function get_product_category(){
     //     return $this->belongsTo('App\Models\Categories','category_id','id');
     //     // ->select('category_name');
