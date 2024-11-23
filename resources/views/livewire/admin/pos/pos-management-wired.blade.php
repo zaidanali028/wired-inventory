@@ -3,22 +3,23 @@
     <style>
         /* Make the left column fixed */
         .left-column {
-          /* position: fixed;
+            /* position: fixed;
           width: 100%; /* Adjust width as needed */
-          /* height: 120vh; Full viewport height */
-          /* overflow-y: auto; Add scrolling if needed */
-          /* background-color: #f8f9fa; Light gray background */ */
+            /* height: 120vh; Full viewport height */
+            /* overflow-y: auto; Add scrolling if needed */
+            /* background-color: #f8f9fa; Light gray background */
+            */
         }
 
         /* Make the right column fill remaining space */
         .right-column {
-           /* margin-left: 45%; */
-          /*padding: 1rem;
+            /* margin-left: 45%; */
+            /*padding: 1rem;
           background-color: #ffffff;
           overflow-y: auto;
           max-height: 100vh; */
         }
-      </style>
+    </style>
 
     <div class="c
         fontent-wrapper">
@@ -29,7 +30,7 @@
 
             </h1>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a >Home</a></li>
+                <li class="breadcrumb-item"><a>Home</a></li>
                 <li aria-current="page" class="breadcrumb-item  ">
                     {{ Session::get('page') }}
                 </li>
@@ -77,28 +78,27 @@
                                                             {{-- <input type="text" readonly="readonly" --}}
                                                             <input type="text"
                                                                 value="{{ $pos_product->product_quantity }}"
-
                                                                 class="form-control" style="width: 5px;"
-                                                            wire:model.defer="cartItems.{{ $pos_product->product_id }}"
-
-                                                                > <span
-                                                                class="input-group-btn input-group-append"><button
+                                                                wire:model.lazy="cartItems.{{ $pos_product->product_id }}"
+                                                                wire:change="add_to_cart({{ $pos_product->product_id }})">
+                                                            <span class="input-group-btn input-group-append"><button
                                                                     type="button"
                                                                     class="btn btn-primary btn-sm bootstrap-touchspin-up"
                                                                     wire:click.prevent="add_to_cart({{ $pos_product->product_id }})">+</button></span>
                                                         </div>
                                                     </td>
-                                                    <td>{{ $pos_product->product_price }}</td>
+                                                    <td>₵{{ $pos_product->product_price }}</td>
                                                     <td>₵ {{ $pos_product->sub_total }} </td>
-                                                    <td> {{ $pos_product->stock -$pos_product->product_quantity }} </td>
+                                                    <td> {{ $pos_product->stock - $pos_product->product_quantity }}
+                                                    </td>
                                                     <td><a wire:click.prevent="cart_item_delete({{ $pos_product->product_id }})"
                                                             class="btn btn-sm btn-danger" style="color: white;">X</a>
                                                     </td>
                                                 </tr>
-                                                @empty
-                                            <tr>
-                                                <td colspan="2"> No Data To Show!</td>
-                                            </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="2"> No Data To Show!</td>
+                                                </tr>
                                             @endforelse
 
                                         </tbody>
@@ -135,83 +135,82 @@
                                 </ul>
 
                                 <form wire:submit.prevent='process_order'>
-                                    <div class="form-group" wire:ignore ><label for="exampleFormControlSelect1">Select
+                                    <div class="form-group" wire:ignore><label for="exampleFormControlSelect1">Select
                                             Customer</label>
-                                            <!-- add some CSS to style the select dropdown and search field -->
+                                        <!-- add some CSS to style the select dropdown and search field -->
 
 
 
-                                        <select  class="form-control
+                                        <select
+                                            class="form-control
                                         {{--  @error('customer_id')
                                         bg-danger is-invalid
                                         @enderror  --}}
-                                        "wire:model.defer="inputs.customer_id"  id="select2">
-                                            <option selected value="" >*SELECT A CUSTOMER</option>
+                                        "wire:model.defer="inputs.customer_id"
+                                            id="select2">
+                                            <option selected value="">*SELECT A CUSTOMER</option>
 
-                                            @forelse ($customers as $customer )
-                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                            @forelse ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                             @empty
-
-
-
-
                                             @endforelse
 
-                                                                                                    </select>
+                                        </select>
                                         {{--  @error('customer_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror  --}}
                                     </div>
-                                    <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Pay</label> <input
-
-                                            type="text" wire:model.debounce.3s="inputs.pay" id="exampleFormControlInput1" class="form-control
+                                    <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Pay</label>
+                                        <input type="text" wire:model.debounce.3s="inputs.pay"
+                                            id="exampleFormControlInput1"
+                                            class="form-control
                                             @error('pay') is-invalid @enderror
                                             ">
-                                            @error('pay')
+                                        @error('pay')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1"><strong>(GH₵) Due / Change</strong></label>
-                                            <textarea
-                                                wire:model.defer="inputs.due"
-                                                id="exampleFormControlTextarea1"
-                                                class="form-control text-muted  @error('due') is-invalid @enderror"
-                                                rows="3"
-                                                disabled
-                                                style="font-weight:bold"
-                                            ></textarea>
-                                            @error('due')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Discount</label> <input
-
-                                            type="text" wire:model.debounce.1000ms="inputs.discount" id="exampleFormControlInput1" class="form-control
-                                            @error('discount') is-invalid @enderror" disabled>
-                                            @error('discount')
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1"><strong>(GH₵) Due /
+                                                Change</strong></label>
+                                        <textarea wire:model.defer="inputs.due" id="exampleFormControlTextarea1"
+                                            class="form-control text-muted  @error('due') is-invalid @enderror" rows="3" disabled
+                                            style="font-weight:bold"></textarea>
+                                        @error('due')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                        </div>
+                                    </div>
+
+                                    <div class="form-group"><label for="exampleFormControlInput1">(GH₵) Discount</label>
+                                        <input type="text" wire:model.debounce.1000ms="inputs.discount"
+                                            id="exampleFormControlInput1"
+                                            class="form-control
+                                            @error('discount') is-invalid @enderror"
+                                            disabled>
+                                        @error('discount')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                                     <div class="form-group"><label for="exampleFormControlSelect2">Pay By</label>
-                                        <select  class="form-control
+                                        <select
+                                            class="form-control
                                         @error('payBy')
                                         bg-danger is-invalid
                                         @enderror
-                                        " wire:model.defer="inputs.payBy">
+                                        "
+                                            wire:model.defer="inputs.payBy">
                                             <option selected value="">*SELECT A payment method</option>
-                                            <option value="Cheque" >Cheque</option>
+                                            <option value="Cheque">Cheque</option>
                                             <option value="Hand Cash">Hand Cash</option>
                                             <option value="Momo Transfer">Momo Transfer</option>
 
 
-                                                                                                    </select>
+                                        </select>
 
                                         @error('payBy')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </form>
@@ -237,55 +236,56 @@
                                         id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                                         aria-controls="profile" aria-selected="false"
                                         class="nav-link">{{ $category['category_name'] }}</a></li>
-                                        @empty
+                            @empty
 
-                                            <li colspan> No Data To Show!</li>
-
-                                        @endforelse
+                                <li colspan> No Data To Show!</li>
+                            @endforelse
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div wire:ignore.self id="home" role="tabpanel" aria-labelledby="home-tab"
                                 class="tab-pane  fade show active">
                                 <div class="card-body ">
                                     <div class="row">
-                                        @if(!empty($products))
-                                        @forelse ($products as $product)
-                                      <div class="col-sm-5">
-   <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
-                                                class="">
-                                                <div class="
+                                        @if (!empty($products))
+                                            @forelse ($products as $product)
+                                                <div class="col-sm-5">
+                                                    <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
+                                                        class="">
+                                                        <div class="
 
                                                 card"
-                                                    style="align-items: center; margin-bottom: 5px;">
-                                                    <button
-                                                        class="btn btn-sm shadow-lg p-3 mb-5 bg-white rounded  @if ($clicked_product_id == $product['id']) border border-primary @endif"><img
-                                                            id="image_size"
-                                                            @php
+                                                            style="align-items: center; margin-bottom: 5px;">
+                                                            <button
+                                                                class="btn btn-sm shadow-lg p-3 mb-5 bg-white rounded  @if ($clicked_product_id == $product['id']) border border-primary @endif"><img
+                                                                    id="image_size"
+                                                                    @php
 $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $product['image'] : '/storage/default_product.jpg' @endphp
-                                                            src="{{ $product_img }}" alt="PRODUCT IMAGE"
-                                                            class="card-img-top rounded">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title text-center">
-                                                                {{ $product['product_name'] }} -
-                                                                ₵{{ $product['selling_price'] }}</h5>
-                                                            <td>
-                                                                @if ($product['product_quantity'] >= 1)
-                                                                    <span class="badge badge-success">Available <span
-                                                                            class="badge badge-light">{{ $product['product_quantity'] }}</span></span>
-                                                                @else
-                                                                    <span class="badge badge-danger">Not Available
-                                                                        <span
-                                                                            class="badge badge-light">{{ $product['product_quantity'] }}</span></span>
-                                                                @endif
-                                                            </td>
+                                                                    src="{{ $product_img }}" alt="PRODUCT IMAGE"
+                                                                    class="card-img-top rounded">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title text-center">
+                                                                        {{ $product['product_name'] }} -
+                                                                        ₵{{ $product['selling_price'] }}</h5>
+                                                                    <td>
+                                                                        @if ($product['product_quantity'] >= 1)
+                                                                            <span class="badge badge-success">Available
+                                                                                <span
+                                                                                    class="badge badge-light">{{ $product['product_quantity'] }}</span></span>
+                                                                        @else
+                                                                            <span class="badge badge-danger">Not
+                                                                                Available
+                                                                                <span
+                                                                                    class="badge badge-light">{{ $product['product_quantity'] }}</span></span>
+                                                                        @endif
+                                                                    </td>
+                                                                </div>
+                                                            </button>
                                                         </div>
-                                                    </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                      </div>
 
 
-                                            {{-- <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
+                                                {{-- <div wire:click.prevent="add_to_cart({{ $product['id'] }})"
                                                 class="col-lg-3 col-md-3 col-sm-6 col-6 m-4">
                                                 <div class="
 
@@ -317,10 +317,10 @@ $product_img= !empty($product['image']) ?'/storage/'.$product_img_path.'/' . $pr
                                                 </div>
                                             </div> --}}
                                             @empty
-                                           <p>No Data To Show!</p>
-                                        @endforelse
+                                                <p>No Data To Show!</p>
+                                            @endforelse
                                         @else
-                                        <p>No Data To Show!</p>
+                                            <p>No Data To Show!</p>
 
                                         @endif
 
@@ -365,10 +365,10 @@ $cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'
                                                         </button>
                                                     </div>
                                                 </div>
-                                                @empty
-                                            <p>No Data To Show!</p>
+                                            @empty
+                                                <p>No Data To Show!</p>
                                             @endforelse
-                                            @else
+                                        @else
                                             <p>No Data To Show!</p>
                                         @endif
                                     </div>
@@ -391,8 +391,8 @@ $cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'
     </div>
 
     <!-- Modal -->
-    <div wire:ignore.self class="modal  fade" id="view-order-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div wire:ignore.self class="modal  fade" id="view-order-modal" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
@@ -414,9 +414,9 @@ $cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'
 
 
 
-                {{--  My own start here  --}}
+                    {{--  My own start here  --}}
 
-            </div>
+                </div>
 
 
 
@@ -424,7 +424,7 @@ $cat_product_img= !empty($cat_product['image']) ?'/storage/'.$product_img_path.'
 
             </div>
         </div>
-    </div >
+    </div>
     <!-- Modal -->
 
 </div>
